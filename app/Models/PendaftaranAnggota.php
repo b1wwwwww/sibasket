@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Enums\Jurusan;
 
 /**
  * Model PendaftaranAnggota -- form pendaftaran calon anggota baru (guest).
@@ -15,10 +16,16 @@ class PendaftaranAnggota extends Model
 
     protected $table = 'pendaftaran_anggota';
 
+    protected $casts = [
+    'tanggal_bergabung' => 'date',
+    'jurusan' => Jurusan::class,   
+    ];
+
     protected $fillable = [
         'nama',
         'nis',
         'kelas',
+        'jurusan',
         'kontak',
         'alasan_gabung',
         'status',

@@ -6,21 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Enums\Jurusan;
 
 /**
  * Model Anggota — merepresentasikan satu baris di tabel `anggota`.
- *
- * Model = "penerjemah" antara tabel database dan kode PHP kamu.
- * Dengan model ini, kamu bisa nulis `Anggota::all()` atau `$anggota->nama`
- * daripada nulis SQL manual.
  */
 class Anggota extends Model
 {
     use HasFactory; // trait ini kasih kemampuan bikin data dummy/testing otomatis
 
-    // Wajib disebutkan kalau nama tabelnya nggak sama persis dengan konvensi Laravel
-    // (konvensi default Laravel nebak nama tabel dari nama model + 's', jadi kalau
-    // model "Anggota" tanpa ini, Laravel akan cari tabel "anggotas" -- salah)
     protected $table = 'anggota';
 
     /**
@@ -36,6 +30,7 @@ class Anggota extends Model
         'nis',
         'nama',
         'kelas',
+        'jurusan',
         'posisi',
         'status',
         'tanggal_bergabung',
@@ -49,6 +44,7 @@ class Anggota extends Model
      */
     protected $casts = [
         'tanggal_bergabung' => 'date',
+        'jurusan' => Jurusan::class,
     ];
 
     /**

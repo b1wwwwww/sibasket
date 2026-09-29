@@ -5,11 +5,16 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Migration untuk tabel `pendaftaran_anggota`.
+ * Tabel `pendaftaran_anggota` = form pendaftaran publik, isinya PERSIS
+ * mengikuti pertanyaan di Google Form "Pendaftaran Eskul Basket Komet".
  *
- * Modul BARU (lihat 04-business-flow-dan-rules.md §4.3) — ini form pendaftaran
- * publik untuk CALON anggota yang belum punya akun sama sekali (guest).
- * Berdiri sendiri, belum terhubung ke User/Anggota, sampai di-approve Admin.
+ * nis & kelas SENGAJA nullable -- keduanya TIDAK ditanyakan ke calon
+ * anggota saat isi form (form aslinya memang tidak menanyakan ini).
+ * Diisi belakangan oleh Admin, biasanya lewat WhatsApp follow-up yang
+ * memang sudah jadi bagian dari alur (lihat 04-business-flow-dan-rules.md
+ * §4.3 -- "Admin sampaikan info login ke calon anggota secara manual").
+ *
+ * Penanda unik pengganti NIS untuk cek pendaftaran ganda: nomor WA siswa.
  */
 return new class extends Migration
 {
@@ -19,26 +24,27 @@ return new class extends Migration
             $table->id();
 
             $table->string('nama');
+            $table->string('nama_panggilan');
+            $table->string('jurusan', 20)->comment('Nilai dari App\Enums\Jurusan');
+            $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
 
-            // unique: NIS yang sudah pernah daftar (pending/approved/rejected)
-            // tidak boleh dipakai daftar ulang -- sesuai rule di §4.2
-            $table->string('nis')->unique()->comment('Dicek supaya tidak dobel daftar');
+            $table->string('kontak_siswa')->unique()->comment('No. WA siswa, dicek supaya tidak dobel daftar');
+            $table->string('kontak_orang_tua');
 
-            $table->string('kelas');
-            $table->string('kontak')->comment('No. WA / email calon anggota');
-            $table->text('alasan_gabung')->nullable();
+            $table->string('pengalaman_basket')->nullable()->comment('iya/tidak/jawaban bebas dari opsi "Yang lain"');
+            $table->text('alasan_gabung')->comment('Motivasi bergabung');
+            $table->boolean('setuju_peraturan')->default(false);
+            $table->string('orang_tua_mengetahui')->nullable();
+
+            // Diisi Admin belakangan, setelah verifikasi identitas via WA/langsung
+            $table->string('nis')->nullable();
+            $table->string('kelas')->nullable();
 
             $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
             $table->text('alasan_ditolak')->nullable();
-
-            // foreignId nullable: kolom ini KOSONG di awal (saat status masih pending).
-            // Baru TERISI otomatis oleh sistem saat Admin approve pendaftaran ini
-            // (lihat method approve() di Model PendaftaranAnggota).
-            // ->nullOnDelete(): kalau data Anggota-nya suatu saat dihapus, kolom ini
-            // otomatis jadi NULL lagi (bukan ikut terhapus), supaya histori pendaftaran tetap ada.
             $table->foreignId('anggota_id')->nullable()
-                ->constrained('anggota')->nullOnDelete()
-                ->comment('Terisi otomatis setelah approve');
+                    ->constrained('anggota')->nullOnDelete()
+                    ->comment('Terisi otomatis setelah approve');
 
             $table->timestamps();
         });

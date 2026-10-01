@@ -2,11 +2,11 @@
 
 namespace App\Filament\Resources\Anggotas\Schemas;
 
+use App\Enums\Jurusan;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use App\Enums\Jurusan;
 
 class AnggotaForm
 {
@@ -14,15 +14,11 @@ class AnggotaForm
     {
         return $schema
             ->components([
-                // Dropdown pilih akun User yang mana yang mau dihubungkan ke data
-                // Anggota ini. ->relationship('user', 'name') artinya: ambil data
-                // dari relasi user() yang sudah kita buat di Model Anggota, dan
-                // tampilkan kolom 'name' punya User sebagai label pilihannya.
                 Select::make('user_id')
                     ->relationship('user', 'name')
                     ->label('Akun User')
-                    ->searchable()   // bisa diketik buat nyari, bukan scroll manual
-                    ->preload()      // load daftar user di awal, biar pencarian lebih responsif
+                    ->searchable()
+                    ->preload()
                     ->required(),
 
                 TextInput::make('nis')
@@ -39,16 +35,14 @@ class AnggotaForm
                     ->required()
                     ->maxLength(255),
 
+                // ->options(Jurusan::class) otomatis baca semua case di Enum
+                // dan pakai getLabel() sebagai teks pilihannya -- nggak perlu
+                // nulis ulang daftar 7 jurusan secara manual di sini.
                 Select::make('jurusan')
                     ->options(Jurusan::class)
                     ->native(false)
                     ->required(),
 
-
-                // Diubah dari TextInput (bebas ketik apa saja) jadi Select
-                // (pilihan tetap) -- supaya data posisi konsisten dan gampang
-                // difilter/dilaporkan nanti (tidak ada "PG" vs "pg" vs "Point Guard"
-                // yang beda-beda ketikan tiap Admin input data).
                 Select::make('posisi')
                     ->label('Posisi')
                     ->options([
@@ -58,7 +52,7 @@ class AnggotaForm
                         'PF' => 'Power Forward (PF)',
                         'C'  => 'Center (C)',
                     ])
-                    ->native(false) // pakai dropdown custom Filament, bukan dropdown bawaan browser
+                    ->native(false)
                     ->default(null),
 
                 Select::make('status')
@@ -73,7 +67,7 @@ class AnggotaForm
                 DatePicker::make('tanggal_bergabung')
                     ->label('Tanggal Bergabung')
                     ->required()
-                    ->default(now()), // default-nya hari ini, Admin tinggal ubah kalau beda
+                    ->default(now()),
             ]);
     }
 }

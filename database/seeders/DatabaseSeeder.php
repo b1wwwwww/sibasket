@@ -21,5 +21,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
+
+        // Jalankan seeder dummy pendaftaran kegiatan
+        $this->call(DummyPendaftaranSeeder::class);
     }
 }

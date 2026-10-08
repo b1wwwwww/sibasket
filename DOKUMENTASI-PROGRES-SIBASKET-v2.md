@@ -82,9 +82,27 @@
 - [x] Setup route
 - [x] Testing komponen
 
-### Plan:
-- Hari 10-11: AnggotaForm component (CRUD create/update)
-- Hari 12-13: KegiatanTable & KegiatanForm (copy pattern dari Anggota)
+### Progres Hari 12-13 (KegiatanTable & KegiatanForm):
+- [x] Create `app/Livewire/KegiatanTable.php` & `app/Livewire/KegiatanForm.php`
+- [x] Create `resources/views/livewire/kegiatan-table.blade.php` & `kegiatan-form.blade.php`
+- [x] Create pages (kegiatan.blade.php, kegiatan-create.blade.php, kegiatan-edit.blade.php)
+- [x] Setup routes & relationships
+- [x] Testing CRUD kegiatan
+
+---
+
+## MINGGU 2: Anggota & Kegiatan Livewire
+
+### Status: ✅ SELESAI (Hari 8-13)
+**Target:** Oct 13-19
+
+**Deliverable Minggu 2:**
+- ✅ AnggotaTable + AnggotaForm (full CRUD read/create/update/delete)
+- ✅ KegiatanTable + KegiatanForm (full CRUD read/create/update/delete)
+- ✅ Search, filter, pagination working on both modules
+- ✅ Form validation & error handling working
+- ✅ Relationships setup (Kegiatan → Anggota via PendaftaranKegiatan)
+- ✅ Build successful, no errors
 
 ---
 

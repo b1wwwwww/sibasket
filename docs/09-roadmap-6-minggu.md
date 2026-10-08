@@ -132,44 +132,44 @@
 
 ### Hari 10-11: Livewire AnggotaForm Component
 
-- [ ] Create `app/Livewire/AnggotaForm.php`
+- [x] Create `app/Livewire/AnggotaForm.php`
   - Mount dengan `anggota_id` parameter (untuk edit)
   - Properties: `nama`, `email`, `no_hp`, `status`
   - Validation rules
   - Save method (create/update dengan DB transaction)
   - File upload untuk foto (optional)
-- [ ] Create `resources/views/livewire/anggota-form.blade.php`
+- [x] Create `resources/views/livewire/anggota-form.blade.php`
   - Form fields dengan validation error display
   - `wire:model="nama"` etc.
   - Submit button
   - Back link
-- [ ] Create pages/anggota-create.blade.php & pages/anggota-edit.blade.php
+- [x] Create pages/anggota-create.blade.php & pages/anggota-edit.blade.php
   - Load `<livewire:anggota-form :anggota_id="$id" />`
-- [ ] Routes:
+- [x] Routes:
   - GET `/dashboard/anggota/create` → pages/anggota-create.blade.php
   - GET `/dashboard/anggota/{id}/edit` → pages/anggota-edit.blade.php
-- [ ] Test:
+- [x] Test:
   - Create anggota baru
   - Edit existing
   - Validation errors
   - Redirect ke list after save
 
-**Deliverable:** AnggotaForm fully functional (CRUD create/update)
+**Deliverable:** ✅ AnggotaForm fully functional (CRUD create/update)
 
 ---
 
 ### Hari 12-13: Kegiatan Table & Form (Copy Pattern dari Anggota)
 
-- [ ] Create `app/Livewire/KegiatanTable.php` & `app/Livewire/KegiatanForm.php`
+- [x] Create `app/Livewire/KegiatanTable.php` & `app/Livewire/KegiatanForm.php`
   - Same pattern sebagai Anggota
-  - Fields: Nama Kegiatan, Tanggal, Status (draft/aktif/selesai), Lokasi
+  - Fields: Nama Kegiatan, Tanggal, Status (draft/published/ongoing/completed/cancelled), Lokasi
   - Filter by date range (optional)
-- [ ] Create views:
+- [x] Create views:
   - `pages/kegiatan.blade.php`
   - `pages/kegiatan-create.blade.php` & `pages/kegiatan-edit.blade.php`
   - `resources/views/livewire/kegiatan-table.blade.php` & `kegiatan-form.blade.php`
-- [ ] Setup relationship: Kegiatan → Anggota (many-to-many via PendaftaranKegiatan)
-- [ ] Test:
+- [x] Setup relationship: Kegiatan → Anggota (many-to-many via PendaftaranKegiatan)
+- [x] Test:
   - CRUD kegiatan
   - Filter by status
   - Relationship data shows correctly

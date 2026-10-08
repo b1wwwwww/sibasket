@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
 // ========== ROUTE PUBLIK (tanpa autentikasi) ==========
 
@@ -28,12 +27,6 @@ Route::get('/pengumuman/{id}', function ($id) {
 Route::get('/daftar-anggota', function () {
     return view('pages.daftar-anggota');
 })->name('daftar.anggota');
-
-// ========== ROUTE AUTENTIKASI ==========
-
-Route::get('/auth/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/auth/login', [AuthController::class, 'login'])->name('login.post');
-Route::post('/auth/logout', [AuthController::class, 'logout'])->name('logout');
 
 // ========== ROUTE TERLINDUNGI (memerlukan autentikasi) ==========
 

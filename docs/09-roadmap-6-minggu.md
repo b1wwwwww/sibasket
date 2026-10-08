@@ -33,59 +33,59 @@
 
 ### Hari 3-4: Bikin Reusable Components & Layout
 
-- [ ] Layout utama (`app.blade.php`)
+- [x] Layout utama (`app.blade.php`)
   - Navbar dengan logo, menu, user profile dropdown
   - Sidebar dengan menu dinamis (sesuai role)
   - Main content area + footer
-- [ ] Reusable Blade components:
+- [x] Reusable Blade components:
   - `components/button.blade.php` (primary, secondary, danger)
   - `components/modal.blade.php` (generic modal dialog)
   - `components/alert.blade.php` (success, error, warning, info)
   - `components/pagination.blade.php` (custom pagination)
   - `components/table-header.blade.php` (reusable table header)
-- [ ] Auth layout (`auth.blade.php`)
+- [x] Auth layout (`auth.blade.php`)
   - Login form layout (clean, minimal)
   - Tailwind styling (responsive)
-- [ ] Sidebar component
+- [x] Sidebar component
   - Menu items berdasarkan role (menggunakan Gate/Permission)
   - Active link highlighting
   - Collapsible submenu (optional)
 
-**Deliverable:** Layout skeleton ready, navbar & sidebar berfungsi
+**Deliverable:** ✅ Layout skeleton ready, navbar & sidebar berfungsi
 
 ---
 
 ### Hari 5: Setup Authorization & Middleware
 
-- [ ] Role/Permission setup:
+- [x] Role/Permission setup:
   - 4 roles: Super Admin, Admin, Bendahara, Member
   - Setup permissions per role (lihat `02-role-dan-akses.md`)
-- [ ] Middleware:
+- [x] Middleware:
   - `AdminMiddleware` (cek role admin/bendahara/sie)
   - `MemberMiddleware` (cek role member)
-- [ ] Gates & Policies:
+- [x] Gates & Policies:
   - `can('view anggota')`, `can('create anggota')`, etc.
   - Model policies untuk authorization level
-- [ ] Auth controller:
+- [x] Auth controller:
   - Login logic (cek role, redirect ke dashboard)
   - Logout logic
   - Redirect based on role
 
-**Deliverable:** Auth middleware & role-based redirect bekerja
+**Deliverable:** ✅ Auth middleware & role-based redirect bekerja
 
 ---
 
 ### Hari 6-7: Dashboard Skeleton & Login
 
-- [ ] Create auth/login.blade.php
+- [x] Create auth/login.blade.php
   - Form login (email, password)
   - Submit ke AuthController
   - Error message handling
-- [ ] Create pages/dashboard.blade.php
+- [x] Create pages/dashboard.blade.php
   - Dashboard layout dengan sidebar
   - Placeholder widgets (will implement in week 5)
   - Load layout dari `app.blade.php`
-- [ ] Test auth flow:
+- [x] Test auth flow:
   - Register via Breeze / seeder
   - Login dengan different roles
   - Verify redirect ke dashboard
@@ -105,28 +105,28 @@
 
 ### Hari 8-9: Livewire AnggotaTable Component
 
-- [ ] Create `app/Livewire/AnggotaTable.php`
+- [x] Create `app/Livewire/AnggotaTable.php`
   - Query dengan search/filter/pagination
   - Reactivity: `wire:model.live="search"`
   - Delete action dengan confirmation
   - Edit link ke form page
-- [ ] Create `resources/views/livewire/anggota-table.blade.php`
+- [x] Create `resources/views/livewire/anggota-table.blade.php`
   - Table dengan columns: No, Nama, Email, Status, Action
   - Search input + Status filter dropdown
   - "Tambah Anggota" button
   - Pagination links
   - Color-coded status badge (aktif=hijau, nonaktif=merah)
-- [ ] Create pages/anggota.blade.php
+- [x] Create pages/anggota.blade.php
   - Load `<livewire:anggota-table />`
   - Title "Daftar Anggota"
-- [ ] Route: `/dashboard/anggota` → pages/anggota.blade.php
-- [ ] Test:
+- [x] Route: `/dashboard/anggota` → pages/anggota.blade.php
+- [x] Test:
   - Search real-time
   - Filter by status
   - Pagination
   - Delete action
 
-**Deliverable:** AnggotaTable fully functional (CRUD read)
+**Deliverable:** ✅ AnggotaTable fully functional (CRUD read)
 
 ---
 

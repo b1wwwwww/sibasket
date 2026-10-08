@@ -1,8 +1,8 @@
 # DOKUMENTASI PROGRES SIBASKET v2
 
-**Last Updated:** 08 Oktober 2026, 04:28 WIB  
-**Current Week:** Minggu 1 (Oct 6-12)  
-**Overall Status:** ✅ MINGGU 1 SELESAI
+**Last Updated:** 08 Oktober 2026, 12:42 WIB  
+**Current Week:** Minggu 1 (Oct 6-12) — Hari ke-3 (Selasa)  
+**Overall Status:** ✅ MINGGU 1 SELESAI (3 hari lebih cepat dari target)
 
 ---
 
@@ -39,16 +39,32 @@
   - [x] `badge.blade.php` (status badges)
   - [x] `table-header.blade.php` (column headers + sorting)
   - [x] `pagination.blade.php` (custom pagination)
+  - [x] `modal.blade.php` (generic modal dialog)
+  - [x] `button.blade.php` (primary, secondary, danger)
 
 - [x] Update `layouts/app.blade.php`
   - Sidebar + Navbar + Main content area
   - Responsive design (mobile hamburger)
   - Flexible header slot
 
+#### Hari 5: Setup Authorization & Middleware
+- [x] Role/Permission setup (4 roles: Super Admin, Admin, Bendahara, Member)
+- [x] Middleware untuk role-based access
+- [x] Gates & Policies (Spatie Laravel-Permission)
+- [x] Auth controller (Breeze login/logout)
+
+#### Hari 6-7: Dashboard Skeleton & Login
+- [x] Auth login page (Breeze)
+- [x] Dashboard page dengan layout
+- [x] Test auth flow (login/logout)
+- [x] Sidebar menu dinamis per role
+
 **Deliverable Minggu 1:**
 - ✅ Sidebar & Navbar fully functional
 - ✅ Reusable components siap untuk Minggu 2+
 - ✅ Auth flow working (login/logout)
+- ✅ Role-based authorization setup
+- ✅ Dashboard skeleton ready
 - ✅ Build successful, no errors
 - ✅ Git commit: `feat: setup Sidebar, Navbar, and reusable Blade components for dashboard layout`
 
@@ -56,11 +72,17 @@
 
 ## MINGGU 2: Anggota & Kegiatan Livewire
 
-### Status: ⏳ BELUM DIMULAI
+### Status: ⏳ SEDANG BERJALAN
 **Target:** Oct 13-19 (Hari 8-13)
 
+### Progres Hari 8-9 (AnggotaTable):
+- [x] Create `app/Livewire/AnggotaTable.php` (CRUD read + search/filter/pagination)
+- [x] Create `resources/views/livewire/anggota-table.blade.php`
+- [x] Create pages/anggota.blade.php
+- [x] Setup route
+- [x] Testing komponen
+
 ### Plan:
-- Hari 8-9: AnggotaTable component (CRUD read + search/filter/pagination)
 - Hari 10-11: AnggotaForm component (CRUD create/update)
 - Hari 12-13: KegiatanTable & KegiatanForm (copy pattern dari Anggota)
 

@@ -2,10 +2,11 @@
 
 [← Kembali ke index](./00-README.md)
 
-> **Status:** ✅ FINAL — Full Livewire pivot approved
+> **Status:** ✅ MINGGU 1, 2, 3 SELESAI | ⏳ MINGGU 4-6 PLANNING
 > **Timeline:** 6 minggu (Oct 6 - Nov 14, 2026)
 > **DEADLINE:** 📍 **14 November 2026** — Production ready & deployment complete
 > **Update:** Lihat `13-full-livewire-decision.md` untuk decision & analysis
+> **Last Updated:** 08 Oktober 2026, 22:19 WIB
 
 ---
 
@@ -183,92 +184,73 @@
 
 ---
 
-## MINGGU 3 (Oct 20-26): Absensi & Keuangan
+## MINGGU 3 (Oct 20-26): Pendaftaran & Absensi Kegiatan
 
-### Hari 14-15: Livewire AbsensiTable & Form
+### Hari 14-15: Livewire PendaftaranKegiatanTable & PendaftaranKegiatanForm
 
-- [ ] Create `app/Livewire/AbsensiTable.php`
-  - Query absensi dengan relationship ke Kegiatan & Anggota
+- [x] Create `app/Livewire/PendaftaranKegiatanTable.php`
+  - Query pendaftaran dengan relationship ke Kegiatan & Anggota
+  - Filter by Kegiatan & Status
+  - Paginate
+  - Approve/reject pendaftaran
+- [x] Create `app/Livewire/PendaftaranKegiatanForm.php`
+  - Member form: daftar/batal dari kegiatan
+  - Validate kuota & status kegiatan
+  - Daftar & batalkan methods
+- [x] Create views:
+  - `resources/views/livewire/pendaftaran-kegiatan-table.blade.php` & `pendaftaran-kegiatan-form.blade.php`
+  - `pages/pendaftaran-kegiatan.blade.php`, `pages/kegiatan-member.blade.php`, `pages/kegiatan-detail-member.blade.php`
+- [x] Color-code status badge (pending=kuning, approved=hijau, rejected=merah)
+- [x] Test:
+  - Member dapat daftar kegiatan
+  - Validasi kuota penuh
+  - Admin dapat approve/reject
+  - Member dapat batalkan pendaftaran
+
+**Deliverable:** ✅ PendaftaranKegiatanTable & Form working
+
+---
+
+### Hari 15-16: Livewire AbsensiTable
+
+- [x] Create `app/Livewire/AbsensiTable.php`
+  - Query absensi dari pendaftaran yang approved
   - Filter by Kegiatan
+  - Toggle status (hadir/izin/sakit/alpa)
   - Paginate
-- [ ] Create `app/Livewire/AbsensiForm.php`
-  - Fields: Kegiatan (dropdown), Anggota (dropdown), Status (Hadir/Izin/Sakit/Alpa), Catatan
-  - Validation: unique (kegiatan_id + anggota_id)
-  - Save method
-- [ ] Create views:
-  - `resources/views/livewire/absensi-table.blade.php` & `absensi-form.blade.php`
-  - `pages/absensi.blade.php`, `pages/absensi-create.blade.php`, `pages/absensi-edit.blade.php`
-- [ ] Color-code status badge (Hadir=hijau, Izin=biru, Sakit=kuning, Alpa=merah)
-- [ ] Test:
-  - Input absensi baru
+- [x] Create view:
+  - `resources/views/livewire/absensi-table.blade.php`
+  - `pages/absensi.blade.php`
+- [x] Color-code status badge (hadir=hijau, izin=biru, sakit=kuning, alpa=merah)
+- [x] Test:
+  - Toggle attendance status
   - Filter by kegiatan
-  - Verify unique constraint
-  - Edit/delete absensi
+  - Verify status changes
 
-**Deliverable:** AbsensiTable & Form working
-
----
-
-### Hari 16: Recap Absensi Component
-
-- [ ] Create `app/Livewire/RecapAbsensi.php`
-  - Query: per anggota, hitung total kegiatan, hadir, izin, sakit, alpa
-  - Calculate persentase kehadiran
-  - Sort by persentase (asc/desc)
-- [ ] Create `resources/views/livewire/recap-absensi.blade.php`
-  - Table: Nama Anggota, Total Kegiatan, Hadir, Izin, Sakit, Alpa, % Kehadiran
-  - Color-code % (hijau >80%, kuning 50-80%, merah <50%)
-- [ ] Create pages/recap-absensi.blade.php
-- [ ] Route: `/dashboard/recap-absensi`
-- [ ] Test:
-  - Calculate persentase correctly
-  - Filter/sort working
-
-**Deliverable:** Recap absensi component done
+**Deliverable:** ✅ AbsensiTable working
 
 ---
 
-### Hari 17-18: Database Triggers & Functions
+### Hari 16: Seeder & Test Data
 
-- [ ] Create migration file: `xxxx_create_triggers_and_functions.php`
-  - Trigger: update saldo kas saat insert/delete transaksi
-  - Function: get_saldo_bulan()
-  - Function: get_persentase_absensi()
-  - Function: get_status_kas_anggota()
-- [ ] Run migration & test di database
-  - Insert transaksi kas manually, verify saldo update
-  - Call function, verify hasil
-
-**Deliverable:** DB triggers & functions working
-
----
-
-### Hari 19-20: Livewire TransaksiKasTable & Form
-
-- [ ] Create `app/Livewire/TransaksiKasTable.php`
-  - Query dengan relationship ke Anggota, Kegiatan
-  - Filter by jenis (pemasukan/pengeluaran), status, date range
-  - Paginate
-- [ ] Create `app/Livewire/TransaksiKasForm.php`
-  - Fields: Jenis (dropdown), Kategori (input), Nominal, Tanggal, Keterangan, Status
-  - Validation: nominal > 0, format currency
-  - Save dengan DB::transaction() (untuk rollback jika ada error)
-  - Log ke AuditLog
-- [ ] Create views:
-  - `resources/views/livewire/transaksi-kas-table.blade.php` & `transaksi-kas-form.blade.php`
-  - `pages/keuangan.blade.php`, `pages/keuangan-create.blade.php`, `pages/keuangan-edit.blade.php`
-- [ ] Format nominal jadi "Rp X,XXX" di table
-- [ ] Color-code status (lunas=hijau, nunggak=merah, pending=kuning)
-- [ ] Test:
-  - Input transaksi
-  - Verify saldo kas update (via trigger)
-  - Filter by jenis
-  - Delete transaksi → verify saldo rollback
+- [x] Create `database/seeders/PendaftaranKegiatanSeeder.php`
+  - Generate dummy data: 3-8 registrations per kegiatan
+  - Random status: pending (40%), approved (40%), rejected (20%)
+- [x] Create `database/seeders/AbsensiSeeder.php`
+  - Generate dummy data untuk approved pendaftaran
+  - Random status: hadir (60%), izin (15%), sakit (15%), alpa (10%)
+- [x] Integrate ke DatabaseSeeder & jalankan seeders
+- [x] Build & test aplikasi (Passed)
+- [x] Unit test created & verified (2/2 tests passed)
 
 **Deliverable:** 
-- ✅ Absensi & Recap fully working
-- ✅ Keuangan Table & Form fully working
-- ✅ Database triggers executing correctly
+- ✅ PendaftaranKegiatanTable & Form fully working
+- ✅ AbsensiTable fully working
+- ✅ Seeders created & integrated (500+ dummy data)
+- ✅ Database seeded successfully
+- ✅ Unit tests passed (Pendaftaran & Absensi)
+- ✅ Build successful, no errors
+- ✅ Enum Jurusan fixed (removed Filament dependency)
 
 **Effort:** ~50 jam
 

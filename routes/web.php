@@ -73,6 +73,16 @@ Route::middleware(['auth'])->group(function () {
         })->name('pendaftaran-kegiatan.index');
     });
 
+    // Route khusus Member untuk melihat daftar kegiatan & daftar
+    Route::get('/dashboard/daftar-kegiatan', function () {
+        return view('pages.kegiatan-member');
+    })->name('member.kegiatan');
+
+    Route::get('/dashboard/daftar-kegiatan/{kegiatan}', function (\App\Models\Kegiatan $kegiatan) {
+        return view('pages.kegiatan-detail-member', ['kegiatan' => $kegiatan]);
+    })->name('member.kegiatan-detail');
+
+
     // ===== Manajemen Absensi =====
     Route::middleware(['can:view absensi'])->group(function () {
         Route::get('/dashboard/absensi', function () {

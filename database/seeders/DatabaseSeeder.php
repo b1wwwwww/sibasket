@@ -30,5 +30,8 @@ class DatabaseSeeder extends Seeder
 
         // Jalankan seeder dummy pendaftaran kegiatan
         $this->call(DummyPendaftaranSeeder::class);
+
+        // Jalankan seeder absensi
+        $this->call(AbsensiSeeder::class);
     }
 }

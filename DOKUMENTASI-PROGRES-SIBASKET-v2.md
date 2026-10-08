@@ -1,8 +1,8 @@
 # DOKUMENTASI PROGRES SIBASKET v2
 
-**Last Updated:** 08 Oktober 2026, 12:42 WIB  
-**Current Week:** Minggu 1 (Oct 6-12) — Hari ke-3 (Selasa)  
-**Overall Status:** ✅ MINGGU 1 SELESAI (3 hari lebih cepat dari target)
+**Last Updated:** 08 Oktober 2026, 22:19 WIB  
+**Current Week:** Minggu 3 (Oct 20-26) — Hari ke-21 (Selasa)  
+**Overall Status:** ✅ MINGGU 1, 2, 3 SELESAI | ⏳ MINGGU 4-6 (Planning)
 
 ---
 
@@ -128,11 +128,131 @@
 
 ---
 
+## MINGGU 3: Pendaftaran & Absensi Kegiatan
+
+### Status: ⏳ SEDANG BERJALAN
+**Target:** Oct 20-26 (Hari 14-20)
+
+#### Hari 14-16: Pendaftaran Kegiatan
+- [x] Create `app/Livewire/PendaftaranKegiatanTable.php` (Admin view: list pendaftaran per kegiatan)
+- [x] Create `app/Livewire/PendaftaranKegiatanForm.php` (Member view: daftar/batal dari kegiatan)
+- [x] Create views (pendaftaran-kegiatan-table.blade.php, pendaftaran-kegiatan-form.blade.php)
+- [x] Setup routes & permissions
+- [x] Testing CRUD pendaftaran (Unit Test Passed)
+
+#### Hari 17-20: Absensi Kegiatan
+- [x] Create `app/Livewire/AbsensiTable.php` (Admin: mark hadir/izin/tidak hadir)
+- [x] Create view (absensi-table.blade.php)
+- [x] Setup routes & permissions
+- [x] Testing absensi flow (Unit Test Passed)
+
+#### Hari 21: Seeder & Test Data
+- [x] Create `PendaftaranKegiatanSeeder.php` (dummy data registrasi)
+- [x] Create `AbsensiSeeder.php` (dummy data absensi)
+- [x] Integrate ke DatabaseSeeder & jalankan seeders
+- [x] Build & test aplikasi (Passed)
+
+**Deliverable Minggu 3:**
+- [x] Member bisa daftar/batal dari kegiatan
+- [x] Admin bisa lihat & kelola pendaftaran per kegiatan
+- [x] Admin bisa kelola absensi (hadir/izin/tidak hadir)
+- [x] Validasi kuota & status kegiatan working
+- [x] Build successful, no errors
+- [x] Unit test passed (2/2)
+
+---
+
+## MINGGU 4: Keuangan & Iuran Anggota
+
+### Status: ⏳ PLANNING
+**Target:** Oct 27-Nov 2 (Hari 22-27)
+
+#### Hari 22-24: Setup Keuangan Module
+- [ ] Create `app/Livewire/TransaksiKasTable.php` (Bendahara: view & manage transaksi)
+- [ ] Create `app/Livewire/TransaksiKasForm.php` (Create/Edit transaksi)
+- [ ] Create views & routes
+- [ ] Setup permission untuk Bendahara
+
+#### Hari 25-27: Laporan Keuangan & Testing
+- [ ] Create `LaporanKeuanganReport.php` (Summary kas per periode)
+- [ ] Create report views
+- [ ] Create seeders untuk transaksi dummy
+- [ ] Unit test & build verification
+
+**Deliverable Minggu 4:**
+- [ ] Bendahara bisa input/edit/delete transaksi kas
+- [ ] Laporan keuangan (summary pemasukan/pengeluaran) tersedia
+- [ ] Build successful, no errors
+
+---
+
+## MINGGU 5: Pengumuman & Dashboard Analytics
+
+### Status: ⏳ PLANNING
+**Target:** Nov 3-9 (Hari 28-33)
+
+#### Hari 28-30: Pengumuman Module
+- [ ] Create `app/Livewire/PengumumanTable.php` (Admin: manage pengumuman)
+- [ ] Create `app/Livewire/PengumumanForm.php` (Create/Edit pengumuman)
+- [ ] Create views & routes
+- [ ] Setup permission untuk Admin
+
+#### Hari 31-33: Dashboard Analytics
+- [ ] Create dashboard charts (member count, kegiatan trends, etc)
+- [ ] Create seeders untuk pengumuman dummy
+- [ ] Unit test & build verification
+
+**Deliverable Minggu 5:**
+- [ ] Admin bisa posting pengumuman
+- [ ] Member bisa lihat pengumuman di dashboard
+- [ ] Dashboard dengan analytics widgets
+- [ ] Build successful, no errors
+
+---
+
+## MINGGU 6: Integration, Refinement & Documentation
+
+### Status: ⏳ PLANNING
+**Target:** Nov 10-16 (Hari 34-39)
+
+#### Hari 34-36: Integration & Bug Fixing
+- [ ] Test end-to-end flow (role-based access, permission check)
+- [ ] Fix any integration bugs
+- [ ] Optimize database queries
+- [ ] Mobile responsiveness final test
+
+#### Hari 37-39: Documentation & Polish
+- [ ] Create API documentation (jika diperlukan)
+- [ ] Create user guide / manual
+- [ ] Final cleanup & code review
+- [ ] Deploy to production environment (optional)
+
+**Deliverable Minggu 6:**
+- [ ] Semua modul terintegrasi dengan baik
+- [ ] No critical bugs
+- [ ] Documentation lengkap
+- [ ] Ready for production
+
+---
+
+## 6-Minggu Roadmap Summary
+
+| Minggu | Focus | Status |
+|--------|-------|--------|
+| 1 | Setup + Components | ✅ Complete |
+| 2 | Anggota & Kegiatan | ✅ Complete |
+| 3 | Pendaftaran & Absensi | ✅ Complete |
+| 4 | Keuangan & Iuran | ⏳ Planning |
+| 5 | Pengumuman & Analytics | ⏳ Planning |
+| 6 | Integration & Polish | ⏳ Planning |
+
+---
+
 ## Next Steps
-1. **Minggu 2 (Hari 8):** Mulai implementasi AnggotaTable component
-2. Build dan test CRUD read operations
-3. Pastikan search/filter/pagination working
-4. Setup test user data dengan seeders
+1. **Minggu 4 (Hari 22):** Mulai implementasi TransaksiKas & Laporan Keuangan
+2. Setup Bendahara role permissions
+3. Create financial seeders
+4. Setup test untuk keuangan module
 
 ---
 

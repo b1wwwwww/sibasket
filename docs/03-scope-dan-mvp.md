@@ -4,14 +4,15 @@
 
 ---
 
-## 3.1 MVP — WAJIB selesai dalam 2 minggu
+## 3.1 MVP — Target 6 minggu (Full Livewire Implementation)
 
 > Ini adalah kontrak scope kamu. Kalau pembina minta tambahan di luar ini, catat di
 > `12-changelog-dan-notes.md` sebagai perubahan scope, jangan diam-diam dikerjakan —
 > supaya deadline tetap bisa dipertanggungjawabkan.
 >
-> **UPDATE (04 Oktober 2026):** Modul Keuangan dimajukan dari Optional → MVP HIGH priority.
-> Pendaftaran Anggota Baru digeser ke Optional (lihat v0.3 di `12-changelog-dan-notes.md`).
+> **UPDATE (07 Oktober 2026):** Pivot dari Filament ke Full Livewire (lihat v0.4).
+> Timeline berubah dari 2 minggu → 6 minggu untuk implementasi Livewire custom yang lebih
+> scalable dan learning outcome lebih tinggi. Modul Keuangan tetap HIGH priority.
 
 ### Public (Guest)
 - [ ] Home (info singkat eskul)
@@ -65,4 +66,4 @@
 
 > Kalau di tengah jalan ternyata ada modul MVP yang meleset dari estimasi waktu,
 > **jangan korbankan modul inti demi mengejar fitur Optional** — lihat panduan
-> prioritas di `09-roadmap-2-minggu.md`.
+> prioritas di `09-roadmap-6-minggu.md` (MUST-HAVE vs SHOULD-HAVE vs NICE-TO-HAVE).

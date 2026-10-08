@@ -6,42 +6,51 @@
 
 ## 7.1 UI Pages
 
-### Public
+### Public (No Auth)
 ```text
 /
 ├── Home
 ├── Tentang Eskul
-├── Kegiatan
+├── Kegiatan (Jadwal publik)
 │   └── Detail Kegiatan
-├── Pengumuman
+├── Pengumuman (Published only)
 │   └── Detail Pengumuman
-├── Daftar Jadi Anggota   ← halaman baru, permanen & selalu terbuka
-└── Login
+├── Daftar Jadi Anggota (Form publik, permanen)
+└── /auth/login
 ```
 
-### Member
+### Authenticated (/dashboard — Role-Based Sidebar)
 ```text
-/member
-├── Dashboard
-├── Kegiatan (lihat & daftar)
-├── Pendaftaran Saya
-├── Riwayat Kehadiran
-└── Profil
+/dashboard
+├── Dashboard (role-specific home)
+│
+├── [Super Admin & Admin]
+│   ├── Anggota (CRUD)
+│   ├── Kegiatan (CRUD)
+│   ├── Pendaftaran Kegiatan (view per kegiatan)
+│   ├── Absensi (input + recap)
+│   ├── Keuangan (CRUD transaksi kas)
+│   ├── Pengumuman (CRUD)
+│   ├── Laporan & Export (kehadiran, keuangan)
+│   └── Role & Permission (Super Admin only)
+│
+├── [Bendahara / Sie Absensi]
+│   ├── Keuangan (view + CRUD transaksi)
+│   ├── Absensi (view + input)
+│   ├── Pengumuman (view)
+│   └── Laporan (export)
+│
+└── [Member]
+    ├── Dashboard (personal stats)
+    ├── Kegiatan (lihat & daftar)
+    ├── Riwayat Absensi (view-only, data pribadi)
+    ├── Riwayat Pembayaran Kas (view-only)
+    └── Edit Profil
 ```
 
-### Admin & Pembina
-```text
-/admin
-├── Dashboard
-├── Anggota
-├── Pendaftaran Anggota Baru   ← menu baru, review approve/reject calon anggota
-├── Kegiatan
-├── Pendaftaran Kegiatan
-├── Absensi
-├── Pengumuman
-├── Laporan
-└── Role & Permission (khusus Super Admin)
-```
+> **Catatan Livewire routing:** Semua authenticated pages di bawah `/dashboard`.
+> Sidebar menu dinamis berdasarkan role (tidak ada URL prefix `/member`, `/admin`).
+> Authorization via Livewire policies & gates di component level.
 
 ---
 

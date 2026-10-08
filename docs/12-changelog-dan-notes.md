@@ -26,13 +26,19 @@
 
 ### v0.3 — 04 Oktober 2026
 * **Keputusan strategis: Keuangan dimajukan dari Optional menjadi prioritas utama.**
-  - Alasan: Sistem keuangan/kas adalah modul backend kritis untuk operasional eskul. 
-    Setelah Absensi selesai, Keuangan harus dikerjakan sebelum Dashboard & Pengumuman.
-  - Dampak: Pendaftaran Anggota Baru (form publik) digeser dari MVP Hari 8 ke status 
-    Optional/Medium priority, setelah semua modul backend inti selesai.
-  - Timeline tetap: Deployment masih target akhir minggu 2, asalkan fokus pada modul 
-    inti (Keuangan + Dashboard + Pengumuman). Form Pendaftaran Anggota Baru bisa 
-    dikerjakan Minggu 3 jika ada waktu atau di fase maintenance.
+  - Alasan: Sistem keuangan/kas adalah modul backend kritis untuk operasional eskul.
+  - Dampak: Pendaftaran Anggota Baru (form publik) digeser ke Optional.
+  - Timeline tetap: Deployment target akhir minggu 2 (asumsi pakai Filament).
+
+---
+
+### v0.4 — 07 Oktober 2026
+* **PIVOT TOTAL: Migrasi dari Filament ke Full Livewire.**
+  - Alasan: Ingin kustomisasi UI penuh, learning outcome lebih tinggi (Portfolio), dan satu alur login yang terintegrasi (Admin & Member dalam satu dashboard logic).
+  - Dampak Roadmap: Timeline diperpanjang dari 2 minggu → **6 minggu**.
+  - File dihapus: `09-roadmap-2-minggu.md`.
+  - File baru: `09-roadmap-6-minggu.md`, `13-full-livewire-decision.md`, `14-full-livewire-skenario.md`.
+  - Prioritas tetap: Fokus pada modul inti (Anggota, Kegiatan, Absensi, Keuangan).
 
 ---
 

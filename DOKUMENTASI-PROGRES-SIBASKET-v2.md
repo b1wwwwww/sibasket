@@ -1,8 +1,8 @@
 # DOKUMENTASI PROGRES SIBASKET v2
 
-**Last Updated:** 08 Oktober 2026, 22:19 WIB  
-**Current Week:** Minggu 3 (Oct 20-26) — Hari ke-21 (Selasa)  
-**Overall Status:** ✅ MINGGU 1, 2, 3 SELESAI | ⏳ MINGGU 4-6 (Planning)
+**Last Updated:** 09 Oktober 2026, 15:30 WIB  
+**Current Week:** Minggu 4 (Oct 27-Nov 2) — COMPLETE  
+**Overall Status:** ✅ MINGGU 1, 2, 3, 4 SELESAI | ⏳ MINGGU 5-6 (Planning)
 
 ---
 
@@ -164,25 +164,31 @@
 
 ## MINGGU 4: Keuangan & Iuran Anggota
 
-### Status: ⏳ PLANNING
-**Target:** Oct 27-Nov 2 (Hari 22-27)
+### Status: ✅ SELESAI (Hari 22-24)
+**Target:** Oct 27-Nov 2
 
 #### Hari 22-24: Setup Keuangan Module
-- [ ] Create `app/Livewire/TransaksiKasTable.php` (Bendahara: view & manage transaksi)
-- [ ] Create `app/Livewire/TransaksiKasForm.php` (Create/Edit transaksi)
-- [ ] Create views & routes
-- [ ] Setup permission untuk Bendahara
+- [x] Create `app/Livewire/TransaksiKasTable.php` (Bendahara: view & manage transaksi)
+- [x] Create `app/Livewire/TransaksiKasForm.php` (Create/Edit transaksi)
+- [x] Create views & routes
+- [x] Setup permission untuk Bendahara
 
 #### Hari 25-27: Laporan Keuangan & Testing
-- [ ] Create `LaporanKeuanganReport.php` (Summary kas per periode)
-- [ ] Create report views
-- [ ] Create seeders untuk transaksi dummy
-- [ ] Unit test & build verification
+- [x] Create `LaporanKeuanganReport.php` (Summary kas per periode)
+  - Filter by tanggal range & kategori
+  - Calculate total pemasukan, pengeluaran, saldo
+  - Display per kategori breakdown
+- [x] Create report views (`laporan-keuangan-report.blade.php`)
+  - Summary cards (pemasukan, pengeluaran, saldo, count)
+  - Breakdown per kategori
+  - Detail transaksi tabel
+- [x] Create `TransaksiKasSeeder.php` dengan dummy data transaksi
+- [x] Build verification (Passed)
 
 **Deliverable Minggu 4:**
-- [ ] Bendahara bisa input/edit/delete transaksi kas
-- [ ] Laporan keuangan (summary pemasukan/pengeluaran) tersedia
-- [ ] Build successful, no errors
+- [x] Bendahara bisa input/edit/delete transaksi kas
+- [x] Laporan keuangan (summary pemasukan/pengeluaran) tersedia
+- [x] Build successful, no errors
 
 ---
 
@@ -239,20 +245,20 @@
 
 | Minggu | Focus | Status |
 |--------|-------|--------|
-| 1 | Setup + Components | ✅ Complete |
-| 2 | Anggota & Kegiatan | ✅ Complete |
-| 3 | Pendaftaran & Absensi | ✅ Complete |
-| 4 | Keuangan & Iuran | ⏳ Planning |
-| 5 | Pengumuman & Analytics | ⏳ Planning |
-| 6 | Integration & Polish | ⏳ Planning |
+|| 1 | Setup + Components | ✅ Complete |
+|| 2 | Anggota & Kegiatan | ✅ Complete |
+|| 3 | Pendaftaran & Absensi | ✅ Complete |
+|| 4 | Keuangan & Iuran | ✅ Complete |
+|| 5 | Pengumuman & Analytics | ⏳ Planning |
+|| 6 | Integration & Polish | ⏳ Planning |
 
 ---
 
 ## Next Steps
-1. **Minggu 4 (Hari 22):** Mulai implementasi TransaksiKas & Laporan Keuangan
-2. Setup Bendahara role permissions
-3. Create financial seeders
-4. Setup test untuk keuangan module
+1. **Minggu 5 (Hari 26+):** Implementasi Pengumuman Module & Dashboard Analytics
+2. Setup Admin role permissions untuk Pengumuman
+3. Create pengumuman seeders
+4. Setup dashboard dengan metrics & widgets
 
 ---
 

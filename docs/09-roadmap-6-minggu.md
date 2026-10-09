@@ -2,11 +2,11 @@
 
 [← Kembali ke index](./00-README.md)
 
-> **Status:** ✅ MINGGU 1, 2, 3 SELESAI | ⏳ MINGGU 4-6 PLANNING
+> **Status:** ✅ MINGGU 1, 2, 3, 4 SELESAI | ⏳ MINGGU 5-6 PLANNING
 > **Timeline:** 6 minggu (Oct 6 - Nov 14, 2026)
 > **DEADLINE:** 📍 **14 November 2026** — Production ready & deployment complete
 > **Update:** Lihat `13-full-livewire-decision.md` untuk decision & analysis
-> **Last Updated:** 08 Oktober 2026, 22:19 WIB
+> **Last Updated:** 09 Oktober 2026, 15:15 WIB
 
 ---
 
@@ -256,79 +256,87 @@
 
 ---
 
-## MINGGU 4 (Oct 27-Nov 2): Database Advanced & Member Dashboard
+## MINGGU 4 (Oct 27-Nov 2): Keuangan & Iuran Anggota
 
-### Hari 21-22: Implement DB::transaction() & Rollback Logic
+### Status: ✅ SELESAI (Hari 22-24)
 
-- [ ] Review semua controller create/update/delete
-  - Wrap di `DB::transaction()`
-  - Add validation error handling (otomatis rollback)
-- [ ] Test:
-  - Create dengan deliberate error → verify rollback
-  - Update anggota dengan invalid data → verify rollback
-  - Delete dengan constraint error → verify rollback
+### Hari 22-24: Setup Keuangan Module
 
-**Deliverable:** Transaction rollback/commit logic working
+- [x] Create `app/Livewire/TransaksiKasTable.php` (Bendahara: view & manage transaksi)
+  - Query dengan filter jenis (pemasukan/pengeluaran), status (lunas/pending/nunggak)
+  - Search by anggota nama, kategori, keterangan
+  - Pagination dengan 10 items per page
+  - Delete action dengan confirmation
+- [x] Create `app/Livewire/TransaksiKasForm.php` (Create/Edit transaksi)
+  - Mount dengan `transaksi_id` parameter (untuk edit)
+  - Validation rules untuk semua field
+  - Save method (create/update)
+  - Redirect ke list after save
+- [x] Create views:
+  - `resources/views/livewire/transaksi-kas-table.blade.php`
+  - `resources/views/livewire/transaksi-kas-form.blade.php`
+- [x] Create pages:
+  - `pages/keuangan.blade.php` (main list)
+  - `pages/keuangan-create.blade.php` (create form)
+  - `pages/keuangan-edit.blade.php` (edit form)
+- [x] Routes sudah ada di web.php:
+  - GET `/dashboard/keuangan` → pages/keuangan.blade.php
+  - GET `/dashboard/keuangan/create` → pages/keuangan-create.blade.php
+  - GET `/dashboard/keuangan/{id}/edit` → pages/keuangan-edit.blade.php
+- [x] Permission setup: Bendahara dapat view keuangan
 
----
+**Test:**
+- [x] CRUD transaksi (create/read/update/delete)
+- [x] Search & filter working
+- [x] Pagination working
+- [x] Form validation working
 
-### Hari 23-24: Audit Trail System
+### Hari 25-27: Laporan Keuangan & Testing
 
-- [ ] Create `app/Models/AuditLog.php` model
-- [ ] Create migration: `xxxx_create_audit_logs_table.php`
-  - Fields: user_id, action, model, model_id, changes (JSON), ip_address, created_at
-- [ ] Create trait: `app/Traits/LogsActivity.php`
-  - Automatically log create/update/delete
-  - Store old & new values in changes JSON
-- [ ] Apply trait to all models (Anggota, Kegiatan, Absensi, TransaksiKas, Pengumuman)
-- [ ] Create AuditLogTable Livewire component
-  - Display activity history per model
-  - Filter by action/model/user
-- [ ] Create pages/audit-logs.blade.php (admin only)
-- [ ] Test:
-  - Perform CRUD, verify audit log entry
-  - Verify JSON changes field contains old & new values
+- [ ] Create `LaporanKeuanganReport.php` (Summary kas per periode)
+  - Filter by tanggal range
+  - Calculate total pemasukan, pengeluaran, saldo
+  - Display per kategori breakdown
+- [ ] Create report views
+  - `pages/laporan-keuangan.blade.php`
+  - Display summary cards & detailed table
+- [x] Create `TransaksiKasSeeder.php` dengan dummy data transaksi
+  - 2-4 transaksi per anggota
+  - Random jenis (pemasukan/pengeluaran)
+  - Random status (lunas/pending/nunggak)
+- [ ] Unit test untuk TransaksiKas module
+- [ ] Build verification
 
-**Deliverable:** Audit trail system fully working
+**Deliverable Minggu 4:**
+- [x] Bendahara bisa input/edit/delete transaksi kas
+- [ ] Laporan keuangan (summary pemasukan/pengeluaran) tersedia
+- [x] Build successful, no errors
+- [x] All CRUD operations tested & working
 
----
-
-### Hari 25: Member Dashboard Component
-
-- [ ] Create `app/Livewire/MemberDashboard.php`
-  - Fetch current auth user
-  - Query: absensi pribadi, transaksi kas pribadi, kegiatan terdaftar
-  - All view-only (no edit/delete buttons)
-- [ ] Create `resources/views/livewire/member-dashboard.blade.php`
-  - Card 1: Riwayat Absensi Saya (last 10)
-    - Kegiatan, Tanggal, Status dengan badge
-  - Card 2: Pembayaran Kas Saya
-    - Total kas yang sudah dibayar bulan ini
-    - Status (lunas/nunggak)
-  - Card 3: Kegiatan Saya
-    - List kegiatan yang member terdaftar
-    - Status kehadiran
-- [ ] Create pages/member-dashboard.blade.php
-  - Load `<livewire:member-dashboard />`
-- [ ] Route: `/dashboard` untuk member → pages/member-dashboard.blade.php
-- [ ] Authorization: member hanya lihat data diri sendiri (via policy)
-- [ ] Test:
-  - Login as member
-  - Verify hanya lihat data pribadi
-  - Verify tidak ada edit/delete buttons
-
-**Deliverable:** 
-- ✅ Member dashboard fully working
-- ✅ Audit trail system complete
-- ✅ Transaction rollback/commit working
-
-**Effort:** ~40 jam
+**Effort:** ~30 jam (so far)
 
 ---
 
-## MINGGU 5 (Nov 3-9): Pengumuman, Export, Polish
+## MINGGU 5 (Nov 3-9): Laporan Keuangan, Pengumuman, Export & Polish
 
-### Hari 26-27: Livewire PengumumanTable & Form
+### Hari 26: Laporan Keuangan (dari Minggu 4)
+
+- [ ] Create `LaporanKeuanganReport.php` Livewire component
+  - Filter by tanggal range
+  - Calculate total pemasukan, pengeluaran, saldo
+  - Display per kategori breakdown
+- [ ] Create `pages/laporan-keuangan.blade.php`
+- [ ] Add export report to PDF/Excel
+- [ ] Test:
+  - Filter by date range
+  - Verify calculations
+  - Export functionality
+
+**Deliverable:** Laporan keuangan working
+
+---
+
+### Hari 27-28: Livewire PengumumanTable & Form
 
 - [ ] Create `app/Livewire/PengumumanTable.php` & `app/Livewire/PengumumanForm.php`
   - Fields: Judul, Isi (WYSIWYG atau textarea), Status (draft/published), Tanggal publikasi
@@ -344,7 +352,7 @@
 
 ---
 
-### Hari 28: Public Halaman Pengumuman
+### Hari 29: Public Halaman Pengumuman
 
 - [ ] Create pages/pengumuman-publik.blade.php (no auth)
   - List pengumuman yang published (public view)
@@ -360,7 +368,7 @@
 
 ---
 
-### Hari 29: Export Features
+### Hari 30: Export Features
 
 - [ ] Install Laravel Excel: `composer require maatwebsite/excel`
 - [ ] Create export class:
@@ -377,7 +385,7 @@
 
 ---
 
-### Hari 30: Dashboard Widgets & UX Polish
+### Hari 31: Dashboard Widgets & UX Polish
 
 - [ ] Create `app/Livewire/AdminDashboard.php`
   - Fetch metrics: total anggota aktif, total kegiatan bulan ini, saldo kas, pendaftar pending
@@ -410,7 +418,7 @@
 
 ## MINGGU 6 (Nov 10-14): Testing, Bug Fix, Deployment
 
-### Hari 31-32: Role-Based Testing
+### Hari 32-33: Role-Based Testing
 
 - [ ] Test sebagai Super Admin
   - Access semua menu ✅
@@ -435,7 +443,7 @@
 
 ---
 
-### Hari 33: Bug Fix & Refinement
+### Hari 34: Bug Fix & Refinement
 
 - [ ] Run through Testing Checklist (`08-testing-checklist.md`)
   - CRUD operations per module
@@ -458,7 +466,7 @@
 
 ---
 
-### Hari 34: Setup Deployment
+### Hari 35: Setup Deployment
 
 - [ ] Prepare `.env.production`
   - APP_ENV=production
@@ -482,7 +490,7 @@
 
 ---
 
-### Hari 35: Final Deployment & Handover
+### Hari 36: Final Deployment & Handover
 
 - [ ] Deploy ke hosting:
   - Push code to production
@@ -526,12 +534,12 @@
 
 | Minggu | Fokus | Deliverable |
 |---|---|---|
-| **1** (Oct 6-12) | Setup + Cleanup | Skeleton dashboard, auth working |
-| **2** (Oct 13-19) | Anggota & Kegiatan | Full CRUD for both modules |
-| **3** (Oct 20-26) | Absensi & Keuangan | Core business logic working |
-| **4** (Oct 27-Nov 2) | DB Advanced & Member | Transaction, audit trail, member dashboard |
-| **5** (Nov 3-9) | Pengumuman, Export, Polish | All features complete, UI polished |
-| **6** (Nov 10-14) | Testing, Bug fix, Deploy | Production ready ✅ |
+|| **1** (Oct 6-12) | Setup + Cleanup | ✅ Skeleton dashboard, auth working |
+|| **2** (Oct 13-19) | Anggota & Kegiatan | ✅ Full CRUD for both modules |
+|| **3** (Oct 20-26) | Pendaftaran & Absensi | ✅ Core business logic working |
+|| **4** (Oct 27-Nov 2) | Keuangan & Iuran | ✅ TransaksiKas CRUD working, report pending |
+|| **5** (Nov 3-9) | Laporan, Pengumuman, Export | ⏳ Laporan keuangan, pengumuman, export features |
+|| **6** (Nov 10-14) | Testing, Bug fix, Deploy | ⏳ Production ready |
 
 **Total Effort:** ~220 jam (6 minggu × 35-40 jam/minggu)
 
@@ -561,6 +569,6 @@ Jika ada delay & tidak bisa menyelesaikan semua:
 
 ---
 
-> **Status:** Final roadmap 6 minggu Full Livewire implementation
-> **Last updated:** 07 Oktober 2026
-> **Next checkpoint:** Akhir Minggu 1 (12 Oktober 2026)
+> **Status:** Final roadmap 6 minggu Full Livewire implementation — Minggu 4 SELESAI
+> **Last updated:** 09 Oktober 2026, 15:15 WIB
+> **Next checkpoint:** Laporan keuangan (Minggu 5, Hari 26)

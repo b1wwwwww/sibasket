@@ -33,5 +33,8 @@ class DatabaseSeeder extends Seeder
 
         // Jalankan seeder absensi
         $this->call(AbsensiSeeder::class);
+
+        // Jalankan seeder transaksi kas
+        $this->call(TransaksiKasSeeder::class);
     }
 }

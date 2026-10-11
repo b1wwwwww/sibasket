@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Buat admin user terlebih dahulu
+        // Setup role & permission terlebih dahulu
+        $this->call(RolePermissionSeeder::class);
+
+        // Buat admin user setelah role tersedia
         $this->call(AdminUserSeeder::class);
 
         // User::factory(10)->create();
@@ -36,5 +39,8 @@ class DatabaseSeeder extends Seeder
 
         // Jalankan seeder transaksi kas
         $this->call(TransaksiKasSeeder::class);
+
+        // Jalankan seeder pengumuman
+        $this->call(PengumumanSeeder::class);
     }
 }

@@ -31,10 +31,8 @@ Route::get('/daftar-anggota', function () {
 // ========== ROUTE TERLINDUNGI (memerlukan autentikasi) ==========
 
 Route::middleware(['auth'])->group(function () {
-    // Dashboard utama
-    Route::get('/dashboard', function () {
-        return view('pages.dashboard');
-    })->name('dashboard');
+    // Dashboard utama (role-specific metrics)
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // ===== Manajemen Anggota =====
     Route::middleware(['can:view anggota'])->group(function () {

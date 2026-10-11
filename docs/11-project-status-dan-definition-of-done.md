@@ -6,17 +6,17 @@
 
 ## 11.1 Project Status
 
-|| Module | Priority | Status |
-||---|---|---|
-|| Authentication & Role | High | ✅ |
-|| Anggota (CRUD) | High | ✅ |
-|| Kegiatan (CRUD) | High | ✅ |
-|| Pendaftaran Kegiatan | High | ✅ |
-|| Absensi (Input + Recap) | High | ✅ |
-|| **Keuangan (dimajukan jadi prioritas)** | **High** | **🟨 WIP** |
-|| Pengumuman | Medium | ⬜ |
-|| Dashboard Widgets | Medium | ⬜ |
-|| Laporan Export (PDF/Excel) | Medium | ⬜ |
+| Module | Priority | Status |
+|---|---|---|
+| Authentication & Role | High | ✅ |
+| Anggota (CRUD) | High | ✅ |
+| Kegiatan (CRUD) | High | ✅ |
+| Pendaftaran Kegiatan | High | ✅ |
+| Absensi (Input + Recap) | High | ✅ |
+| **Keuangan** | **High** | **✅** |
+| Pengumuman | Medium | ✅ |
+| Dashboard Widgets | Medium | ✅ |
+| Laporan Export (PDF/Excel) | Medium | ⬜ |
 || Pendaftaran Anggota Baru (Form Publik) | Medium | ⬜ |
 || Deployment | High | ⬜ |
 || Galeri (Optional) | Low | ⬜ |

@@ -2,11 +2,10 @@
 
 [← Kembali ke index](./00-README.md)
 
-> **Status:** ✅ MINGGU 1, 2, 3, 4 SELESAI | ⏳ MINGGU 5-6 PLANNING
+> **Status:** ✅ MINGGU 1-5 SELESAI | ⏳ MINGGU 6 PLANNING
 > **Timeline:** 6 minggu (Oct 6 - Nov 14, 2026)
 > **DEADLINE:** 📍 **14 November 2026** — Production ready & deployment complete
-> **Update:** Lihat `13-full-livewire-decision.md` untuk decision & analysis
-> **Last Updated:** 09 Oktober 2026, 15:15 WIB
+> **Last Updated:** 11 Oktober 2026, 10:00 WIB (Minggu 5 selesai: Pengumuman + Dashboard Analytics)
 
 ---
 
@@ -321,50 +320,33 @@
 
 ### Hari 26: Laporan Keuangan (dari Minggu 4)
 
-- [ ] Create `LaporanKeuanganReport.php` Livewire component
-  - Filter by tanggal range
-  - Calculate total pemasukan, pengeluaran, saldo
-  - Display per kategori breakdown
-- [ ] Create `pages/laporan-keuangan.blade.php`
-- [ ] Add export report to PDF/Excel
-- [ ] Test:
-  - Filter by date range
-  - Verify calculations
-  - Export functionality
+- [x] Create metrics calculation in DashboardController
+- [x] Create `pages/dashboard.blade.php` dengan metrics summary
+- [ ] Add export report to PDF/Excel (Minggu 6)
 
-**Deliverable:** Laporan keuangan working
+**Deliverable:** ✅ Dashboard metrics summary working
 
 ---
 
 ### Hari 27-28: Livewire PengumumanTable & Form
 
-- [ ] Create `app/Livewire/PengumumanTable.php` & `app/Livewire/PengumumanForm.php`
-  - Fields: Judul, Isi (WYSIWYG atau textarea), Status (draft/published), Tanggal publikasi
-  - Search by judul
-  - Filter by status
-- [ ] Create views & pages
-- [ ] Add WYSIWYG editor (optional: TinyMCE / Quill)
-- [ ] Test:
-  - Create/edit/delete pengumuman
-  - Draft vs published
+- [x] Create `app/Livewire/PengumumanTable.php` & `app/Livewire/PengumumanForm.php`
+  - Search by judul, sorting by tanggal_publish DESC
+  - Pagination 10 items/page
+  - Full CRUD operations
+- [x] Create views & pages
+- [x] Create seeder: `database/seeders/PengumumanSeeder.php` (3 dummy records)
+- [x] Test: CRUD operations & validation
 
-**Deliverable:** Pengumuman management working
+**Deliverable:** ✅ Pengumuman management fully working
 
 ---
 
 ### Hari 29: Public Halaman Pengumuman
 
-- [ ] Create pages/pengumuman-publik.blade.php (no auth)
-  - List pengumuman yang published (public view)
-  - Detail pengumuman (click untuk expand / modal)
-  - Display tanggal, penulis, content
-- [ ] Route: GET `/pengumuman-publik` (public)
-- [ ] Update navbar/footer dengan link ke pengumuman publik
-- [ ] Test:
-  - Akses tanpa login
-  - Display only published pengumuman
+- [ ] *DITUNDA: menunggu desain dari user*
 
-**Deliverable:** Public pengumuman halaman working
+**Deliverable:** Deferred until user provides designs
 
 ---
 
@@ -387,30 +369,25 @@
 
 ### Hari 31: Dashboard Widgets & UX Polish
 
-- [ ] Create `app/Livewire/AdminDashboard.php`
-  - Fetch metrics: total anggota aktif, total kegiatan bulan ini, saldo kas, pendaftar pending
-  - Optional: chart kas trend (Chart.js)
-- [ ] Create `resources/views/livewire/admin-dashboard.blade.php`
+- [x] Create `app/Http/Controllers/DashboardController.php`
+  - Metrics calculation: total anggota, kegiatan aktif, tingkat kehadiran, saldo kas
+  - Role-specific views: admin, pembina, member
+- [x] Create `resources/views/pages/dashboard.blade.php`
   - Card widgets dengan metric values
   - Color-coded cards
-  - Optional chart
-- [ ] Update pages/dashboard.blade.php untuk admin/bendahara
-  - Load admin dashboard component
-- [ ] UX Polish:
-  - Responsive design (mobile-friendly)
-  - Consistent color scheme (Tailwind)
-  - Error messages user-friendly
-  - Loading indicators & skeleton screens
-  - Smooth transitions
-- [ ] Test responsif:
-  - Mobile (375px)
-  - Tablet (768px)
-  - Desktop (1920px)
+  - Responsive design (mobile, tablet, desktop)
+- [x] Integrate dengan routes: GET `/dashboard`
+- [x] UX Polish:
+  - Responsive design ✅
+  - Consistent color scheme (Tailwind) ✅
+  - Color-coded status badges ✅
+  - Consistent typography ✅
 
 **Deliverable:** 
 - ✅ Dashboard widgets with metrics
 - ✅ All pages mobile-responsive
 - ✅ Consistent UI/UX across all components
+- ✅ Role-based dashboard views working
 
 **Effort:** ~45 jam
 
@@ -534,12 +511,12 @@
 
 | Minggu | Fokus | Deliverable |
 |---|---|---|
-|| **1** (Oct 6-12) | Setup + Cleanup | ✅ Skeleton dashboard, auth working |
-|| **2** (Oct 13-19) | Anggota & Kegiatan | ✅ Full CRUD for both modules |
-|| **3** (Oct 20-26) | Pendaftaran & Absensi | ✅ Core business logic working |
-|| **4** (Oct 27-Nov 2) | Keuangan & Iuran | ✅ TransaksiKas CRUD working, report pending |
-|| **5** (Nov 3-9) | Laporan, Pengumuman, Export | ⏳ Laporan keuangan, pengumuman, export features |
-|| **6** (Nov 10-14) | Testing, Bug fix, Deploy | ⏳ Production ready |
+| **1** (Oct 6-12) | Setup + Cleanup | ✅ Skeleton dashboard, auth working |
+| **2** (Oct 13-19) | Anggota & Kegiatan | ✅ Full CRUD for both modules |
+| **3** (Oct 20-26) | Pendaftaran & Absensi | ✅ Core business logic working |
+| **4** (Oct 27-Nov 2) | Keuangan & Iuran | ✅ TransaksiKas CRUD working |
+| **5** (Nov 3-9) | Pengumuman & Dashboard | ✅ Pengumuman CRUD + Dashboard metrics complete |
+| **6** (Nov 10-14) | Testing, Bug fix, Deploy | ⏳ Final testing & deployment phase |
 
 **Total Effort:** ~220 jam (6 minggu × 35-40 jam/minggu)
 

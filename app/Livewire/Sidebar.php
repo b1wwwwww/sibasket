@@ -19,6 +19,11 @@ class Sidebar extends Component
         $user = Auth::user();
         $items = [];
 
+        // Jika tidak ada user (public pages), return empty
+        if (!$user) {
+            return $items;
+        }
+
         // Always include Dashboard
         $items[] = [
             'label' => 'Dashboard',

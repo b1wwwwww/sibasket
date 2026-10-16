@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
         // Buat admin user setelah role tersedia
         $this->call(AdminUserSeeder::class);
 
+        // Buat test users untuk role testing (Admin, Pembina, Member)
+        $this->call(TestUserSeeder::class);
+
         // User::factory(10)->create();
 
         User::firstOrCreate(

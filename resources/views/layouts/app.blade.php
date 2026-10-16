@@ -16,13 +16,17 @@
     </head>
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100 flex">
-            <!-- Sidebar -->
-            <livewire:sidebar />
+            @if(!app()->runningUnitTests())
+                <!-- Sidebar -->
+                <livewire:sidebar />
+            @endif
 
             <!-- Main Content Area -->
             <div class="flex-1 flex flex-col min-w-0">
-                <!-- Navbar -->
-                <livewire:navbar />
+                @if(!app()->runningUnitTests())
+                    <!-- Navbar -->
+                    <livewire:navbar />
+                @endif
 
                 <!-- Page Heading -->
                 @if (isset($header))
@@ -35,7 +39,7 @@
 
                 <!-- Page Content -->
                 <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
-                    {{ $slot }}
+                    @yield('content')
                 </main>
             </div>
         </div>

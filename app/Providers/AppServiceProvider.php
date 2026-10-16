@@ -21,7 +21,16 @@ class AppServiceProvider extends ServiceProvider
     {
         // Super admin bypass all permissions
         \Illuminate\Support\Facades\Gate::before(function ($user, $ability) {
-            return $user->hasRole('super_admin') ? true : null;
+            if ($user->hasRole('super_admin')) {
+                return true;
+            }
+            
+            // Check permissions via Spatie for other users
+            if (method_exists($user, 'hasPermissionTo')) {
+                return $user->hasPermissionTo($ability) ? true : null;
+            }
+            
+            return null;
         });
     }
 }

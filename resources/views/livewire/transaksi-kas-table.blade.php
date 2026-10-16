@@ -4,12 +4,20 @@
             <h1 class="text-2xl font-bold text-gray-900">Manajemen Keuangan</h1>
             <p class="mt-1 text-sm text-gray-600">Kelola transaksi kas dan keuangan klub</p>
         </div>
-        <a href="/dashboard/keuangan/create" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
-            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-            </svg>
-            Tambah Transaksi
-        </a>
+        <div class="flex items-center gap-3 mt-4 sm:mt-0">
+            <a href="/dashboard/keuangan/export?jenis={{ $jenis }}&start_date={{ $startDate ?? '' }}&end_date={{ $endDate ?? '' }}" target="_blank" class="inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                </svg>
+                Export Excel
+            </a>
+            <a href="/dashboard/keuangan/create" class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                Tambah Transaksi
+            </a>
+        </div>
     </div>
 
     <!-- Search & Filter -->

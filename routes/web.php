@@ -94,6 +94,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard/recap-absensi', function () {
             return view('pages.recap-absensi');
         })->name('recap-absensi.index');
+
+        // Export Absensi
+        Route::get('/dashboard/absensi/export', [\App\Http\Controllers\ExportController::class, 'absensi'])
+            ->name('absensi.export');
     });
 
     // ===== Manajemen Keuangan =====
@@ -109,6 +113,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard/keuangan/{id}/edit', function ($id) {
             return view('pages.keuangan-edit', ['id' => $id]);
         })->name('keuangan.edit');
+
+        // Export Keuangan
+        Route::get('/dashboard/keuangan/export', [\App\Http\Controllers\ExportController::class, 'keuangan'])
+            ->name('keuangan.export');
     });
 
     // ===== Manajemen Pengumuman =====

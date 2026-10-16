@@ -1,6 +1,6 @@
 # SiBasket Project — Progress Summary
 
-**Status Update:** Oct 11, 2026 | Minggu 5 Complete | Minggu 6 In Progress (50%)
+**Status Update:** Oct 16, 2026 | Minggu 6 Complete (70%) | Export Features Implemented
 
 ---
 
@@ -13,13 +13,13 @@
 | 3 | Pendaftaran & Absensi | ✅ Done |
 | 4 | Keuangan (TransaksiKas) | ✅ Done |
 | 5 | Pengumuman + Dashboard Analytics | ✅ Done |
-| 6 | Testing, Bug Fix, Deployment | ⏳ In Progress |
+| 6 | Testing, Bug Fix, Deployment | ⏳ In Progress (70%) |
 
 **Deadline:** Nov 14, 2026 (Production Ready)
 
 ---
 
-## Minggu 6 Progress ✅ (60%)
+## Minggu 6 Progress ✅ (70%)
 
 **✅ Completed:**
 - ✅ **Role-Based Testing** (10/10 tests passed)
@@ -34,27 +34,33 @@
   - `resources/views/pages/kegiatan-detail.blade.php` — kegiatan detail
 
 - ✅ **Bug Fixes & Polish**
-  - `app/Providers/AppServiceProvider.php` — super_admin Gate bypass
+  - `app/Providers/AppServiceProvider.php` — super_admin Gate bypass + Spatie permission integration
   - `resources/views/layouts/app.blade.php` — fixed layout consistency
   - Page views standardized (`@extends` pattern)
   - Build: npm run build ✅ success
 
+- ✅ **Export Features (Phase 3)**
+  - Dependencies: `maatwebsite/excel` v4.0.4 + `barryvdh/laravel-dompdf` v3.1.2
+  - Export Classes:
+    - `app/Exports/KeuanganExport.php` — exports TransaksiKas to Excel with filters (jenis, tanggal)
+    - `app/Exports/AbsensiExport.php` — exports Absensi to Excel per kegiatan
+  - Controller: `app/Http/Controllers/ExportController.php`
+  - Routes: `/dashboard/keuangan/export` + `/dashboard/absensi/export`
+  - UI: "Export Excel" buttons added to Keuangan & Absensi tables
+  - Permission checks: Admin & Pembina can export (read-only)
+  - Build: npm run build ✅ success
+
 **⏳ Remaining:**
 
-**Testing & Smoke Test** (Next)
-- [ ] Final integration test (semua modules end-to-end)
-- [ ] Smoke test public pages (landing, pengumuman, kegiatan, login flow)
-- [ ] Verify all routes accessible
+**Final Smoke Test** (Next)
+- [ ] Test export functionality manually (download Excel files)
+- [ ] Verify filters work (jenis, kegiatan_id)
+- [ ] Verify role-based access (member should get 403)
 
 **Deployment** (Final)
 - [ ] Production deployment checklist
 - [ ] Database backup strategy
 - [ ] Go-live verification
-
-**Export Features** (Optional phase 2)
-- [ ] Laravel Excel setup: `composer require maatwebsite/excel`
-- [ ] Export Absensi to Excel
-- [ ] Export Keuangan to PDF/Excel
 
 ---
 
@@ -79,9 +85,9 @@
 
 ## Status
 
-**✅ MVP Complete:** All core modules (Anggota, Kegiatan, Keuangan, Absensi, Pengumuman, Dashboard) + public pages + role-based testing.
+**✅ MVP Complete:** All core modules (Anggota, Kegiatan, Keuangan, Absensi, Pengumuman, Dashboard) + public pages + role-based testing + **export features**.
 
-**→ Next:** Final smoke test & production deployment.
+**→ Next:** Manual smoke test of export + production deployment.
 
 ---
 
@@ -99,6 +105,7 @@
 - Models: `app/Models/*`
 - Views: `resources/views/livewire/` + `resources/views/pages/`
 - Seeders: `database/seeders/*`
+- **Exports: `app/Exports/*`** ← NEW
 
 ---
 
@@ -108,7 +115,9 @@
 
 1. ✅ Role-based testing: DONE (10/10 tests pass)
 2. ✅ Public pages: DONE (home, pengumuman, kegiatan, detail)
-3. → **Final smoke test** (browse all public pages + login flows)
-4. → **Production deployment** (setup .env, migrate, seed, go-live)
+3. ✅ Export features: DONE (Keuangan + Absensi Excel exports)
+4. → **Smoke test export manually** (browser: download files, verify content)
+5. → **Production deployment** (setup .env, migrate, seed, go-live)
 
-**Last Updated:** Oct 11, 2026, 14:04 WIB
+**Last Updated:** Oct 16, 2026, 14:46 WIB
+

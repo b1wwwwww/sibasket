@@ -12,7 +12,7 @@ class TransaksiKas extends Model
 
     protected $table = 'transaksi_kas';
 
-    protected $filable = [
+    protected $fillable = [
         'anggota_id',
         'nominal',
         'jenis',

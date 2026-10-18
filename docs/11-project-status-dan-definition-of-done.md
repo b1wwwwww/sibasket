@@ -16,8 +16,8 @@
 | **Keuangan** | **High** | **✅** |
 | Pengumuman | Medium | ✅ |
 | Dashboard Widgets | Medium | ✅ |
-| Laporan Export (PDF/Excel) | Medium | ⬜ |
-|| Pendaftaran Anggota Baru (Form Publik) | Medium | ⬜ |
+|| Laporan Export (PDF/Excel) | Medium | ✅ |
+||| Pendaftaran Anggota Baru (Form Publik) | Medium | ⬜ |
 || Deployment | High | ⬜ |
 || Galeri (Optional) | Low | ⬜ |
 || QR Absensi (Future) | Future | ⬜ |

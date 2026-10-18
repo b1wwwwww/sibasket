@@ -1,6 +1,6 @@
 # SiBasket Project — Progress Summary
 
-**Status Update:** Oct 16, 2026 | Minggu 6 Complete (70%) | Export Features Implemented
+**Status Update:** Oct 18, 2026 | Minggu 6 Complete (80%) | Database Layer + Design System Ready
 
 ---
 
@@ -19,7 +19,7 @@
 
 ---
 
-## Minggu 6 Progress ✅ (70%)
+## Minggu 6 Progress ✅ (80%)
 
 **✅ Completed:**
 - ✅ **Role-Based Testing** (10/10 tests passed)
@@ -50,12 +50,30 @@
   - Permission checks: Admin & Pembina can export (read-only)
   - Build: npm run build ✅ success
 
+- ✅ **Database Layer & Logic** (7/7 tests passed) — NEW
+  - Stored Procedure: `sp_approve_pendaftaran_anggota` — approve member registration with saldo_kas update
+  - Triggers: 
+    - `tg_update_saldo_kas` — auto-update cash balance on transaction insert
+    - `tg_audit_keuangan` — log all financial transactions to audit_logs
+  - Custom Function: `fn_tingkat_kehadiran(kegiatan_id)` — calculate attendance percentage
+  - Models: `app/Models/AuditLog.php` — audit trail tracking
+  - Factories: AbsensiFactory, PendaftaranAnggotaFactory, TransaksiKasFactory
+  - Tests: DatabaseProceduresTest, DatabaseTriggersTest, DatabaseFunctionsTest (7/7 ✅)
+  - Docs: `docs/15-database-triggers-procedures.md` — full technical reference
+
+- ✅ **Design System & UI Blueprints** — NEW
+  - `PROMPT-DESAIN-SIBASKET-LENGKAP.md` — comprehensive style guide (color, typography, spacing, components)
+  - `PROMPT-DESAIN-V0-SIBASKET.md` — full-stack design prompt (ready for v0.dev AI generation)
+  - `PROMPT-DESAIN-WEB-PUBLIK-SIBASKET.md` — public web design prompt (landing page, kegiatan, pengumuman)
+  - Design ready-to-use untuk React + Tailwind CSS implementation
+
 **⏳ Remaining:**
 
 **Final Smoke Test** (Next)
 - [ ] Test export functionality manually (download Excel files)
 - [ ] Verify filters work (jenis, kegiatan_id)
 - [ ] Verify role-based access (member should get 403)
+- [ ] Generate UI from design prompts (v0.dev or Claude Artifacts)
 
 **Deployment** (Final)
 - [ ] Production deployment checklist

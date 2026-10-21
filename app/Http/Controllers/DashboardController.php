@@ -18,7 +18,8 @@ class DashboardController extends Controller
 
         // === METRICS UNTUK SEMUA USER ===
         $totalAnggota = Anggota::count();
-        $kegiatanAktif = Kegiatan::where('status', 'aktif')->count();
+        // Fix: cek apakah status = 'aktif' atau 'upcoming' atau 'berlangsung'
+        $kegiatanAktif = Kegiatan::whereIn('status', ['aktif', 'upcoming', 'berlangsung'])->count();
         $totalPendaftaran = PendaftaranKegiatan::count();
         $pengumumanTerbaru = Pengumuman::orderBy('tanggal_publish', 'desc')->limit(5)->get();
 

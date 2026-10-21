@@ -43,7 +43,7 @@ class TransaksiKasTable extends Component
 
     public function render()
     {
-        $query = TransaksiKas::with('anggota')->query();
+        $query = TransaksiKas::with('anggota');
 
         if ($this->search) {
             $query->whereHas('anggota', function ($q) {

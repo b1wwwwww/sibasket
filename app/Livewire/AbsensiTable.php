@@ -15,18 +15,27 @@ class AbsensiTable extends Component
     public $kegiatanId;
     public $search = '';
     public $statusKehadiran = '';
+    public $tanggalFilter = '';
 
     protected $queryString = [
         'search' => ['except' => ''],
         'statusKehadiran' => ['except' => ''],
+        'tanggalFilter' => ['except' => ''],
+        'kegiatanId' => ['except' => ''],
     ];
 
     public function mount($kegiatanId = null)
     {
         $this->kegiatanId = $kegiatanId;
+        $this->tanggalFilter = request()->get('tanggal', date('Y-m-d'));
     }
 
     public function updatingSearch()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingTanggalFilter()
     {
         $this->resetPage();
     }
@@ -57,6 +66,11 @@ class AbsensiTable extends Component
     {
         $query = PendaftaranKegiatan::with(['anggota', 'kegiatan', 'absensi'])
             ->when($this->kegiatanId, fn($q) => $q->where('kegiatan_id', $this->kegiatanId))
+            ->when($this->tanggalFilter, function($q) {
+                $q->whereHas('kegiatan', fn($query) => 
+                    $query->whereDate('tanggal', $this->tanggalFilter)
+                );
+            })
             ->where('status', 'terdaftar')
             ->when($this->search, function($q) {
                 $q->whereHas('anggota', fn($query) => 
@@ -71,10 +85,12 @@ class AbsensiTable extends Component
             });
 
         $kegiatan = $this->kegiatanId ? Kegiatan::find($this->kegiatanId) : null;
+        $kegiatanList = Kegiatan::orderBy('tanggal', 'desc')->get();
 
         return view('livewire.absensi-table', [
             'pendaftarans' => $query->latest()->paginate(15),
             'kegiatan' => $kegiatan,
+            'kegiatanList' => $kegiatanList,
         ]);
     }
 }

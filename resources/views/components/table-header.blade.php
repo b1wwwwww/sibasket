@@ -1,10 +1,10 @@
 @props(['label', 'sortable' => false, 'column' => null, 'direction' => null])
 
-<th {{ $attributes->merge(['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider bg-gray-50']) }}>
+<th {{ $attributes->merge(['class' => 'px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider bg-gray-50 dark:bg-gray-700']) }}>
     @if($sortable && $column)
         <button 
             wire:click="sortBy('{{ $column }}')" 
-            class="flex items-center gap-2 hover:text-gray-700 transition-colors"
+            class="flex items-center gap-2 hover:text-gray-700 dark:hover:text-gray-100 transition-colors"
         >
             <span>{{ $label }}</span>
             @if($direction)
@@ -16,7 +16,7 @@
                     @endif
                 </svg>
             @else
-                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-4 h-4 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
                 </svg>
             @endif

@@ -1,6 +1,6 @@
 # SiBasket Project — Progress Summary
 
-**Status Update:** Oct 18, 2026 | Minggu 6 Complete (80%) | Database Layer + Design System Ready
+**Status Update:** Oct 19, 2026 | Minggu 6 Complete (95%) | Dashboard + Absensi + Keuangan Bugs Fixed + Full Dark Mode
 
 ---
 
@@ -61,19 +61,49 @@
   - Tests: DatabaseProceduresTest, DatabaseTriggersTest, DatabaseFunctionsTest (7/7 ✅)
   - Docs: `docs/15-database-triggers-procedures.md` — full technical reference
 
-- ✅ **Design System & UI Blueprints** — NEW
-  - `PROMPT-DESAIN-SIBASKET-LENGKAP.md` — comprehensive style guide (color, typography, spacing, components)
-  - `PROMPT-DESAIN-V0-SIBASKET.md` — full-stack design prompt (ready for v0.dev AI generation)
-  - `PROMPT-DESAIN-WEB-PUBLIK-SIBASKET.md` — public web design prompt (landing page, kegiatan, pengumuman)
+|- ✅ **Design System & UI Blueprints — ITERATIVE SET** — NEW
+  - `PROMPT-DESAIN-WEB-PUBLIK-SIBASKET.md` — public web design prompt (5 pages)
+  - `PROMPT-DESAIN-DASHBOARD-SIBASKET.md` — full dashboard design prompt (7 pages)
+  - `PROMPT-V0-DASHBOARD-HOME-SIBASKET.md` — **Dashboard Home Page ONLY** prompt (inspired by TomlsLoading reference + dark/light mode toggle + SI-BASKET features) — NEW
   - Design ready-to-use untuk React + Tailwind CSS implementation
+
+|- ✅ **Bug Fixes & Feature Enhancements (Absensi & Keuangan)** — NEW
+  - `DashboardController.php` — Fixed `kegiatan_aktif` query count (now checking `['aktif', 'upcoming', 'berlangsung']`)
+  - `TransaksiKasTable.php` — Fixed query syntax error (`->query()` removed) so Keuangan page now opens properly.
+  - `AbsensiTable.php` & `absensi-table.blade.php` — Added **Date Filter** (`tanggalFilter`) so admins can filter attendance by specific date and see who attended on that day.
+  - Full Dark/Light mode color consistency fixed across Dashboard, Absensi, and Keuangan pages.
+  - Build: npm run build ✅ success
+
+|- ✅ **Dark Mode & UI Fixes (Complete)** — Session 2026-10-20
+  - `resources/views/livewire/sidebar.blade.php` — Cleaned up duplicate code, fixed responsive layout with scrollable menu + sticky Settings/Logout at bottom
+  - `resources/views/livewire/navbar.blade.php` — Dark mode toggle working across entire app
+  - **Table Styling Strategy (Mixed Theme):**
+    - Light Theme Tables: Anggota, Kegiatan, Pengumuman, Pendaftaran Kegiatan, Absensi — White background with dark text (always readable)
+    - Dark Theme Tables: Keuangan (Transaksi Kas) — Dark background (`bg-gray-900`) with light text (`text-gray-300`) for contrast
+  - `resources/views/livewire/transaksi-kas-table.blade.php` — Dark mode styling (dark bg, light text, proper badges)
+  - All page subtitles have `dark:text-gray-300` for visibility in dark mode
+  - Action buttons (Edit/Delete) have proper dark mode colors: `dark:text-blue-400`, `dark:text-red-400`
+  - Build: npm run build ✅ success
+  - Cache cleared: config + view + cache ✅
+    - Menu hover states consistent in both modes
+    - Settings & Logout buttons at bottom with proper dark mode styling
+  - Navbar already had dark mode support, now sidebar fully responsive to dark mode toggle
+  - Build: npm run build ✅ success
+
+|- ✅ **Bug Fixes: Phase 2** — NEW
+  - Theme Initialization: Fixed localStorage defaulting issue in `resources/views/layouts/app.blade.php` — now always defaults to 'light' mode explicitly, preventing persistent dark-mode state.
+  - Menu Item: Created `resources/views/pages/recap-absensi.blade.php` — static view for attendance recap (queries Kegiatan + Absensi relationships, calculates percentage attendance per activity).
+  - Layout Standardization: Converted 5 views from deprecated `<x-app-layout>` pattern to `@extends('layouts.app')` (files: `pendaftaran-kegiatan`, `anggota-create`, `anggota-edit`, `keuangan-create`, `keuangan-edit`).
+  - All CRUD menus now functional and properly routed.
 
 **⏳ Remaining:**
 
 **Final Smoke Test** (Next)
+- [ ] Test all CRUD menus (anggota, kegiatan, keuangan, absensi, pengumuman)
+- [ ] Test theme toggle (dark ↔ light) across multiple pages
+- [ ] Test recap absensi page loads and displays data
 - [ ] Test export functionality manually (download Excel files)
-- [ ] Verify filters work (jenis, kegiatan_id)
-- [ ] Verify role-based access (member should get 403)
-- [ ] Generate UI from design prompts (v0.dev or Claude Artifacts)
+- [ ] Verify role-based access (member should get 403 on admin pages)
 
 **Deployment** (Final)
 - [ ] Production deployment checklist

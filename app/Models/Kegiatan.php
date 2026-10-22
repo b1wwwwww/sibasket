@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Kegiatan extends Model
 {
@@ -32,6 +33,15 @@ class Kegiatan extends Model
     public function pendaftaranKegiatan(): HasMany
     {
         return $this->hasMany(PendaftaranKegiatan::class);
+    }
+
+    /**
+     * Relationship: akses langsung Absensi dari Kegiatan melalui PendaftaranKegiatan.
+     * Digunakan di recap-absensi untuk query lebih mudah.
+     */
+    public function absensis(): HasManyThrough
+    {
+        return $this->hasManyThrough(Absensi::class, PendaftaranKegiatan::class, 'kegiatan_id', 'pendaftaran_id');
     }
 
     /**

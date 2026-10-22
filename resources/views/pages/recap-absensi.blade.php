@@ -30,13 +30,13 @@
                         @endphp
                         @forelse($kegiatans as $kegiatan)
                             @php
-                                $hadir = $kegiatan->absensis->where('status', 'hadir')->count();
+                                $hadir = $kegiatan->absensis->where('status_kehadiran', 'hadir')->count();
                                 $total = $kegiatan->absensis->count();
                                 $persen = $total > 0 ? round(($hadir / $total) * 100, 1) : 0;
                             @endphp
                             <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{{ $kegiatan->nama_kegiatan }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{{ $kegiatan->tanggal }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{{ $kegiatan->judul }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{{ $kegiatan->tanggal->format('d/m/Y') }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{{ $hadir }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{{ $total - $hadir }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">

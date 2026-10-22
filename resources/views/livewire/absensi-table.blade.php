@@ -28,13 +28,6 @@
                 ✅ Hadir Semua
             </button>
             <button 
-                wire:click="markAllAsTidakHadir" 
-                class="inline-flex items-center px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-medium transition-colors shadow-sm"
-            >
-                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-                ❌ Tidak Semua
-            </button>
-            <button 
                 wire:click="resetAll" 
                 class="inline-flex items-center px-4 py-2 rounded-lg bg-gray-500 hover:bg-gray-600 text-white text-sm font-medium transition-colors shadow-sm"
             >
@@ -68,7 +61,8 @@
                     <option value="">Semua Status</option>
                     <option value="hadir">Hadir</option>
                     <option value="izin">Izin</option>
-                    <option value="tidak_hadir">Tidak Hadir</option>
+                    <option value="sakit">Sakit</option>
+                    <option value="alpa">Alpa</option>
                 </select>
             </div>
 
@@ -127,45 +121,38 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $p->anggota->kelas }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{{ $p->anggota->jurusan ?? '-' }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex gap-3 items-center">
-                                <!-- Hadir Radio -->
-                                <label class="flex items-center cursor-pointer gap-1">
-                                    <input 
-                                        type="radio" 
-                                        name="status_{{ $p->id }}"
-                                        value="hadir"
-                                        wire:click="updateStatusKehadiran({{ $p->id }}, 'hadir')"
-                                        @checked($p->absensi && $p->absensi->status_kehadiran === 'hadir')
-                                        class="w-4 h-4 text-green-600 dark:text-green-500 accent-green-600 dark:accent-green-500"
-                                    >
-                                    <span class="text-xs text-green-600 dark:text-green-400 font-medium">Hadir</span>
-                                </label>
+                            <div class="flex gap-2 items-center">
+                                <!-- Hadir -->
+                                <button 
+                                    wire:click="updateStatusKehadiran({{ $p->id }}, 'hadir')"
+                                    class="px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-200 {{ $p->absensi && $p->absensi->status_kehadiran === 'hadir' ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-200 border-2 border-green-500 shadow-md' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 border-2 border-gray-300 dark:border-gray-600 hover:border-green-400 dark:hover:border-green-600' }}"
+                                >
+                                    ✓ Hadir
+                                </button>
                                 
-                                <!-- Izin Radio -->
-                                <label class="flex items-center cursor-pointer gap-1">
-                                    <input 
-                                        type="radio" 
-                                        name="status_{{ $p->id }}"
-                                        value="izin"
-                                        wire:click="updateStatusKehadiran({{ $p->id }}, 'izin')"
-                                        @checked($p->absensi && $p->absensi->status_kehadiran === 'izin')
-                                        class="w-4 h-4 text-yellow-600 dark:text-yellow-500 accent-yellow-600 dark:accent-yellow-500"
-                                    >
-                                    <span class="text-xs text-yellow-600 dark:text-yellow-400 font-medium">Izin</span>
-                                </label>
+                                <!-- Izin -->
+                                <button 
+                                    wire:click="updateStatusKehadiran({{ $p->id }}, 'izin')"
+                                    class="px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-200 {{ $p->absensi && $p->absensi->status_kehadiran === 'izin' ? 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-200 border-2 border-yellow-500 shadow-md' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 border-2 border-gray-300 dark:border-gray-600 hover:border-yellow-400 dark:hover:border-yellow-600' }}"
+                                >
+                                    ~ Izin
+                                </button>
                                 
-                                <!-- Tidak Hadir Radio -->
-                                <label class="flex items-center cursor-pointer gap-1">
-                                    <input 
-                                        type="radio" 
-                                        name="status_{{ $p->id }}"
-                                        value="tidak_hadir"
-                                        wire:click="updateStatusKehadiran({{ $p->id }}, 'tidak_hadir')"
-                                        @checked(!$p->absensi || $p->absensi->status_kehadiran === 'tidak_hadir')
-                                        class="w-4 h-4 text-red-600 dark:text-red-500 accent-red-600 dark:accent-red-500"
-                                    >
-                                    <span class="text-xs text-red-600 dark:text-red-400 font-medium">Tidak</span>
-                                </label>
+                                <!-- Sakit -->
+                                <button 
+                                    wire:click="updateStatusKehadiran({{ $p->id }}, 'sakit')"
+                                    class="px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-200 {{ $p->absensi && $p->absensi->status_kehadiran === 'sakit' ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-200 border-2 border-blue-500 shadow-md' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 border-2 border-gray-300 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-600' }}"
+                                >
+                                    + Sakit
+                                </button>
+                                
+                                <!-- Alpa -->
+                                <button 
+                                    wire:click="updateStatusKehadiran({{ $p->id }}, 'alpa')"
+                                    class="px-3 py-2 rounded-lg text-xs font-semibold transition-all duration-200 {{ $p->absensi && $p->absensi->status_kehadiran === 'alpa' ? 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-200 border-2 border-red-500 shadow-md' : 'bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400 border-2 border-gray-300 dark:border-gray-600 hover:border-red-400 dark:hover:border-red-600' }}"
+                                >
+                                    ✗ Alpa
+                                </button>
                             </div>
                         </td>
                         <td class="px-6 py-4">

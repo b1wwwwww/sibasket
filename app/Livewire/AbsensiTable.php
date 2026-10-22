@@ -64,7 +64,7 @@ class AbsensiTable extends Component
     {
         $absensi = Absensi::where('pendaftaran_id', $pendaftaranId)->firstOrCreate(
             ['pendaftaran_id' => $pendaftaranId],
-            ['status_kehadiran' => 'tidak_hadir']
+            ['status_kehadiran' => 'alpa']
         );
 
         $absensi->update(['status_kehadiran' => $newStatus]);
@@ -75,7 +75,7 @@ class AbsensiTable extends Component
     {
         $absensi = Absensi::where('pendaftaran_id', $pendaftaranId)->firstOrCreate(
             ['pendaftaran_id' => $pendaftaranId],
-            ['status_kehadiran' => 'tidak_hadir']
+            ['status_kehadiran' => 'alpa']
         );
 
         $absensi->update(['catatan' => $catatan]);
@@ -102,28 +102,6 @@ class AbsensiTable extends Component
         }
 
         session()->flash('message', count($pendaftarans) . ' anggota berhasil dimark Hadir.');
-    }
-
-    public function markAllAsTidakHadir()
-    {
-        $pendaftarans = PendaftaranKegiatan::with(['anggota', 'kegiatan', 'absensi'])
-            ->when($this->kegiatanId, fn($q) => $q->where('kegiatan_id', $this->kegiatanId))
-            ->when($this->tanggalFilter, function($q) {
-                $q->whereHas('kegiatan', fn($query) => 
-                    $query->whereDate('tanggal', $this->tanggalFilter)
-                );
-            })
-            ->where('status', 'terdaftar')
-            ->get();
-
-        foreach ($pendaftarans as $p) {
-            Absensi::where('pendaftaran_id', $p->id)->firstOrCreate(
-                ['pendaftaran_id' => $p->id],
-                ['status_kehadiran' => 'tidak_hadir']
-            )->update(['status_kehadiran' => 'tidak_hadir']);
-        }
-
-        session()->flash('message', count($pendaftarans) . ' anggota berhasil dimark Tidak Hadir.');
     }
 
     public function resetAll()

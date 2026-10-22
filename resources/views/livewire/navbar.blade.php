@@ -1,4 +1,4 @@
-<div class="sticky top-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
+<div class="sticky top-0 z-40 shrink-0 border-b border-gray-200 bg-white transition-colors duration-300 dark:border-gray-700 dark:bg-gray-800">
     <div class="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         <!-- Left: Breadcrumb (desktop only) -->
         <div class="hidden md:block text-sm text-gray-600 dark:text-gray-400">

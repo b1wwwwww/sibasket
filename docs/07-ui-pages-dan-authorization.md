@@ -56,22 +56,22 @@
 
 ## 7.2 Authorization Matrix
 
-| Fitur | Super Admin | Admin (sesuai permission) | Pembina | Member | Guest |
-|---|---:|---:|---:|---:|---:|
-| Dashboard | ✓ | ✓ | View | ✓ (versi member) | - |
-| Anggota | ✓ | Sesuai permission | View | - | - |
-| Pendaftaran Anggota Baru | ✓ | Sesuai permission (approve/reject) | View | - | Submit (isi form) |
-| Kegiatan | ✓ | Sesuai permission | View | View + Daftar | View |
-| Pendaftaran Kegiatan | ✓ | Sesuai permission | View | Own only | - |
-| Absensi | ✓ | Sesuai permission | View | View (own) | - |
-| Pengumuman | ✓ | Sesuai permission | View | View | View |
-| Laporan | ✓ | Sesuai permission | View | - | - |
-| Role & Permission | ✓ | - | - | - | - |
+| Fitur | Super Admin | Ketua | Bendahara | Absensi/Sekretaris | Pembina | Member | Guest |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Dashboard | ✓ | ✓ | ✓ | ✓ | View | ✓ (personal) | - |
+| Anggota | ✓ | ✓ CRUD | ✓ CRUD | ✓ CRUD | View | - | - |
+| Pendaftaran Anggota Baru | ✓ | ✓ Approve | - | ✓ Approve | View | - | Submit |
+| Kegiatan | ✓ | ✓ CRUD | - | ✓ CRUD | View | View + Daftar | View |
+| Pendaftaran Kegiatan | ✓ | ✓ CRUD | - | ✓ CRUD | View | Own only | - |
+| Absensi | ✓ | - | - | ✓ CRUD | View | View (own) | - |
+| Keuangan | ✓ | - | ✓ CRUD | - | View | - | - |
+| Pengumuman | ✓ | ✓ CRUD | ✓ CRUD | ✓ CRUD | View | View | View |
+| Laporan & Export | ✓ | ✓ View | ✓ View | ✓ View | View | - | - |
+| Role & Permission | ✓ | - | - | - | - | - | - |
 
 > **Catatan khusus Guest:** satu-satunya aksi tulis (write) yang boleh dilakukan Guest
 > di seluruh sistem adalah submit form Pendaftaran Anggota Baru. Ini perlu perhatian
 > ekstra saat implementasi (validasi input, proteksi dari spam submission — misal
 > rate-limit atau captcha sederhana kalau sempat).
 
-> Untuk detail permission per jabatan pengurus (ketua, bendahara, sie absensi, dll),
-> lihat `02-role-dan-akses.md`.
+> Untuk detail permission lengkap per role, lihat `02-role-dan-akses.md`.

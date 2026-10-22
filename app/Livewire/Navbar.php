@@ -16,7 +16,7 @@ class Navbar extends Component
         if (!session()->has('theme')) {
             session(['theme' => 'light']);
         }
-        
+
         $this->theme = session('theme', 'light');
     }
 
@@ -24,8 +24,8 @@ class Navbar extends Component
     {
         $this->theme = $this->theme === 'light' ? 'dark' : 'light';
         session(['theme' => $this->theme]);
-        
-        // Dispatch event to update all components
+
+        // Trigger one Livewire event that the app layout listens to.
         $this->dispatch('themeToggled', theme: $this->theme);
     }
 
@@ -44,7 +44,7 @@ class Navbar extends Component
         \Auth::logout();
         session()->invalidate();
         session()->regenerateToken();
-        
+
         return redirect('/login');
     }
 

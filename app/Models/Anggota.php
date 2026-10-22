@@ -23,6 +23,8 @@ class Anggota extends Model
         'posisi',
         'status',
         'tanggal_bergabung',
+        'no_hp',
+        'alamat',
     ];
 
     protected $casts = [

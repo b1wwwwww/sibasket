@@ -4,40 +4,64 @@
 
 ---
 
-Struktur akses dibuat **4 role dasar**, dengan Admin memakai **permission granular per menu** (bukan role terpisah untuk tiap posisi pengurus). Ini dipilih supaya struktur pengurus asli (ketua, bendahara, sie absensi, dll) tetap terwakili tanpa menambah kompleksitas otorisasi yang tidak sepadan dengan waktu 2 minggu.
+Struktur akses dibuat **5 role utama** dengan permission granular berbasis Spatie Laravel Permission.
 
 ## 2.1 Super Admin
 Kamu sebagai developer / penanggung jawab sistem.
 * Full access ke seluruh modul.
-* Mengelola akun pengurus (Admin) dan meng-assign permission ke masing-masing.
+* Mengelola akun pengurus lainnya.
 * Mengelola role & permission itu sendiri.
 
-## 2.2 Admin (Pengurus Eskul)
-Satu role "Admin", tapi tiap akun Admin diberi kombinasi **permission** sesuai jabatannya di eskul:
+## 2.2 Ketua
+Ketua Eskul / Koordinator Utama.
 
-| Jabatan Asli | Permission yang di-assign |
+| Akses | Fitur |
 |---|---|
-| Ketua | `manage-anggota`, `manage-kegiatan`, `manage-absensi`, `manage-pengumuman`, `view-laporan` (hampir full) |
-| Wakil Ketua | sama seperti Ketua, atau subset sesuai kebutuhan |
-| Sekretaris | `manage-anggota`, `manage-pengumuman` |
-| Bendahara | `manage-keuangan` *(masuk Optional/Future, lihat `03-scope-dan-mvp.md`)* |
-| Sie Absensi | `manage-absensi` |
-| Sie Acara/Kegiatan | `manage-kegiatan` |
+| ✓ CRUD | Anggota |
+| ✓ CRUD | Kegiatan |
+| ✓ CRUD | Pendaftaran Kegiatan (view per kegiatan) |
+| ✓ CRUD | Pengumuman |
+| ✓ View | Laporan & Export |
+| ✗ | Keuangan, Absensi (tidak punya akses) |
 
-Permission dikelola lewat 1 sistem (`spatie/laravel-permission` + `filament-shield`), sehingga menambah/mengurangi akses jabatan baru tidak perlu ubah struktur sistem, cukup atur assignment.
+## 2.3 Bendahara
+Bendahara Eskul / Pengelola Keuangan.
 
-## 2.3 Pembina
-* Akses **view-only** ke seluruh data: anggota, kegiatan, absensi, laporan.
+| Akses | Fitur |
+|---|---|
+| ✓ CRUD | Keuangan (Transaksi Kas) |
+| ✓ CRUD | Anggota (untuk cek siapa belum bayar) |
+| ✓ CRUD | Pengumuman |
+| ✓ View | Laporan & Export |
+| ✗ | Kegiatan, Absensi, Pendaftaran Kegiatan |
+
+## 2.4 Absensi/Sekretaris
+Sie Absensi atau Sekretaris Eskul.
+
+| Akses | Fitur |
+|---|---|
+| ✓ CRUD | Absensi (input, bulk action, rekap) |
+| ✓ CRUD | Anggota (termasuk nambah anggota) |
+| ✓ CRUD | Kegiatan |
+| ✓ CRUD | Pendaftaran Kegiatan |
+| ✓ CRUD | Pengumuman |
+| ✓ View | Laporan & Export |
+| ✗ | Keuangan |
+
+## 2.5 Pembina
+Guru Pembina / Perwakilan Sekolah.
+
+* Akses **view-only** ke seluruh data: anggota, kegiatan, absensi, pengumuman, keuangan, laporan.
 * Tidak bisa mengubah/menghapus data apa pun.
-* Ini role yang akan dipakai pembina kamu untuk memantau progres aplikasi juga.
+* Role untuk monitoring dan audit trail.
 
-## 2.4 Member (Anggota Eskul)
+## 2.6 Member (Anggota Eskul)
 * Login dengan akun sendiri.
 * Melihat jadwal kegiatan, mendaftar kegiatan, melihat riwayat kehadiran & pendaftaran sendiri.
 * Tidak bisa melihat data anggota lain.
 
-## 2.5 Guest (Belum Login)
-* Melihat halaman publik: info eskul, jadwal/kegiatan yang dipublish, pengumuman, galeri (jika sempat).
+## 2.7 Guest (Belum Login)
+* Melihat halaman publik: info eskul, jadwal/kegiatan yang dipublish, pengumuman.
 * **Submit form Pendaftaran Anggota Baru** — satu-satunya aksi "tulis" yang boleh
   dilakukan Guest di seluruh sistem. Setelah di-approve Admin, Guest ini berubah
   menjadi Member dengan akun yang dibuat otomatis (lihat `04-business-flow-dan-rules.md` §4.3).

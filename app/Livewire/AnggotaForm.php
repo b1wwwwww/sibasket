@@ -17,6 +17,8 @@ class AnggotaForm extends Component
     public $posisi = '';
     public $status = 'aktif';
     public $tanggal_bergabung = '';
+    public $no_hp = '';
+    public $alamat = '';
 
     protected $rules = [
         'user_id' => 'required|exists:users,id',
@@ -27,6 +29,8 @@ class AnggotaForm extends Component
         'posisi' => 'required|string|max:255',
         'status' => 'required|in:aktif,nonaktif,cuti',
         'tanggal_bergabung' => 'required|date',
+        'no_hp' => 'nullable|string|max:20',
+        'alamat' => 'nullable|string|max:500',
     ];
 
     public function mount($anggota_id = null)
@@ -42,6 +46,8 @@ class AnggotaForm extends Component
             $this->posisi = $anggota->posisi;
             $this->status = $anggota->status;
             $this->tanggal_bergabung = $anggota->tanggal_bergabung?->format('Y-m-d');
+            $this->no_hp = $anggota->no_hp;
+            $this->alamat = $anggota->alamat;
 
             // Update validation rules untuk edit (NIS bisa sama dengan dirinya sendiri)
             $this->rules['nis'] = 'required|string|max:20|unique:anggota,nis,' . $anggota_id;
@@ -64,6 +70,8 @@ class AnggotaForm extends Component
                 'posisi' => $this->posisi,
                 'status' => $this->status,
                 'tanggal_bergabung' => $this->tanggal_bergabung,
+                'no_hp' => $this->no_hp,
+                'alamat' => $this->alamat,
             ]);
             $this->dispatch('notify', message: 'Anggota berhasil diupdate');
         } else {
@@ -77,6 +85,8 @@ class AnggotaForm extends Component
                 'posisi' => $this->posisi,
                 'status' => $this->status,
                 'tanggal_bergabung' => $this->tanggal_bergabung,
+                'no_hp' => $this->no_hp,
+                'alamat' => $this->alamat,
             ]);
             $this->dispatch('notify', message: 'Anggota berhasil ditambahkan');
         }

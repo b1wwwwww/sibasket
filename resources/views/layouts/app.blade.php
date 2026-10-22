@@ -15,27 +15,48 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
         <script>
-            // Initialize theme from session ONLY on page load
-            // Session is the source of truth, localStorage is synced from navbar toggle
-            const htmlElement = document.documentElement;
-            const theme = '{{ session("theme", "light") }}' || 'light';
-            
-            if (theme === 'dark') {
-                htmlElement.classList.add('dark');
-            } else {
-                htmlElement.classList.remove('dark');
+            function applyTheme(theme) {
+                const normalizedTheme = theme === 'dark' ? 'dark' : 'light';
+                const htmlElement = document.documentElement;
+
+                htmlElement.classList.toggle('dark', normalizedTheme === 'dark');
+                localStorage.setItem('theme', normalizedTheme);
+                return normalizedTheme;
             }
+
+            function syncThemeFromStorage() {
+                const savedTheme = localStorage.getItem('theme');
+                const sessionTheme = '{{ session("theme", "light") }}';
+                const nextTheme = savedTheme || sessionTheme || 'light';
+                applyTheme(nextTheme);
+            }
+
+            syncThemeFromStorage();
+
+            window.addEventListener('themeToggled', (event) => {
+                const selectedTheme = event.detail?.theme || localStorage.getItem('theme') || 'light';
+                applyTheme(selectedTheme);
+            });
+
+            Livewire.on('themeToggled', (event) => {
+                const selectedTheme = event.detail?.theme || event.theme || 'light';
+                applyTheme(selectedTheme);
+            });
+
+            document.addEventListener('livewire:navigated', () => {
+                syncThemeFromStorage();
+            });
         </script>
     </head>
-    <body class="font-sans antialiased bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-        <div class="min-h-screen flex">
+    <body class="h-screen overflow-hidden font-sans antialiased bg-gray-100 transition-colors duration-300 dark:bg-gray-900">
+        <div class="flex h-screen overflow-hidden">
             @if(!app()->runningUnitTests())
                 <!-- Sidebar -->
                 <livewire:sidebar />
             @endif
 
             <!-- Main Content Area -->
-            <div class="flex-1 flex flex-col min-w-0">
+            <div class="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
                 @if(!app()->runningUnitTests())
                     <!-- Navbar -->
                     <livewire:navbar />
@@ -43,34 +64,19 @@
 
                 <!-- Page Heading -->
                 @if (isset($header))
-                    <header class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 transition-colors duration-300">
-                        <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+                    <header class="border-b border-gray-200 bg-white shadow-sm transition-colors duration-300 dark:border-gray-700 dark:bg-gray-800">
+                        <div class="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
                             {{ $header }}
                         </div>
                     </header>
                 @endif
 
                 <!-- Page Content -->
-                <main class="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto">
+                <main class="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
                     @yield('content')
                 </main>
             </div>
         </div>
 
-        <script>
-            // Listen for Livewire theme toggle events
-            Livewire.on('themeToggled', (event) => {
-                const theme = event.detail.theme;
-                const htmlElement = document.documentElement;
-                
-                if (theme === 'dark') {
-                    htmlElement.classList.add('dark');
-                } else {
-                    htmlElement.classList.remove('dark');
-                }
-                
-                localStorage.setItem('theme', theme);
-            });
-        </script>
     </body>
 </html>

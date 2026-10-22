@@ -51,6 +51,9 @@
                     <x-table-header label="Nama" />
                     <x-table-header label="NIS" />
                     <x-table-header label="Kelas" />
+                    <x-table-header label="Jurusan" />
+                    <x-table-header label="No HP" />
+                    <x-table-header label="Alamat" />
                     <x-table-header label="Status" />
                     <x-table-header label="Aksi" />
                 </tr>
@@ -69,6 +72,15 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
                             {{ $item->kelas }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
+                            {{ $item->jurusan ?? '-' }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
+                            {{ $item->no_hp ?? '-' }}
+                        </td>
+                        <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-200">
+                            {{ $item->alamat ?? '-' }}
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                             @if($item->status === 'aktif')
@@ -92,7 +104,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-6 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                        <td colspan="9" class="px-6 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
                             <svg class="w-12 h-12 mx-auto mb-3 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
                             </svg>

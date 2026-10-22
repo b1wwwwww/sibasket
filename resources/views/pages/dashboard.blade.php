@@ -271,26 +271,6 @@ function updateLastUpdated() {
 updateLastUpdated();
 setInterval(updateLastUpdated, 60000);
 
-// Theme Toggle (stored in localStorage)
-document.addEventListener('DOMContentLoaded', function() {
-    // Inisialisasi theme dari localStorage atau system preference
-    const theme = localStorage.getItem('theme') || 
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    
-    if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
-});
-
-// Listen untuk theme toggle dari navbar (akan ditangani di component Livewire)
-window.addEventListener('themeToggled', (e) => {
-    if (e.detail.theme === 'dark') {
-        document.documentElement.classList.add('dark');
-    } else {
-        document.documentElement.classList.remove('dark');
-    }
-});
+// Theme handling is centralized in app layout to avoid double initialization and conflicting listeners.
 </script>
 @endsection

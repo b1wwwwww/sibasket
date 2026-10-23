@@ -12,9 +12,10 @@ class KegiatanTable extends Component
 
     public $search = '';
     public $status = '';
+    public $kategori = '';
     public $perPage = 10;
 
-    protected $queryString = ['search', 'status', 'page'];
+    protected $queryString = ['search', 'status', 'kategori', 'page'];
 
     public function updatingSearch()
     {
@@ -22,6 +23,11 @@ class KegiatanTable extends Component
     }
 
     public function updatingStatus()
+    {
+        $this->resetPage();
+    }
+
+    public function updatingKategori()
     {
         $this->resetPage();
     }
@@ -47,6 +53,10 @@ class KegiatanTable extends Component
 
         if ($this->status) {
             $query->where('status', $this->status);
+        }
+
+        if ($this->kategori) {
+            $query->where('kategori', $this->kategori);
         }
 
         $kegiatan = $query->orderBy('tanggal', 'desc')->paginate($this->perPage);

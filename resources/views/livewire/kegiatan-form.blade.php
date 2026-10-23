@@ -44,7 +44,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tanggal & Waktu *</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tanggal Mulai *</label>
                     <input 
                         type="datetime-local"
                         wire:model="tanggal"
@@ -55,6 +55,20 @@
                     @enderror
                 </div>
 
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Tanggal Selesai (Opsional)</label>
+                    <input 
+                        type="datetime-local"
+                        wire:model="tanggal_selesai"
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    />
+                    @error('tanggal_selesai')
+                        <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Lokasi *</label>
                     <input 
@@ -67,9 +81,57 @@
                         <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Kategori (Opsional)</label>
+                    <select 
+                        wire:model="kategori"
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    >
+                        <option value="">-- Pilih Kategori --</option>
+                        <option value="latihan">Latihan</option>
+                        <option value="pertandingan">Pertandingan</option>
+                        <option value="seleksi">Seleksi</option>
+                        <option value="gathering">Gathering</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                    @error('kategori')
+                        <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Foto Kegiatan (Opsional)</label>
+                    <div class="border border-dashed border-gray-300 dark:border-gray-600 rounded-md p-4">
+                        @if ($foto_path)
+                            <div class="mb-3">
+                                <img src="{{ \Storage::url($foto_path) }}" alt="Foto Kegiatan" class="w-full h-40 object-cover rounded-md">
+                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-2">Foto saat ini</p>
+                            </div>
+                        @endif
+                        
+                        @if ($foto)
+                            <div class="mb-3">
+                                <img src="{{ $foto->temporaryUrl() }}" alt="Preview Foto" class="w-full h-40 object-cover rounded-md">
+                                <p class="text-xs text-blue-600 dark:text-blue-400 mt-2">Preview foto baru</p>
+                            </div>
+                        @endif
+                        
+                        <input 
+                            type="file"
+                            wire:model="foto"
+                            accept="image/*"
+                            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm cursor-pointer file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 dark:file:bg-blue-900 file:text-blue-700 dark:file:text-blue-200 hover:file:bg-blue-100 dark:hover:file:bg-blue-800 transition-colors"
+                        />
+                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">Max 2MB (JPG, PNG, GIF)</p>
+                    </div>
+                    @error('foto')
+                        <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Kuota Peserta</label>
                     <input 
@@ -83,7 +145,9 @@
                         <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
                     @enderror
                 </div>
+            </div>
 
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Status *</label>
                     <select 

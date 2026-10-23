@@ -17,14 +17,18 @@ class Kegiatan extends Model
         'judul',
         'deskripsi',
         'tanggal',
+        'tanggal_selesai',
         'lokasi',
         'kuota',
+        'kategori',
+        'foto',
         'status',
     ];
 
     protected $casts = [
         // 'datetime' beda dengan 'date': ini simpan tanggal SEKALIGUS jam
         'tanggal' => 'datetime',
+        'tanggal_selesai' => 'datetime',
     ];
 
     /**

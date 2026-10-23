@@ -84,7 +84,7 @@
   - Action buttons (Edit/Delete) have proper dark mode colors
   - Build: npm run build ✅ success
 
-- ✅ **UX Improvements Phase 1: Bulk Absensi Actions** — NEW
+- ✅ **UX Improvements Phase 1: Bulk Absensi Actions**
   - `app/Livewire/AbsensiTable.php` — Added 3 bulk action methods:
     - `markAllAsHadir()` — Mark all visible anggota as "Hadir" in one click
     - `markAllAsTidakHadir()` — Mark all visible anggota as "Tidak Hadir"
@@ -93,6 +93,39 @@
   - Default filter: Kegiatan dropdown defaults to "Latihan (default)" on page load
   - Table columns redesigned: Nama, NIS, Kelas, Jurusan, Status Kehadiran, Catatan (removed Waktu column)
   - All bulk operations respect current filters (kegiatan, tanggal, search) — only affects visible rows
+  - Build: npm run build ✅ success
+
+- ✅ **Kegiatan Enhancement: Tanggal Selesai & Kategori** — NEW (Oct 23, 2026)
+  - Migration: `2026_10_23_131151_add_tanggal_selesai_and_kategori_to_kegiatan_table.php`
+    - Added `tanggal_selesai` (datetime, nullable) — waktu berakhir kegiatan
+    - Added `kategori` (string, nullable) — latihan, pertandingan, seleksi, gathering, lainnya
+    - Added `foto` (string, nullable) — path untuk foto kegiatan (future implementation)
+  - `app/Livewire/KegiatanForm.php` — Added properties & validation:
+    - `tanggal_selesai` validation: must be >= `tanggal` (after_or_equal)
+    - `kategori` dropdown with 5 preset options
+    - File upload handling: `WithFileUploads` trait, auto-delete old photo, store to `storage/app/public/kegiatan/`
+  - `resources/views/livewire/kegiatan-form.blade.php` — Updated form UI:
+    - "Tanggal & Waktu" split into "Tanggal Mulai" + "Tanggal Selesai (Opsional)"
+    - Added kategori dropdown (Latihan, Pertandingan, Seleksi, Gathering, Lainnya)
+    - Added foto upload box with preview (current + new photo preview)
+  - `app/Models/Kegiatan.php` — Updated $fillable array
+  - `app/Livewire/KegiatanTable.php` — Enhanced list view:
+    - Added `kategori` filter property + `updatingKategori()` method
+    - Updated render() query with kategori filter
+  - `resources/views/livewire/kegiatan-table.blade.php` — Redesigned table:
+    - Filter: Search + Kategori + Status (3-column grid)
+    - Table columns: No | Foto (thumbnail 10x10px) | Judul | Tanggal | Kategori (badge) | Status | Aksi
+    - Removed: Lokasi, Kuota columns (less priority)
+  - Storage symlink: `php artisan storage:link` executed
+  - Build: npm run build ✅ success
+
+- ✅ **Kegiatan Auto-Status Update Scheduler** — NEW (Oct 23, 2026)
+  - Job Class: `app/Jobs/UpdateKegiatanStatusJob.php`
+    - Logic: published → ongoing (when tanggal_mulai arrives)
+    - Logic: ongoing → completed (when tanggal_selesai arrives)
+  - Scheduler: `app/Console/Kernel.php` (created new)
+    - Runs job every 5 minutes with `->withoutOverlapping()` to prevent duplicate runs
+  - Scheduled in: `routes/console.php` using `Schedule::job()` helper
   - Build: npm run build ✅ success
 
 **⏳ Remaining:**

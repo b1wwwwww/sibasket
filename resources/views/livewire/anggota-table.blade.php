@@ -36,7 +36,6 @@
                     <option value="">Semua Status</option>
                     <option value="aktif">Aktif</option>
                     <option value="nonaktif">Nonaktif</option>
-                    <option value="cuti">Cuti</option>
                 </select>
             </div>
         </div>
@@ -85,10 +84,8 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                             @if($item->status === 'aktif')
                                 <x-badge type="success" label="Aktif" />
-                            @elseif($item->status === 'nonaktif')
-                                <x-badge type="danger" label="Nonaktif" />
                             @else
-                                <x-badge type="warning" label="Cuti" />
+                                <x-badge type="danger" label="Nonaktif" />
                             @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium space-x-3">

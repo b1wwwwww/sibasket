@@ -74,12 +74,19 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Jurusan</label>
-                    <input 
-                        type="text"
+                    <select 
                         wire:model="jurusan"
-                        placeholder="e.g., IPA, IPS"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    />
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    >
+                        <option value="">Pilih Jurusan</option>
+                        <option value="pplg">PPLG (Pengembangan Perangkat Lunak dan Gim)</option>
+                        <option value="elektro">Teknik Elektro</option>
+                        <option value="bp">BP (Broadcasting dan Perfilman)</option>
+                        <option value="tkj">Teknik Komputer dan Jaringan</option>
+                        <option value="mesin">Teknik Mesin</option>
+                        <option value="otomotif">Teknik Otomotif</option>
+                        <option value="tekstil">Teknik Tekstil</option>
+                    </select>
                     @error('jurusan')
                         <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
                     @enderror
@@ -88,7 +95,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Posisi *</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Posisi</label>
                     <input 
                         type="text"
                         wire:model="posisi"
@@ -108,7 +115,6 @@
                     >
                         <option value="aktif">Aktif</option>
                         <option value="nonaktif">Nonaktif</option>
-                        <option value="cuti">Cuti</option>
                     </select>
                     @error('status')
                         <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>

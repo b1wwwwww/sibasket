@@ -38,6 +38,13 @@ class Sidebar extends Component
                 'route' => 'anggota.index',
                 'icon' => 'users',
             ];
+
+            // NEW: Pendaftar Baru (approval flow)
+            $items[] = [
+                'label' => 'Pendaftar Baru',
+                'route' => 'pendaftar-baru.index',
+                'icon' => 'user-plus',
+            ];
         }
 
         // Kegiatan (Admin permissions)

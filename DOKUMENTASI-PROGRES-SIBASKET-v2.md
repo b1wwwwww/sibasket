@@ -156,9 +156,28 @@
   - Scheduled in: `routes/console.php` using `Schedule::job()` helper
   - Build: npm run build ✅ success
 
-**⏳ Remaining:**
+- ✅ **Pendaftar Baru Management (Approval Flow)** — COMPLETE (Oct 24, 2026)
+  - **Database:** Menggunakan table `pendaftaran_anggota` yang sudah ada (dengan status enum: pending/approved/rejected)
+  - **Livewire Component:** `PendaftaranAnggotaTable` dengan approval/rejection flow
+  - **UI Features:**
+    - Filter by status (Pending, Approved, Rejected)
+    - Search by nama/kontak WA
+    - Detail modal untuk melihat data lengkap pendaftar
+    - Approve button → Auto-create User + Anggota record
+    - Reject button → Tambah alasan penolakan
+  - **Dashboard Integration:**
+    - Badge "Pendaftar Baru" di sidebar (menu baru under "Daftar Anggota")
+    - Metric `pendaftar_pending` di dashboard untuk real-time tracking
+    - Angka pending terupdate otomatis saat ada approval/rejection
+  - **Route & Menu:**
+    - Route: `/dashboard/pendaftar-baru`
+    - Sidebar menu: "Pendaftar Baru" (icon: user-plus) — hanya untuk admin
 
-**Final Smoke Test** (Next)
+- ✅ **Dashboard Real-time Sync (Keuangan + Pendaftar)** — COMPLETE (Oct 24, 2026)
+  - Dashboard metrics sekarang menampilkan:
+    - Saldo Kas (real-time dari KasAnggota + PengeluaranOperasional)
+    - Pendaftar Pending count (real-time)
+  - Setiap ada perubahan data (pembayaran kas, pengeluaran baru, pendaftar baru) → dashboard otomatis update
 - [ ] Test all CRUD menus (anggota, kegiatan, keuangan, absensi, pengumuman)
   - [ ] **NEW:** Test Keuangan page:
     - [ ] Dropdown kegiatan latihan works

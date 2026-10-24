@@ -10,6 +10,7 @@ use App\Models\TransaksiKas;
 use App\Models\Pengumuman;
 use App\Models\KasAnggota;
 use App\Models\PengeluaranOperasional;
+use App\Models\PendaftaranAnggota;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -56,6 +57,7 @@ class DashboardController extends Controller
             'total_pengeluaran' => $totalPengeluaran,
             'saldo_kas' => $saldoKas,
             'pengumuman_terbaru' => $pengumumanTerbaru,
+            'pendaftar_pending' => PendaftaranAnggota::where('status', 'pending')->count(),
         ];
 
         // === DASHBOARD SPESIFIK PER ROLE ===

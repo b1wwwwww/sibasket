@@ -48,6 +48,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard/anggota/{id}/edit', function ($id) {
             return view('pages.anggota-edit', ['id' => $id]);
         })->name('anggota.edit');
+
+        // NEW: Pendaftar Baru (approval flow)
+        Route::get('/dashboard/pendaftar-baru', function () {
+            return view('pages.pendaftaran-anggota');
+        })->name('pendaftar-baru.index');
     });
 
     // ===== Manajemen Kegiatan =====

@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register observers
+        \App\Models\Kegiatan::observe(\App\Observers\KegiatanObserver::class);
+        \App\Models\PendaftaranKegiatan::observe(\App\Observers\PendaftaranKegiatanObserver::class);
+        \App\Models\Absensi::observe(\App\Observers\AbsensiObserver::class);
+
         // Super admin bypass all permissions
         \Illuminate\Support\Facades\Gate::before(function ($user, $ability) {
             if ($user->hasRole('super_admin')) {

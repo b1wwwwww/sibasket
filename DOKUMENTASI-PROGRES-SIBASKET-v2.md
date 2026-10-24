@@ -125,32 +125,14 @@
   - Components: Updated `PengumumanForm` & `PengumumanTable` with filters, badges, upload & pin toggle
   - Build: npm run build ✅ success
 
-|- ✅ **Pengumuman Advanced Features (Phase 1-4)** — NEW (Oct 23, 2026) | BUGS FIXED (Oct 24)
-  - Phase 1: Rich Text Editor
-    - ~~CKEditor 5 integration via CDN~~ → **Replaced with Textarea** (Oct 24, 2026)
-    - Reason: CKEditor/Trix caused state sync issues with Livewire
-    - Solution: Simple `<textarea>` with `wire:model.live="isi"` for real-time sync
-    - Auto-sync with Livewire model ✅
-  - Phase 2: Scheduled Publish
-    - Migration: `2026_10_23_165341_add_scheduled_at_to_pengumuman_table.php`
-    - Publish mode radio: "Sekarang" or "Jadwalkan"
-    - Job: `UpdatePengumumanStatusJob` (runs every minute)
-    - Auto-publish draft when scheduled time arrives
-  - Phase 3: Preview Mode
-    - Live toggle button in form (fixed Oct 24: now uses `wire:click="togglePreview"`)
-    - Shows how pengumuman will appear (foto, title, kategori, isi)
-    - Quality check before publish
-    - Bug fix: Preview button now clickable + content displays with proper newlines (whitespace-pre-wrap)
-  - Phase 4: Bulk Actions
-    - Checkbox selection (select-all + individual)
-    - Bulk actions: Publish, Unpublish, Delete
-    - Status bar showing selected count
-  - Route: Added `/dashboard/pengumuman/upload-image` for editor image upload
-  - **Bug Fixes (Oct 24, 2026):**
-    - ✅ Fixed Trix editor state sync issues → replaced with textarea
-    - ✅ Fixed preview button not clickable → now uses `wire:click` instead of JavaScript
-    - ✅ Fixed content not saving on update → `wire:model.live` ensures real-time sync
-    - ✅ Fixed `\n` character display in preview → added `whitespace-pre-wrap` CSS class
+|- ✅ **Keuangan Module Enhancement (Kas Anggota & Operasional Split)** — NEW (Oct 24, 2026)
+  - Migrations: `create_kas_kegiatan_table`, `create_kas_anggota_table`, `create_pengeluaran_operasional_table`
+  - Split keuangan menjadi 2 bagian utama:
+    - **Kas Anggota (Iuran Latihan):** Auto-create per kegiatan latihan (default Rp 5.000/orang). Dilengkapi dropdown kegiatan, pencarian anggota, rekap total terkumpul/belum, dan checkbox interaktif (toggle sudah/belum bayar).
+    - **Pengeluaran Operasional:** Kategori dropdown (Booking Lapang, Beli Barang, Bantu Teman/Menalangi, Lainnya), nominal, keterangan, dan note khusus untuk tracking penalangan.
+  - Ringkasan Kas Real-Time: Kartu statistik menampilkan Kas Terkumpul, Total Pengeluaran, dan Saldo Bersih.
+  - Observers: `KegiatanObserver` & `PendaftaranKegiatanObserver` untuk auto-sync kas iuran latihan.
+  - Build & Seeders: `KasKegiatanSeeder`, `PengeluaranOperasionalSeeder` berhasil dijalankan.
   - Build: npm run build ✅ success
 
 - ✅ **Kegiatan Auto-Status Update Scheduler** — NEW (Oct 23, 2026)
@@ -166,6 +148,13 @@
 
 **Final Smoke Test** (Next)
 - [ ] Test all CRUD menus (anggota, kegiatan, keuangan, absensi, pengumuman)
+  - [ ] **NEW:** Test Keuangan page:
+    - [ ] Dropdown kegiatan latihan works
+    - [ ] Kas anggota list shows with toggle button
+    - [ ] Pencarian anggota works
+    - [ ] Recap menampilkan total terkumpul/belum
+    - [ ] Pengeluaran form: tambah/edit/hapus dengan kategori dropdown
+    - [ ] Ringkasan real-time cards update correctly
 - [ ] Test theme toggle (dark ↔ light) across multiple pages
 - [ ] Test recap absensi page loads and displays data
 - [ ] Test export functionality manually (download Excel files)

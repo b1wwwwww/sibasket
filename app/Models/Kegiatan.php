@@ -49,6 +49,14 @@ class Kegiatan extends Model
     }
 
     /**
+     * Relationship: 1 Kegiatan punya 1 KasKegiatan (untuk tracking kas iuran)
+     */
+    public function kasKegiatan(): HasMany
+    {
+        return $this->hasMany(KasKegiatan::class);
+    }
+
+    /**
      * Cek apakah kegiatan ini masih boleh menerima pendaftaran baru.
      * Sesuai rule 04-business-flow-dan-rules.md §4.2:
      * "Kegiatan completed atau cancelled tidak dapat menerima pendaftaran baru"

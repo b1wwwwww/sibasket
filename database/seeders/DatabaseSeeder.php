@@ -40,6 +40,12 @@ class DatabaseSeeder extends Seeder
         // Jalankan seeder absensi
         $this->call(AbsensiSeeder::class);
 
+        // Jalankan seeder kas kegiatan (iuran per latihan)
+        $this->call(KasKegiatanSeeder::class);
+
+        // Jalankan seeder pengeluaran operasional
+        $this->call(PengeluaranOperasionalSeeder::class);
+
         // Jalankan seeder transaksi kas
         $this->call(TransaksiKasSeeder::class);
 

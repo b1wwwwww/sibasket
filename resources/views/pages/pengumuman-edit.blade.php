@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<livewire:pengumuman-form :pengumuman-id="$id" />
+<livewire:pengumuman-form :pengumuman_id="$id" />
 @endsection

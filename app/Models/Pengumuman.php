@@ -18,9 +18,16 @@ class Pengumuman extends Model
         'judul',
         'isi',
         'tanggal_publish',
+        'status',
+        'kategori',
+        'foto',
+        'is_pinned',
+        'scheduled_at',
     ];
 
     protected $casts = [
-        'tanggal_publish' => 'date',
+        'tanggal_publish' => 'datetime',
+        'is_pinned' => 'boolean',
+        'scheduled_at' => 'datetime',
     ];
 }

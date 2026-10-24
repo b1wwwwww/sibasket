@@ -133,6 +133,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard/pengumuman/{id}/edit', function ($id) {
             return view('pages.pengumuman-edit', ['id' => $id]);
         })->name('pengumuman.edit');
+
+        // Route untuk upload gambar di CKEditor
+        Route::post('/dashboard/pengumuman/upload-image', function (\Illuminate\Http\Request $request) {
+            if ($request->hasFile('upload')) {
+                $file = $request->file('upload');
+                $path = $file->store('pengumuman/editor', 'public');
+                return response()->json([
+                    'url' => asset('storage/' . $path)
+                ]);
+            }
+        })->name('pengumuman.upload-image');
     });
 
     // ===== Role & Permission (Super Admin saja) =====

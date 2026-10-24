@@ -119,6 +119,40 @@
   - Storage symlink: `php artisan storage:link` executed
   - Build: npm run build ✅ success
 
+- ✅ **Pengumuman Enhancement (Status, Kategori, Foto, Pin)** — NEW (Oct 23, 2026)
+  - Migration: `2026_10_23_144427_add_enhanced_fields_to_pengumuman_table.php`
+    - Added `status` (draft/published), `kategori` (Penting, Info, Prestasi, Lainnya), `foto` (optional image upload), `is_pinned` (pin to top)
+  - Components: Updated `PengumumanForm` & `PengumumanTable` with filters, badges, upload & pin toggle
+  - Build: npm run build ✅ success
+
+|- ✅ **Pengumuman Advanced Features (Phase 1-4)** — NEW (Oct 23, 2026) | BUGS FIXED (Oct 24)
+  - Phase 1: Rich Text Editor
+    - ~~CKEditor 5 integration via CDN~~ → **Replaced with Textarea** (Oct 24, 2026)
+    - Reason: CKEditor/Trix caused state sync issues with Livewire
+    - Solution: Simple `<textarea>` with `wire:model.live="isi"` for real-time sync
+    - Auto-sync with Livewire model ✅
+  - Phase 2: Scheduled Publish
+    - Migration: `2026_10_23_165341_add_scheduled_at_to_pengumuman_table.php`
+    - Publish mode radio: "Sekarang" or "Jadwalkan"
+    - Job: `UpdatePengumumanStatusJob` (runs every minute)
+    - Auto-publish draft when scheduled time arrives
+  - Phase 3: Preview Mode
+    - Live toggle button in form (fixed Oct 24: now uses `wire:click="togglePreview"`)
+    - Shows how pengumuman will appear (foto, title, kategori, isi)
+    - Quality check before publish
+    - Bug fix: Preview button now clickable + content displays with proper newlines (whitespace-pre-wrap)
+  - Phase 4: Bulk Actions
+    - Checkbox selection (select-all + individual)
+    - Bulk actions: Publish, Unpublish, Delete
+    - Status bar showing selected count
+  - Route: Added `/dashboard/pengumuman/upload-image` for editor image upload
+  - **Bug Fixes (Oct 24, 2026):**
+    - ✅ Fixed Trix editor state sync issues → replaced with textarea
+    - ✅ Fixed preview button not clickable → now uses `wire:click` instead of JavaScript
+    - ✅ Fixed content not saving on update → `wire:model.live` ensures real-time sync
+    - ✅ Fixed `\n` character display in preview → added `whitespace-pre-wrap` CSS class
+  - Build: npm run build ✅ success
+
 - ✅ **Kegiatan Auto-Status Update Scheduler** — NEW (Oct 23, 2026)
   - Job Class: `app/Jobs/UpdateKegiatanStatusJob.php`
     - Logic: published → ongoing (when tanggal_mulai arrives)

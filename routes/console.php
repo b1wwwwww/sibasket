@@ -10,3 +10,6 @@ Artisan::command('inspire', function () {
 
 // Auto-update kegiatan status setiap 5 menit
 Schedule::job(\App\Jobs\UpdateKegiatanStatusJob::class)->everyFiveMinutes();
+
+// Auto-publish pengumuman yang sudah waktunya (scheduled) setiap menit
+Schedule::job(\App\Jobs\UpdatePengumumanStatusJob::class)->everyMinute();

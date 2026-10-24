@@ -11,6 +11,92 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+        <!-- Trix Editor -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trix@1.3.1/dist/trix.css">
+        <script src="https://cdn.jsdelivr.net/npm/trix@1.3.1/dist/trix.min.js"></script>
+
+        <!-- Trix Dark Mode Styling -->
+        <style>
+            trix-editor {
+                border: 1px solid #d1d5db;
+                border-radius: 0.5rem;
+                padding: 0.75rem;
+                background: white;
+                color: #111827;
+                min-height: 250px;
+            }
+
+            .dark trix-editor {
+                border-color: #6b7280;
+                background: #111827;
+                color: #f9fafb;
+            }
+
+            trix-editor:focus {
+                outline: 2px solid #3b82f6;
+                outline-offset: 2px;
+            }
+
+            trix-editor::placeholder {
+                color: #9ca3af;
+            }
+
+            .dark trix-editor::placeholder {
+                color: #6b7280;
+            }
+
+            trix-toolbar {
+                border: 1px solid #d1d5db;
+                border-bottom: 2px solid #d1d5db;
+                border-radius: 0.5rem 0.5rem 0 0;
+                background: #f9fafb;
+                padding: 0.5rem;
+            }
+
+            .dark trix-toolbar {
+                border-color: #4b5563;
+                background: #1f2937;
+            }
+
+            trix-toolbar button {
+                color: #374151;
+                border: 1px solid transparent;
+                border-radius: 0.25rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .dark trix-toolbar button {
+                color: #e5e7eb;
+            }
+
+            trix-toolbar button:hover {
+                background: #e5e7eb;
+                border-color: #d1d5db;
+            }
+
+            .dark trix-toolbar button:hover {
+                background: #374151;
+                border-color: #6b7280;
+            }
+
+            trix-toolbar button.trix-active {
+                background: #dbeafe;
+                color: #1e40af;
+                border-color: #93c5fd;
+            }
+
+            .dark trix-toolbar button.trix-active {
+                background: #1e3a8a;
+                color: #93c5fd;
+                border-color: #3b82f6;
+            }
+
+            /* Remove file upload button */
+            trix-toolbar .trix-button-group--file-tools {
+                display: none;
+            }
+        </style>
+
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         

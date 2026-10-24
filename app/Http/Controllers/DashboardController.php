@@ -8,6 +8,8 @@ use App\Models\PendaftaranKegiatan;
 use App\Models\Absensi;
 use App\Models\TransaksiKas;
 use App\Models\Pengumuman;
+use App\Models\KasAnggota;
+use App\Models\PengeluaranOperasional;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -29,8 +31,19 @@ class DashboardController extends Controller
         $tingkatKehadiran = $totalAbsensi > 0 ? round(($hadirCount / $totalAbsensi) * 100, 2) : 0;
 
         // === METRICS KEUANGAN ===
-        $totalPemasukan = TransaksiKas::where('jenis', 'pemasukan')->sum('nominal');
-        $totalPengeluaran = TransaksiKas::where('jenis', 'pengeluaran')->sum('nominal');
+        // Update: Menggunakan model baru (KasAnggota + PengeluaranOperasional)
+        // agar real-time sync dengan halaman Keuangan
+        
+        // Total Pemasukan = Kas yang sudah dibayar oleh anggota
+        // Join dengan kas_kegiatan untuk ambil nominal_kas (5000 per anggota)
+        $totalPemasukan = KasAnggota::where('status_bayar', 'sudah_bayar')
+            ->join('kas_kegiatan', 'kas_anggota.kas_kegiatan_id', '=', 'kas_kegiatan.id')
+            ->sum('kas_kegiatan.nominal_kas');
+        
+        // Total Pengeluaran = Semua pengeluaran operasional
+        $totalPengeluaran = PengeluaranOperasional::sum('nominal');
+        
+        // Saldo Kas = Pemasukan - Pengeluaran
         $saldoKas = $totalPemasukan - $totalPengeluaran;
 
         // === ROLE-SPECIFIC METRICS ===

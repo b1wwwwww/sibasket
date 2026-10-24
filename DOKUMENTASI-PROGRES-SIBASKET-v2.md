@@ -125,8 +125,20 @@
   - Components: Updated `PengumumanForm` & `PengumumanTable` with filters, badges, upload & pin toggle
   - Build: npm run build ✅ success
 
-|- ✅ **Keuangan Module Enhancement (Kas Anggota & Operasional Split)** — NEW (Oct 24, 2026)
-  - Migrations: `create_kas_kegiatan_table`, `create_kas_anggota_table`, `create_pengeluaran_operasional_table`
+- ✅ **Keuangan Module Enhancement (Kas Anggota & Operasional Split)** — COMPLETE (Oct 24, 2026)
+  - **Database:** 3 migrations + 3 models (KasKegiatan, KasAnggota, PengeluaranOperasional)
+  - **Observers (Auto-Sync):**
+    - `KegiatanObserver`: Auto-create KasKegiatan saat kegiatan bertipe "latihan"
+    - `PendaftaranKegiatanObserver`: Auto-create KasAnggota saat anggota daftar latihan
+    - `AbsensiObserver`: Auto-update `target_total` berdasarkan jumlah hadir (OPSI B) ✅
+  - **Livewire Component:** KeuanganTable dengan 3 section (Kas Anggota, Pengeluaran, Ringkasan)
+  - **UI:** Dropdown kegiatan, toggle bayar/belum, form pengeluaran (kategori dropdown), recap real-time
+  - **Seeder:** KasKegiatanSeeder + PengeluaranOperasionalSeeder (dummy data)
+  - **Dashboard Integration:** DashboardController updated untuk real-time sync (KasAnggota + PengeluaranOperasional)
+  - **Data Verification:**
+    - ✅ Target Kas otomatis menyesuaikan jumlah hadir (test via AbsensiObserver)
+    - ✅ Dashboard Saldo Kas = Pemasukan - Pengeluaran (real-time sync verified)
+    - ✅ Semua observer berfungsi tanpa error
   - Split keuangan menjadi 2 bagian utama:
     - **Kas Anggota (Iuran Latihan):** Auto-create per kegiatan latihan (default Rp 5.000/orang). Dilengkapi dropdown kegiatan, pencarian anggota, rekap total terkumpul/belum, dan checkbox interaktif (toggle sudah/belum bayar).
     - **Pengeluaran Operasional:** Kategori dropdown (Booking Lapang, Beli Barang, Bantu Teman/Menalangi, Lainnya), nominal, keterangan, dan note khusus untuk tracking penalangan.

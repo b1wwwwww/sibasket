@@ -177,14 +177,14 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // ===== Role & Permission (Super Admin saja) =====
-    Route::middleware(['role:Super Admin'])->group(function () {
+    Route::middleware(['role:super_admin'])->group(function () {
         Route::get('/dashboard/role-permission', function () {
             return view('pages.role-permission');
         })->name('role-permission.index');
     });
 
     // ===== View-only untuk Member =====
-    Route::middleware(['role:Member'])->group(function () {
+    Route::middleware(['role:member'])->group(function () {
         Route::get('/dashboard/riwayat-absensi', function () {
             return view('pages.riwayat-absensi');
         })->name('riwayat-absensi.index');
@@ -208,7 +208,12 @@ Route::middleware(['auth'])->group(function () {
     })->name('member.kegiatan-saya');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware(['auth'])->group(function () {
+    Route::view('/profile', 'profile')->name('profile');
+    Route::view('/settings', 'pages.member-settings')->name('settings');
+});
+
+require __DIR__ . '/auth.php';
 
 Route::post('/logout', function () {
     Auth::logout();

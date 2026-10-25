@@ -14,6 +14,33 @@ class Sidebar extends Component
         $this->open = !$this->open;
     }
 
+    protected function canAccess(string $permission): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        if (!class_exists(\Spatie\Permission\Models\Permission::class)) {
+            return false;
+        }
+
+        $permissionExists = \Spatie\Permission\Models\Permission::where('name', $permission)
+            ->where('guard_name', 'web')
+            ->exists();
+
+        if (!$permissionExists) {
+            return false;
+        }
+
+        try {
+            return $user->can($permission);
+        } catch (\Throwable $e) {
+            return false;
+        }
+    }
+
     public function getMenuItems(): array
     {
         $user = Auth::user();
@@ -32,7 +59,7 @@ class Sidebar extends Component
         ];
 
         // Anggota (Admin permissions)
-        if ($user->can('view anggota')) {
+        if ($this->canAccess('view anggota')) {
             $items[] = [
                 'label' => 'Daftar Anggota',
                 'route' => 'anggota.index',
@@ -48,7 +75,7 @@ class Sidebar extends Component
         }
 
         // Kegiatan (Admin permissions)
-        if ($user->can('view kegiatan')) {
+        if ($this->canAccess('view kegiatan')) {
             $items[] = [
                 'label' => 'Kegiatan',
                 'route' => 'kegiatan.index',
@@ -57,7 +84,7 @@ class Sidebar extends Component
         }
 
         // Pendaftaran Kegiatan
-        if ($user->can('view pendaftaran_kegiatan')) {
+        if ($this->canAccess('view pendaftaran_kegiatan')) {
             $items[] = [
                 'label' => 'Pendaftaran Kegiatan',
                 'route' => 'pendaftaran-kegiatan.index',
@@ -66,7 +93,7 @@ class Sidebar extends Component
         }
 
         // Absensi
-        if ($user->can('view absensi')) {
+        if ($this->canAccess('view absensi')) {
             $items[] = [
                 'label' => 'Absensi',
                 'route' => 'absensi.index',
@@ -79,7 +106,7 @@ class Sidebar extends Component
         }
 
         // Keuangan
-        if ($user->can('view keuangan')) {
+        if ($this->canAccess('view keuangan')) {
             $items[] = [
                 'label' => 'Keuangan',
                 'route' => 'keuangan.index',
@@ -88,7 +115,7 @@ class Sidebar extends Component
         }
 
         // Pengumuman
-        if ($user->can('view pengumuman')) {
+        if ($this->canAccess('view pengumuman')) {
             $items[] = [
                 'label' => 'Pengumuman',
                 'route' => 'pengumuman.index',
@@ -97,7 +124,7 @@ class Sidebar extends Component
         }
 
         // Role & Permission (Super Admin only)
-        if ($user->hasRole('Super Admin')) {
+        if ($user->hasRole('super_admin')) {
             $items[] = [
                 'label' => 'Role & Permission',
                 'route' => 'role-permission.index',
@@ -106,7 +133,7 @@ class Sidebar extends Component
         }
 
         // Member view-only items
-        if ($user->hasRole('Member')) {
+        if ($user->hasRole('member')) {
             $items[] = [
                 'label' => 'Riwayat Absensi',
                 'route' => 'riwayat-absensi.index',

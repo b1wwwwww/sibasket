@@ -33,12 +33,24 @@ class UserFactory extends Factory
         ];
     }
 
+    public function configure(): static
+    {
+        return $this->afterCreating(function (User $user) {
+            if ($user->roles()->count() === 0) {
+                $roleClass = \Spatie\Permission\Models\Role::class;
+                if (class_exists($roleClass) && \Spatie\Permission\Models\Role::where('name', 'member')->where('guard_name', 'web')->exists()) {
+                    $user->assignRole('member');
+                }
+            }
+        });
+    }
+
     /**
      * Indicate that the model's email address should be unverified.
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }

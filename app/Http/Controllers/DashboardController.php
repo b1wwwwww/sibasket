@@ -34,16 +34,16 @@ class DashboardController extends Controller
         // === METRICS KEUANGAN ===
         // Update: Menggunakan model baru (KasAnggota + PengeluaranOperasional)
         // agar real-time sync dengan halaman Keuangan
-        
+
         // Total Pemasukan = Kas yang sudah dibayar oleh anggota
         // Join dengan kas_kegiatan untuk ambil nominal_kas (5000 per anggota)
         $totalPemasukan = KasAnggota::where('status_bayar', 'sudah_bayar')
             ->join('kas_kegiatan', 'kas_anggota.kas_kegiatan_id', '=', 'kas_kegiatan.id')
             ->sum('kas_kegiatan.nominal_kas');
-        
+
         // Total Pengeluaran = Semua pengeluaran operasional
         $totalPengeluaran = PengeluaranOperasional::sum('nominal');
-        
+
         // Saldo Kas = Pemasukan - Pengeluaran
         $saldoKas = $totalPemasukan - $totalPengeluaran;
 
@@ -96,7 +96,10 @@ class DashboardController extends Controller
             ]);
         }
 
-        // Default: unauthorized
-        return abort(403, 'Unauthorized access');
+        // Default: fallback for any authenticated user without a specific role assignment
+        return view('pages.dashboard', [
+            'dashboard_type' => 'member',
+            'metrics' => $metrics,
+        ]);
     }
 }

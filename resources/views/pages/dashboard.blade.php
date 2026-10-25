@@ -5,7 +5,7 @@
     <!-- Page Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+            <h1 class="text-3xl font-bold text-slate-800 dark:text-slate-200">Dashboard</h1>
             <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">Selamat datang kembali, {{ Auth::user()->name }}! 👋</p>
         </div>
         <div class="mt-4 sm:mt-0 text-sm text-gray-600 dark:text-gray-400 flex items-center gap-2">

@@ -136,17 +136,14 @@
     </head>
     <body class="h-screen overflow-hidden font-sans antialiased bg-gray-100 transition-colors duration-300 dark:bg-gray-900">
         <div class="flex h-screen overflow-hidden">
-            @if(!app()->runningUnitTests())
-                <!-- Sidebar -->
-                <livewire:sidebar />
-            @endif
+            <!-- Sidebar -->
+            <livewire:sidebar />
 
             <!-- Main Content Area -->
             <div class="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-                @if(!app()->runningUnitTests())
-                    <!-- Navbar -->
-                    <livewire:navbar />
-                @endif
+                <!-- Navbar -->
+                <livewire:layout.navigation />
+                <livewire:navbar />
 
                 <!-- Page Heading -->
                 @if (isset($header))
@@ -159,6 +156,7 @@
 
                 <!-- Page Content -->
                 <main class="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                    {{ $slot ?? '' }}
                     @yield('content')
                 </main>
             </div>

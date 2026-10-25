@@ -6,7 +6,23 @@ use Illuminate\Support\Facades\Auth;
 // ========== ROUTE PUBLIK (tanpa autentikasi) ==========
 
 Route::get('/', function () {
-    return view('pages.home');
+    try {
+        $kegiatan = \App\Models\Kegiatan::whereIn('status', ['published', 'ongoing'])
+            ->orderBy('tanggal', 'asc')
+            ->take(4)
+            ->get();
+
+        $pengumuman = \App\Models\Pengumuman::where('status', 'published')
+            ->orderByDesc('is_pinned')
+            ->orderByDesc('tanggal_publish')
+            ->take(4)
+            ->get();
+    } catch (\Throwable $e) {
+        $kegiatan = collect();
+        $pengumuman = collect();
+    }
+
+    return view('pages.home', compact('kegiatan', 'pengumuman'));
 })->name('home');
 
 Route::get('/kegiatan-publik', function () {
@@ -28,6 +44,15 @@ Route::get('/pengumuman/{id}', function ($id) {
 Route::get('/daftar-anggota', function () {
     return view('pages.daftar-anggota');
 })->name('daftar.anggota');
+
+// Gallery publik
+Route::get('/galeri', function () {
+    return view('pages.gallery');
+})->name('gallery.index');
+
+Route::get('/galeri/{id}', function ($id) {
+    return view('pages.gallery-detail', ['id' => $id]);
+})->name('gallery.show');
 
 // ========== ROUTE TERLINDUNGI (memerlukan autentikasi) ==========
 
@@ -168,6 +193,19 @@ Route::middleware(['auth'])->group(function () {
             return view('pages.riwayat-pembayaran');
         })->name('riwayat-pembayaran.index');
     });
+
+    // ===== Member Profile & Settings (Semua authenticated user) =====
+    Route::get('/dashboard/profile', function () {
+        return view('pages.member-profile');
+    })->name('member.profile');
+
+    Route::get('/dashboard/settings', function () {
+        return view('pages.member-settings');
+    })->name('member.settings');
+
+    Route::get('/dashboard/kegiatan-saya', function () {
+        return view('pages.member-kegiatan-saya');
+    })->name('member.kegiatan-saya');
 });
 
 require __DIR__.'/auth.php';

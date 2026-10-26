@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Set Environment Variables untuk Composer agar tidak memory limit & diizinkan untuk superuser
+# Set Environment Variables untuk Composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV COMPOSER_MEMORY_LIMIT=-1
 
@@ -25,8 +25,15 @@ WORKDIR /app
 # Copy seluruh file project ke dalam container
 COPY . /app
 
-# Install dependency PHP via composer dengan flag verbose (-v) agar error aslinya terlihat jika gagal lagi
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Salin .env.example menjadi .env jika .env belum ada
+RUN cp .env.example .env || true
+
+# Install dependency PHP via composer TANPA menjalankan scripts otomatis
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+
+# Generate App Key dan jalankan dump-autoload secara manual
+RUN php artisan key:generate --force
+RUN composer dump-autoload --optimize
 
 # Render menggunakan port 10000 secara default
 EXPOSE 10000

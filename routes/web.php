@@ -178,9 +178,7 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Role & Permission (Super Admin saja) =====
     Route::middleware(['role:super_admin'])->group(function () {
-        Route::get('/dashboard/role-permission', function () {
-            return view('pages.role-permission');
-        })->name('role-permission.index');
+        Route::get('/dashboard/role-permission', \App\Livewire\RolePermissionManager::class)->name('role-permission.index');
     });
 
     // ===== View-only untuk Member =====

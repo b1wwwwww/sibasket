@@ -39,4 +39,4 @@ RUN composer dump-autoload --optimize
 EXPOSE 10000
 
 # Jalankan server Laravel
-CMD php artisan serve --host=0.0.0.0 --port=10000
+CMD php artisan config:clear && php artisan cache:clear && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000

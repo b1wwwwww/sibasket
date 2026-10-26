@@ -1,15 +1,16 @@
 FROM php:8.2-cli
 
-# Install dependencies sistem yang dibutuhkan Laravel
+# Install dependencies sistem
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libzip-dev \
     zip \
     unzip \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip fileinfo dom xml
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -23,7 +24,7 @@ COPY . /app
 # Install dependency PHP via composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Render menggunakan port dinamis atau port 10000 secara default
+# Render menggunakan port 10000 secara default
 EXPOSE 10000
 
 # Jalankan server Laravel

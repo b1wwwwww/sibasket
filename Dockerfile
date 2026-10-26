@@ -25,6 +25,9 @@ WORKDIR /app
 # Copy seluruh file project ke dalam container
 COPY . /app
 
+# Hapus file .env lokal agar Laravel murni membaca Environment Variables dari Render
+RUN rm -f .env
+
 # Salin .env.example menjadi .env jika .env belum ada
 RUN cp .env.example .env || true
 

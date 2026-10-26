@@ -38,5 +38,7 @@ RUN composer dump-autoload --optimize
 # Render menggunakan port 10000 secara default
 EXPOSE 10000
 
-# Jalankan server Laravel
-CMD php artisan config:clear && php artisan cache:clear && php artisan route:clear && php artisan view:clear && php artisan serve --host=0.0.0.0 --port=10000
+# Hapus perintah config:cache dari tahap RUN (build time)
+# Ganti CMD di baris paling bawah Dockerfile menjadi seperti ini:
+
+CMD php artisan config:clear && php artisan cache:clear && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000

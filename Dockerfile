@@ -1,6 +1,6 @@
 FROM php:8.4-cli
 
-# Install dependencies sistem
+# Install dependencies sistem & Node.js (diperlukan untuk build Vite)
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip fileinfo dom xml
 
 # Install Composer
@@ -25,8 +27,11 @@ WORKDIR /app
 # Copy seluruh file project ke dalam container
 COPY . /app
 
-# Install dependency PHP via composer TANPA menjalankan scripts otomatis
+# Install dependency PHP via composer
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
+
+# Install dependency Node.js dan Build Vite (CSS/JS)
+RUN npm install && npm run build
 
 # Jalankan dump-autoload secara manual
 RUN composer dump-autoload --optimize

@@ -25,21 +25,14 @@ WORKDIR /app
 # Copy seluruh file project ke dalam container
 COPY . /app
 
-# Jangan menimpa environment variables dari Render / runtime.
-# Laravel harus membaca variabel env yang dikirim oleh platform.
-# JANGAN menyalin .env.example ke .env di build container.
-
 # Install dependency PHP via composer TANPA menjalankan scripts otomatis
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
-# Generate App Key dan jalankan dump-autoload secara manual
-RUN php artisan key:generate --force
+# Jalankan dump-autoload secara manual
 RUN composer dump-autoload --optimize
 
 # Render menggunakan port 10000 secara default
 EXPOSE 10000
 
-# Hapus perintah config:cache dari tahap RUN (build time)
-# Ganti CMD di baris paling bawah Dockerfile menjadi seperti ini:
-
+# Bersihkan cache, jalankan migrasi database Aiven, lalu jalankan server
 CMD php artisan config:clear && php artisan cache:clear && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=10000

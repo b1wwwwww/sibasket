@@ -5,6 +5,44 @@ use Illuminate\Support\Facades\Auth;
 
 // ========== ROUTE PUBLIK (tanpa autentikasi) ==========
 
+// ROUTE SEMENTARA DI SINI 
+Route::get('/create-admin-temp', function () {
+    $accounts = [
+        [
+            'name' => 'Super Admin SIBASKET',
+            'email' => 'nabilyusr4@gmail.com',
+            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+        ],
+        [
+            'name' => 'Admin SIBASKET',
+            'email' => 'admin@sibasket.test',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'),
+        ],
+        [
+            'name' => 'Pembina SIBASKET',
+            'email' => 'pembina@sibasket.test',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'),
+        ],
+        [
+            'name' => 'Member SIBASKET',
+            'email' => 'member@sibasket.test',
+            'password' => \Illuminate\Support\Facades\Hash::make('password'),
+        ],
+    ];
+
+    foreach ($accounts as $acc) {
+        \App\Models\User::firstOrCreate(
+            ['email' => $acc['email']],
+            [
+                'name' => $acc['name'],
+                'password' => $acc['password']
+            ]
+        );
+    }
+
+    return 'Semua akun berhasil dibuat! Silakan hapus route ini.';
+});
+
 Route::get('/', function () {
     try {
         $kegiatan = \App\Models\Kegiatan::whereIn('status', ['published', 'ongoing'])

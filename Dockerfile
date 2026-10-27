@@ -25,11 +25,9 @@ WORKDIR /app
 # Copy seluruh file project ke dalam container
 COPY . /app
 
-# Hapus file .env lokal agar Laravel murni membaca Environment Variables dari Render
-RUN rm -f .env
-
-# Salin .env.example menjadi .env jika .env belum ada
-RUN cp .env.example .env || true
+# Jangan menimpa environment variables dari Render / runtime.
+# Laravel harus membaca variabel env yang dikirim oleh platform.
+# JANGAN menyalin .env.example ke .env di build container.
 
 # Install dependency PHP via composer TANPA menjalankan scripts otomatis
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts

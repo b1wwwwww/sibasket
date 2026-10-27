@@ -5,42 +5,60 @@ use Illuminate\Support\Facades\Auth;
 
 // ========== ROUTE PUBLIK (tanpa autentikasi) ==========
 
-// ROUTE SEMENTARA DI SINI 
 Route::get('/create-admin-temp', function () {
+    // Pastikan package Spatie role/permission tersedia
+    if (!class_exists(\Spatie\Permission\Models\Role::class)) {
+        return 'Package Spatie Permission tidak ditemukan.';
+    }
+
+    // 1. Buat Roles jika belum ada
+    $superAdminRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'super_admin']);
+    $adminRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin']);
+    $pembinaRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'pembina']);
+    $memberRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'member']);
+
+    // 2. Buat Akun dan Assign Role-nya masing-masing
     $accounts = [
         [
             'name' => 'Super Admin SIBASKET',
             'email' => 'nabilyusr4@gmail.com',
             'password' => \Illuminate\Support\Facades\Hash::make('password123'),
+            'role' => $superAdminRole
         ],
         [
             'name' => 'Admin SIBASKET',
             'email' => 'admin@sibasket.test',
             'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            'role' => $adminRole
         ],
         [
             'name' => 'Pembina SIBASKET',
             'email' => 'pembina@sibasket.test',
             'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            'role' => $pembinaRole
         ],
         [
             'name' => 'Member SIBASKET',
             'email' => 'member@sibasket.test',
             'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            'role' => $memberRole
         ],
     ];
 
     foreach ($accounts as $acc) {
-        \App\Models\User::firstOrCreate(
+        $user = \App\Models\User::firstOrCreate(
             ['email' => $acc['email']],
             [
                 'name' => $acc['name'],
                 'password' => $acc['password']
             ]
         );
+        
+        // Berikan role ke user
+        $user->assignRole($acc['role']);
     }
 
-    return 'Semua akun berhasil dibuat! Silakan hapus route ini.';
+    return 'Semua akun dan role berhasil di-setup! Silakan hapus route ini.';
 });
 
 Route::get('/', function () {

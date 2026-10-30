@@ -2,113 +2,25 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PublicPageController;
 
 // ========== ROUTE PUBLIK (tanpa autentikasi) ==========
 
-Route::get('/create-admin-temp', function () {
-    // Pastikan package Spatie role/permission tersedia
-    if (!class_exists(\Spatie\Permission\Models\Role::class)) {
-        return 'Package Spatie Permission tidak ditemukan.';
-    }
+// Setup admin akun — hanya accessible di development environment
+Route::middleware(['local'])->get('/create-admin-temp', [PublicPageController::class, 'setupAdminTemp'])
+    ->name('setup.admin-temp');
 
-    // 1. Buat Roles jika belum ada
-    $superAdminRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'super_admin']);
-    $adminRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin']);
-    $pembinaRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'pembina']);
-    $memberRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'member']);
-
-    // 2. Buat Akun dan Assign Role-nya masing-masing
-    $accounts = [
-        [
-            'name' => 'Super Admin SIBASKET',
-            'email' => 'nabilyusr4@gmail.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password123'),
-            'role' => $superAdminRole
-        ],
-        [
-            'name' => 'Admin SIBASKET',
-            'email' => 'admin@sibasket.test',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'role' => $adminRole
-        ],
-        [
-            'name' => 'Pembina SIBASKET',
-            'email' => 'pembina@sibasket.test',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'role' => $pembinaRole
-        ],
-        [
-            'name' => 'Member SIBASKET',
-            'email' => 'member@sibasket.test',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'role' => $memberRole
-        ],
-    ];
-
-    foreach ($accounts as $acc) {
-        $user = \App\Models\User::firstOrCreate(
-            ['email' => $acc['email']],
-            [
-                'name' => $acc['name'],
-                'password' => $acc['password']
-            ]
-        );
-        
-        // Berikan role ke user
-        $user->assignRole($acc['role']);
-    }
-
-    return 'Semua akun dan role berhasil di-setup! Silakan hapus route ini.';
-});
-
-Route::get('/', function () {
-    try {
-        $kegiatan = \App\Models\Kegiatan::whereIn('status', ['published', 'ongoing'])
-            ->orderBy('tanggal', 'asc')
-            ->take(4)
-            ->get();
-
-        $pengumuman = \App\Models\Pengumuman::where('status', 'published')
-            ->orderByDesc('is_pinned')
-            ->orderByDesc('tanggal_publish')
-            ->take(4)
-            ->get();
-    } catch (\Throwable $e) {
-        $kegiatan = collect();
-        $pengumuman = collect();
-    }
-
-    return view('pages.home', compact('kegiatan', 'pengumuman'));
-})->name('home');
-
-Route::get('/kegiatan-publik', function () {
-    return view('pages.kegiatan-publik');
-})->name('kegiatan.publik');
-
-Route::get('/kegiatan/{id}', function ($id) {
-    return view('pages.kegiatan-detail', ['id' => $id]);
-})->name('kegiatan.detail');
-
-Route::get('/pengumuman-publik', function () {
-    return view('pages.pengumuman-publik');
-})->name('pengumuman.publik');
-
-Route::get('/pengumuman/{id}', function ($id) {
-    return view('pages.pengumuman-detail', ['id' => $id]);
-})->name('pengumuman.detail');
-
-Route::get('/daftar-anggota', function () {
-    return view('pages.daftar-anggota');
-})->name('daftar.anggota');
+// Halaman-halaman publik
+Route::get('/', [PublicPageController::class, 'home'])->name('home');
+Route::get('/kegiatan-publik', [PublicPageController::class, 'kegiatanPublik'])->name('kegiatan.publik');
+Route::get('/kegiatan/{id}', [PublicPageController::class, 'kegiatanDetail'])->name('kegiatan.detail');
+Route::get('/pengumuman-publik', [PublicPageController::class, 'pengumumanPublik'])->name('pengumuman.publik');
+Route::get('/pengumuman/{id}', [PublicPageController::class, 'pengumumanDetail'])->name('pengumuman.detail');
+Route::get('/daftar-anggota', [PublicPageController::class, 'daftarAnggota'])->name('daftar.anggota');
 
 // Gallery publik
-Route::get('/galeri', function () {
-    return view('pages.gallery');
-})->name('gallery.index');
-
-Route::get('/galeri/{id}', function ($id) {
-    return view('pages.gallery-detail', ['id' => $id]);
-})->name('gallery.show');
+Route::get('/galeri', [PublicPageController::class, 'galleryIndex'])->name('gallery.index');
+Route::get('/galeri/{id}', [PublicPageController::class, 'galleryShow'])->name('gallery.show');
 
 // ========== ROUTE TERLINDUNGI (memerlukan autentikasi) ==========
 

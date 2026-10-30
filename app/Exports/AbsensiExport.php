@@ -7,6 +7,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Illuminate\Support\Enumerable;
 
 class AbsensiExport implements FromCollection, WithHeadings, WithStyles
 {
@@ -20,7 +21,7 @@ class AbsensiExport implements FromCollection, WithHeadings, WithStyles
     /**
      * Ambil data Absensi dengan relasi yang diperlukan
      */
-    public function collection()
+    public function collection(): Enumerable
     {
         $query = Absensi::with(['pendaftaranKegiatan.anggota', 'pendaftaranKegiatan.kegiatan']);
 
@@ -58,7 +59,7 @@ class AbsensiExport implements FromCollection, WithHeadings, WithStyles
     /**
      * Style header row
      */
-    public function styles(Worksheet $sheet)
+    public function styles(Worksheet $sheet): ?array
     {
         return [
             1 => [

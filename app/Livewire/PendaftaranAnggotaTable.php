@@ -34,7 +34,7 @@ class PendaftaranAnggotaTable extends Component
     public function selectPendaftar($id)
     {
         $this->selectedId = $id;
-        $this->selectedPendaftar = PendaftaranAnggota::find($id);
+        $this->selectedPendaftar = PendaftaranAnggota::findOrFail($id);
         $this->showDetailModal = true;
     }
 

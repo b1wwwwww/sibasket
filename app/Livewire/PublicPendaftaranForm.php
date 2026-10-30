@@ -9,6 +9,7 @@ class PublicPendaftaranForm extends Component
 {
     public $nama = '';
     public $nama_panggilan = '';
+    public $kelas = '';
     public $jurusan = '';
     public $jenis_kelamin = '';
     public $kontak_siswa = '';
@@ -22,6 +23,7 @@ class PublicPendaftaranForm extends Component
     protected $rules = [
         'nama' => 'required|string|max:255',
         'nama_panggilan' => 'required|string|max:100',
+        'kelas' => 'required|in:10,11,12',
         'jurusan' => 'required|in:pplg,elektro,bp,tkj,mesin,otomotif,tekstil',
         'jenis_kelamin' => 'required|in:laki-laki,perempuan',
         'kontak_siswa' => 'required|unique:pendaftaran_anggota,kontak_siswa|regex:/^08[0-9]{8,11}$/',
@@ -35,6 +37,7 @@ class PublicPendaftaranForm extends Component
     protected $messages = [
         'nama.required' => 'Nama lengkap wajib diisi',
         'nama_panggilan.required' => 'Nama panggilan wajib diisi',
+        'kelas.required' => 'Kelas wajib dipilih',
         'jurusan.required' => 'Jurusan wajib dipilih',
         'jenis_kelamin.required' => 'Jenis kelamin wajib dipilih',
         'kontak_siswa.required' => 'Nomor WA wajib diisi',

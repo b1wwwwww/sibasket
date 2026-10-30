@@ -20,18 +20,21 @@ class AnggotaForm extends Component
     public $no_hp = '';
     public $alamat = '';
 
-    protected $rules = [
-        'user_id' => 'required|exists:users,id',
-        'nama' => 'required|string|max:255',
-        'nis' => 'required|string|max:20|unique:anggota,nis',
-        'kelas' => 'required|string|max:10',
-        'jurusan' => 'nullable|string|in:pplg,elektro,bp,tkj,mesin,otomotif,tekstil',
-        'posisi' => 'nullable|string|max:255',
-        'status' => 'required|in:aktif,nonaktif',
-        'tanggal_bergabung' => 'required|date',
-        'no_hp' => 'nullable|string|max:20',
-        'alamat' => 'nullable|string|max:500',
-    ];
+    protected function rules()
+    {
+        return [
+            'user_id' => 'required|exists:users,id',
+            'nama' => 'required|string|max:255',
+            'nis' => 'nullable|string|max:20|unique:anggota,nis,' . $this->anggota_id,
+            'kelas' => 'nullable|string|max:10',
+            'jurusan' => 'nullable|string|in:pplg,elektro,bp,tkj,mesin,otomotif,tekstil',
+            'posisi' => 'nullable|string|max:255',
+            'status' => 'required|in:aktif,nonaktif',
+            'tanggal_bergabung' => 'required|date',
+            'no_hp' => 'nullable|string|max:20',
+            'alamat' => 'nullable|string|max:500',
+        ];
+    }
 
     public function mount($anggota_id = null)
     {
@@ -48,19 +51,11 @@ class AnggotaForm extends Component
             $this->tanggal_bergabung = $anggota->tanggal_bergabung?->format('Y-m-d');
             $this->no_hp = $anggota->no_hp;
             $this->alamat = $anggota->alamat;
-
-            // Update validation rules untuk edit (NIS bisa sama dengan dirinya sendiri)
-            $this->rules['nis'] = 'required|string|max:20|unique:anggota,nis,' . $anggota_id;
         }
     }
 
     public function save()
     {
-        // Jika edit, update rule NIS agar bisa tetap pakai NIS yang sama
-        if ($this->anggota_id) {
-            $this->rules['nis'] = 'required|string|max:20|unique:anggota,nis,' . $this->anggota_id;
-        }
-
         $this->validate();
 
         if ($this->anggota_id) {

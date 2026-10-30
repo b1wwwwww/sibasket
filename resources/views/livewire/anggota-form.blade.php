@@ -46,11 +46,11 @@
             </div>
 
             <div>
-                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">NIS *</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">NIS</label>
                 <input 
                     type="text"
                     wire:model="nis"
-                    placeholder="Masukkan NIS"
+                    placeholder="Masukkan NIS (opsional)"
                     class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
                 />
                 @error('nis')
@@ -60,13 +60,16 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Kelas *</label>
-                    <input 
-                        type="text"
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Kelas</label>
+                    <select 
                         wire:model="kelas"
-                        placeholder="e.g., 10A, 11B"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    />
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    >
+                        <option value="">Pilih Kelas</option>
+                        <option value="10">Kelas 10</option>
+                        <option value="11">Kelas 11</option>
+                        <option value="12">Kelas 12</option>
+                    </select>
                     @error('kelas')
                         <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
                     @enderror
@@ -96,12 +99,17 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Posisi</label>
-                    <input 
-                        type="text"
+                    <select 
                         wire:model="posisi"
-                        placeholder="e.g., Guard, Forward, Center"
-                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
-                    />
+                        class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                    >
+                        <option value="">Pilih Posisi (opsional)</option>
+                        <option value="PG">Point Guard (PG)</option>
+                        <option value="SG">Shooting Guard (SG)</option>
+                        <option value="SF">Small Forward (SF)</option>
+                        <option value="PF">Power Forward (PF)</option>
+                        <option value="C">Center (C)</option>
+                    </select>
                     @error('posisi')
                         <span class="text-red-600 dark:text-red-400 text-sm mt-1">{{ $message }}</span>
                     @enderror

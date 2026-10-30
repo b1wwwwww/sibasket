@@ -27,6 +27,18 @@
                 @error('nama_panggilan') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
+            {{-- Kelas --}}
+            <div>
+                <label class="block font-semibold mb-2">Kelas *</label>
+                <select wire:model="kelas" class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500">
+                    <option value="">-- Pilih Kelas --</option>
+                    <option value="10">Kelas 10</option>
+                    <option value="11">Kelas 11</option>
+                    <option value="12">Kelas 12</option>
+                </select>
+                @error('kelas') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
             {{-- Jurusan & Jenis Kelamin (2 kolom) --}}
             <div class="grid grid-cols-2 gap-4">
                 <div>

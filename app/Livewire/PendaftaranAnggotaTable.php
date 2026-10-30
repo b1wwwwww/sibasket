@@ -34,7 +34,7 @@ class PendaftaranAnggotaTable extends Component
     public function selectPendaftar($id)
     {
         $this->selectedId = $id;
-        $this->selectedPendaftar = PendaftaranAnggota::find($id);
+        $this->selectedPendaftar = PendaftaranAnggota::findOrFail($id);
         $this->showDetailModal = true;
     }
 
@@ -43,7 +43,7 @@ class PendaftaranAnggotaTable extends Component
         $pendaftaran = PendaftaranAnggota::findOrFail($id);
         
         DB::transaction(function () use ($pendaftaran) {
-            // 1. Buat User baru (email default: nama_panggilan@sibasket.com)
+            // 1. Buat User baru
             $email = strtolower(str_replace(' ', '', $pendaftaran->nama_panggilan)) . '@sibasket.com';
             
             // Cek email ganda
@@ -58,7 +58,7 @@ class PendaftaranAnggotaTable extends Component
 
             $user->assignRole('member');
 
-            // 2. Buat record Anggota
+            // 2. Buat record Anggota (NIS & Kelas bisa diisi nanti oleh admin)
             $anggota = Anggota::create([
                 'user_id' => $user->id,
                 'nama' => $pendaftaran->nama,

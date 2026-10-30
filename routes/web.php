@@ -2,25 +2,69 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\PublicPageController;
+
+// ========== ROUTE SEMENTARA (SETUP AKUN ADMIN - HAPUS SETELAH BERHASIL) ==========
+Route::get('/create-admin-temp', function () {
+    if (!class_exists(\Spatie\Permission\Models\Role::class)) {
+        return 'Package Spatie Permission belum terinstall dengan benar.';
+    }
+
+    // 1. Buat Roles
+    $superAdminRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'super_admin']);
+    $adminRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'admin']);
+    $pembinaRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'pembina']);
+    $memberRole = \Spatie\Permission\Models\Role::firstOrCreate(['name' => 'member']);
+
+    // 2. Buat Akun & Assign Role
+    $accounts = [
+        ['name' => 'Super Admin SIBASKET', 'email' => 'nabilyusr4@gmail.com', 'password' => \Illuminate\Support\Facades\Hash::make('password123'), 'role' => $superAdminRole],
+        ['name' => 'Admin SIBASKET', 'email' => 'admin@sibasket.test', 'password' => \Illuminate\Support\Facades\Hash::make('password'), 'role' => $adminRole],
+        ['name' => 'Pembina SIBASKET', 'email' => 'pembina@sibasket.test', 'password' => \Illuminate\Support\Facades\Hash::make('password'), 'role' => $pembinaRole],
+        ['name' => 'Member SIBASKET', 'email' => 'member@sibasket.test', 'password' => \Illuminate\Support\Facades\Hash::make('password'), 'role' => $memberRole],
+    ];
+
+    foreach ($accounts as $acc) {
+        $user = \App\Models\User::firstOrCreate(
+            ['email' => $acc['email']],
+            ['name' => $acc['name'], 'password' => $acc['password']]
+        );
+        $user->assignRole($acc['role']);
+    }
+
+    return 'BERHASIL! Semua akun dan role sudah dibuat. Silakan hapus route ini dari routes/web.php sebelum go-live.';
+});
 
 // ========== ROUTE PUBLIK (tanpa autentikasi) ==========
 
-// Setup admin akun — hanya accessible di development environment
-Route::middleware(['local'])->get('/create-admin-temp', [PublicPageController::class, 'setupAdminTemp'])
-    ->name('setup.admin-temp');
+Route::get('/', function () {
+    try {
+        $kegiatan = \App\Models\Kegiatan::whereIn('status', ['published', 'ongoing'])
+            ->orderBy('tanggal', 'asc')
+            ->take(4)
+            ->get();
 
-// Halaman-halaman publik
-Route::get('/', [PublicPageController::class, 'home'])->name('home');
-Route::get('/kegiatan-publik', [PublicPageController::class, 'kegiatanPublik'])->name('kegiatan.publik');
-Route::get('/kegiatan/{id}', [PublicPageController::class, 'kegiatanDetail'])->name('kegiatan.detail');
-Route::get('/pengumuman-publik', [PublicPageController::class, 'pengumumanPublik'])->name('pengumuman.publik');
-Route::get('/pengumuman/{id}', [PublicPageController::class, 'pengumumanDetail'])->name('pengumuman.detail');
-Route::get('/daftar-anggota', [PublicPageController::class, 'daftarAnggota'])->name('daftar.anggota');
+        $pengumuman = \App\Models\Pengumuman::where('status', 'published')
+            ->orderByDesc('is_pinned')
+            ->orderByDesc('tanggal_publish')
+            ->take(4)
+            ->get();
+    } catch (\Throwable $e) {
+        $kegiatan = collect();
+        $pengumuman = collect();
+    }
+
+    return view('pages.home', compact('kegiatan', 'pengumuman'));
+})->name('home');
+
+Route::get('/kegiatan-publik', fn() => view('pages.kegiatan-publik'))->name('kegiatan.publik');
+Route::get('/kegiatan/{id}', fn($id) => view('pages.kegiatan-detail', ['id' => $id]))->name('kegiatan.detail');
+Route::get('/pengumuman-publik', fn() => view('pages.pengumuman-publik'))->name('pengumuman.publik');
+Route::get('/pengumuman/{id}', fn($id) => view('pages.pengumuman-detail', ['id' => $id]))->name('pengumuman.detail');
+Route::get('/daftar-anggota', fn() => view('pages.daftar-anggota'))->name('daftar.anggota');
 
 // Gallery publik
-Route::get('/galeri', [PublicPageController::class, 'galleryIndex'])->name('gallery.index');
-Route::get('/galeri/{id}', [PublicPageController::class, 'galleryShow'])->name('gallery.show');
+Route::get('/galeri', fn() => view('pages.gallery'))->name('gallery.index');
+Route::get('/galeri/{id}', fn($id) => view('pages.gallery-detail', ['id' => $id]))->name('gallery.show');
 
 // ========== ROUTE TERLINDUNGI (memerlukan autentikasi) ==========
 
@@ -30,50 +74,28 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Manajemen Anggota =====
     Route::middleware(['can:view anggota'])->group(function () {
-        Route::get('/dashboard/anggota', function () {
-            return view('pages.anggota');
-        })->name('anggota.index');
-
-        Route::get('/dashboard/anggota/create', function () {
-            return view('pages.anggota-create');
-        })->name('anggota.create');
-
-        Route::get('/dashboard/anggota/{id}/edit', function ($id) {
-            return view('pages.anggota-edit', ['id' => $id]);
-        })->name('anggota.edit');
+        Route::get('/dashboard/anggota', fn() => view('pages.anggota'))->name('anggota.index');
+        Route::get('/dashboard/anggota/create', fn() => view('pages.anggota-create'))->name('anggota.create');
+        Route::get('/dashboard/anggota/{id}/edit', fn($id) => view('pages.anggota-edit', ['id' => $id]))->name('anggota.edit');
 
         // NEW: Pendaftar Baru (approval flow)
-        Route::get('/dashboard/pendaftar-baru', function () {
-            return view('pages.pendaftaran-anggota');
-        })->name('pendaftar-baru.index');
+        Route::get('/dashboard/pendaftar-baru', fn() => view('pages.pendaftaran-anggota'))->name('pendaftar-baru.index');
     });
 
     // ===== Manajemen Kegiatan =====
     Route::middleware(['can:view kegiatan'])->group(function () {
-        Route::get('/dashboard/kegiatan', function () {
-            return view('pages.kegiatan');
-        })->name('kegiatan.index');
-
-        Route::get('/dashboard/kegiatan/create', function () {
-            return view('pages.kegiatan-create');
-        })->name('kegiatan.create');
-
-        Route::get('/dashboard/kegiatan/{id}/edit', function ($id) {
-            return view('pages.kegiatan-edit', ['id' => $id]);
-        })->name('kegiatan.edit');
+        Route::get('/dashboard/kegiatan', fn() => view('pages.kegiatan'))->name('kegiatan.index');
+        Route::get('/dashboard/kegiatan/create', fn() => view('pages.kegiatan-create'))->name('kegiatan.create');
+        Route::get('/dashboard/kegiatan/{id}/edit', fn($id) => view('pages.kegiatan-edit', ['id' => $id]))->name('kegiatan.edit');
     });
 
     // ===== Pendaftaran Kegiatan =====
     Route::middleware(['can:view pendaftaran_kegiatan'])->group(function () {
-        Route::get('/dashboard/pendaftaran-kegiatan', function () {
-            return view('pages.pendaftaran-kegiatan');
-        })->name('pendaftaran-kegiatan.index');
+        Route::get('/dashboard/pendaftaran-kegiatan', fn() => view('pages.pendaftaran-kegiatan'))->name('pendaftaran-kegiatan.index');
     });
 
     // Route khusus Member untuk melihat daftar kegiatan & daftar
-    Route::get('/dashboard/daftar-kegiatan', function () {
-        return view('pages.kegiatan-member');
-    })->name('member.kegiatan');
+    Route::get('/dashboard/daftar-kegiatan', fn() => view('pages.kegiatan-member'))->name('member.kegiatan');
 
     Route::get('/dashboard/daftar-kegiatan/{kegiatan}', function (\App\Models\Kegiatan $kegiatan) {
         return view('pages.kegiatan-detail-member', ['kegiatan' => $kegiatan]);
@@ -82,17 +104,9 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Manajemen Absensi =====
     Route::middleware(['can:view absensi'])->group(function () {
-        Route::get('/dashboard/absensi', function () {
-            return view('pages.absensi');
-        })->name('absensi.index');
-
-        Route::get('/dashboard/absensi/create', function () {
-            return view('pages.absensi-create');
-        })->name('absensi.create');
-
-        Route::get('/dashboard/recap-absensi', function () {
-            return view('pages.recap-absensi');
-        })->name('recap-absensi.index');
+        Route::get('/dashboard/absensi', fn() => view('pages.absensi'))->name('absensi.index');
+        Route::get('/dashboard/absensi/create', fn() => view('pages.absensi-create'))->name('absensi.create');
+        Route::get('/dashboard/recap-absensi', fn() => view('pages.recap-absensi'))->name('recap-absensi.index');
 
         // Export Absensi
         Route::get('/dashboard/absensi/export', [\App\Http\Controllers\ExportController::class, 'absensi'])
@@ -101,17 +115,9 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Manajemen Keuangan =====
     Route::middleware(['can:view keuangan'])->group(function () {
-        Route::get('/dashboard/keuangan', function () {
-            return view('pages.keuangan');
-        })->name('keuangan.index');
-
-        Route::get('/dashboard/keuangan/create', function () {
-            return view('pages.keuangan-create');
-        })->name('keuangan.create');
-
-        Route::get('/dashboard/keuangan/{id}/edit', function ($id) {
-            return view('pages.keuangan-edit', ['id' => $id]);
-        })->name('keuangan.edit');
+        Route::get('/dashboard/keuangan', fn() => view('pages.keuangan'))->name('keuangan.index');
+        Route::get('/dashboard/keuangan/create', fn() => view('pages.keuangan-create'))->name('keuangan.create');
+        Route::get('/dashboard/keuangan/{id}/edit', fn($id) => view('pages.keuangan-edit', ['id' => $id]))->name('keuangan.edit');
 
         // Export Keuangan
         Route::get('/dashboard/keuangan/export', [\App\Http\Controllers\ExportController::class, 'keuangan'])
@@ -120,17 +126,9 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Manajemen Pengumuman =====
     Route::middleware(['can:view pengumuman'])->group(function () {
-        Route::get('/dashboard/pengumuman', function () {
-            return view('pages.pengumuman');
-        })->name('pengumuman.index');
-
-        Route::get('/dashboard/pengumuman/create', function () {
-            return view('pages.pengumuman-create');
-        })->name('pengumuman.create');
-
-        Route::get('/dashboard/pengumuman/{id}/edit', function ($id) {
-            return view('pages.pengumuman-edit', ['id' => $id]);
-        })->name('pengumuman.edit');
+        Route::get('/dashboard/pengumuman', fn() => view('pages.pengumuman'))->name('pengumuman.index');
+        Route::get('/dashboard/pengumuman/create', fn() => view('pages.pengumuman-create'))->name('pengumuman.create');
+        Route::get('/dashboard/pengumuman/{id}/edit', fn($id) => view('pages.pengumuman-edit', ['id' => $id]))->name('pengumuman.edit');
 
         // Route untuk upload gambar di CKEditor
         Route::post('/dashboard/pengumuman/upload-image', function (\Illuminate\Http\Request $request) {
@@ -151,27 +149,14 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== View-only untuk Member =====
     Route::middleware(['role:member'])->group(function () {
-        Route::get('/dashboard/riwayat-absensi', function () {
-            return view('pages.riwayat-absensi');
-        })->name('riwayat-absensi.index');
-
-        Route::get('/dashboard/riwayat-pembayaran', function () {
-            return view('pages.riwayat-pembayaran');
-        })->name('riwayat-pembayaran.index');
+        Route::get('/dashboard/riwayat-absensi', fn() => view('pages.riwayat-absensi'))->name('riwayat-absensi.index');
+        Route::get('/dashboard/riwayat-pembayaran', fn() => view('pages.riwayat-pembayaran'))->name('riwayat-pembayaran.index');
     });
 
     // ===== Member Profile & Settings (Semua authenticated user) =====
-    Route::get('/dashboard/profile', function () {
-        return view('pages.member-profile');
-    })->name('member.profile');
-
-    Route::get('/dashboard/settings', function () {
-        return view('pages.member-settings');
-    })->name('member.settings');
-
-    Route::get('/dashboard/kegiatan-saya', function () {
-        return view('pages.member-kegiatan-saya');
-    })->name('member.kegiatan-saya');
+    Route::get('/dashboard/profile', fn() => view('pages.member-profile'))->name('member.profile');
+    Route::get('/dashboard/settings', fn() => view('pages.member-settings'))->name('member.settings');
+    Route::get('/dashboard/kegiatan-saya', fn() => view('pages.member-kegiatan-saya'))->name('member.kegiatan-saya');
 });
 
 Route::middleware(['auth'])->group(function () {

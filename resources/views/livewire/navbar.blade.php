@@ -7,24 +7,46 @@
 
         <!-- Right: Icons & Menu -->
         <div class="flex items-center gap-4 ml-auto">
-            <!-- Theme Toggle Button -->
-            <button 
+            <!-- Theme Toggle Button (Sliding Animation) -->
+            <div
                 wire:click="toggleTheme"
-                class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400 transition-colors duration-300"
+                class="flex w-16 h-8 p-1 rounded-full cursor-pointer transition-all duration-300 {{ $theme === 'dark' ? 'bg-zinc-950 border border-zinc-800' : 'bg-white border border-zinc-200' }}"
+                role="button"
+                tabindex="0"
                 title="Switch theme"
             >
-                @if($theme === 'light')
-                    <!-- Sun Icon (Light Mode) -->
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l-2.12-2.12a4 4 0 00-5.656 0l-.707.707a1 1 0 001.414 1.414l.707-.707a2 2 0 012.828 0l2.12 2.12a1 1 0 001.414-1.414zM2.05 13.536A1 1 0 103.464 12.12M17.657 18.657a1 1 0 001.414-1.414M9 17a1 1 0 11-2 0 1 1 0 012 0zm6.364-2.343l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zM5 5a1 1 0 011 1v1a1 1 0 11-2 0V6a1 1 0 011-1zm12 0a1 1 0 011 1v1a1 1 0 11-2 0V6a1 1 0 011-1z"/>
-                    </svg>
-                @else
-                    <!-- Moon Icon (Dark Mode) -->
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
-                    </svg>
-                @endif
-            </button>
+                <div class="flex justify-between items-center w-full">
+                    <!-- Sliding Circle with Active Icon -->
+                    <div class="flex justify-center items-center w-6 h-6 rounded-full transition-transform duration-300 {{ $theme === 'dark' ? 'transform translate-x-0 bg-zinc-800' : 'transform translate-x-8 bg-gray-200' }}">
+                        @if($theme === 'dark')
+                            <!-- Moon Icon (Active in Dark Mode) -->
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                            </svg>
+                        @else
+                            <!-- Sun Icon (Active in Light Mode) -->
+                            <svg class="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                            </svg>
+                        @endif
+                    </div>
+                    
+                    <!-- Secondary Circle with Inactive Icon -->
+                    <div class="flex justify-center items-center w-6 h-6 rounded-full transition-transform duration-300 {{ $theme === 'dark' ? 'bg-transparent' : 'transform -translate-x-8' }}">
+                        @if($theme === 'dark')
+                            <!-- Sun Icon (Inactive in Dark Mode) -->
+                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+                            </svg>
+                        @else
+                            <!-- Moon Icon (Inactive in Light Mode) -->
+                            <svg class="w-4 h-4 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                            </svg>
+                        @endif
+                    </div>
+                </div>
+            </div>
 
             <!-- Notifications Button -->
             <div class="relative">

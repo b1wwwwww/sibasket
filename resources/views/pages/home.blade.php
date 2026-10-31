@@ -544,7 +544,7 @@
                             <div>
                                 <p class="text-xs text-slate-500 font-semibold uppercase tracking-wide">Jam Latihan</p>
                                 <p class="text-base font-bold text-[#0B1728]">
-                                    {{ substr($jadwal->jam_mulai, 0, 5) }} - {{ substr($jadwal->jam_selesai, 0, 5) }} WIB
+                                    {{ \Carbon\Carbon::parse($jadwal->jam_mulai)->format('H:i') }} - {{ \Carbon\Carbon::parse($jadwal->jam_selesai)->format('H:i') }} WIB
                                 </p>
                             </div>
                         </div>

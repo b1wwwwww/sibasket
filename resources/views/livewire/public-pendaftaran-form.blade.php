@@ -84,6 +84,14 @@
                 </div>
             </div>
 
+            {{-- Alamat (Opsional) --}}
+            <div>
+                <label class="block font-semibold mb-2">Alamat (Opsional)</label>
+                <textarea wire:model="alamat" placeholder="Alamat rumah Anda..." rows="3"
+                    class="w-full border border-gray-300 p-2 rounded focus:outline-none focus:border-blue-500"></textarea>
+                @error('alamat') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+            </div>
+
             {{-- Pengalaman & Orang Tua Tahu (2 kolom) --}}
             <div class="grid grid-cols-2 gap-4">
                 <div>

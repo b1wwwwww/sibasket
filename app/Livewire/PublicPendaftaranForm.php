@@ -14,6 +14,7 @@ class PublicPendaftaranForm extends Component
     public $jenis_kelamin = '';
     public $kontak_siswa = '';
     public $kontak_orang_tua = '';
+    public $alamat = '';
     public $pengalaman_basket = '';
     public $alasan_gabung = '';
     public $setuju_peraturan = false;
@@ -28,6 +29,7 @@ class PublicPendaftaranForm extends Component
         'jenis_kelamin' => 'required|in:laki-laki,perempuan',
         'kontak_siswa' => 'required|unique:pendaftaran_anggota,kontak_siswa|regex:/^08[0-9]{8,11}$/',
         'kontak_orang_tua' => 'required|regex:/^08[0-9]{8,11}$/',
+        'alamat' => 'nullable|string|max:500',
         'pengalaman_basket' => 'required|in:iya,tidak',
         'alasan_gabung' => 'required|string|min:10|max:500',
         'setuju_peraturan' => 'required|accepted',

@@ -129,6 +129,18 @@
                         </div>
                     </div>
 
+                    {{-- Alamat --}}
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">Alamat</label>
+                        <p class="text-gray-900 dark:text-slate-100 bg-gray-100 dark:bg-slate-800/50 rounded p-3">
+                            @if($selectedPendaftar->alamat)
+                                {{ $selectedPendaftar->alamat }}
+                            @else
+                                <span class="text-gray-500 dark:text-slate-400 italic">-</span>
+                            @endif
+                        </p>
+                    </div>
+
                     {{-- Pengalaman Basket --}}
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 dark:text-slate-300 mb-1">Pengalaman Basket</label>

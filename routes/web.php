@@ -87,6 +87,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard/kegiatan', fn() => view('pages.kegiatan'))->name('kegiatan.index');
         Route::get('/dashboard/kegiatan/create', fn() => view('pages.kegiatan-create'))->name('kegiatan.create');
         Route::get('/dashboard/kegiatan/{id}/edit', fn($id) => view('pages.kegiatan-edit', ['id' => $id]))->name('kegiatan.edit');
+
+        // Jadwal Latihan (di bawah kegiatan)
+        Route::get('/dashboard/jadwal-latihan', fn() => view('pages.jadwal-latihan'))->name('jadwal-latihan.index');
     });
 
     // ===== Pendaftaran Kegiatan =====

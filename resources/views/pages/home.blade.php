@@ -494,7 +494,95 @@
     </section>
 
     <!-- ==========================================
-         4. INFO TERKINI & KEGIATAN SECTION (ENHANCED VISUAL WITH IMAGES)
+         4. JADWAL LATIHAN RUTIN SECTION (NEW)
+    =========================================== -->
+    <section id="jadwal-latihan" class="py-24 bg-white text-[#0B1728]">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Header Section -->
+            <div class="text-center mb-12">
+                <span class="text-[#FF6B35] text-[11px] font-extrabold tracking-widest uppercase flex items-center justify-center gap-2 mb-2">
+                    <i class="fas fa-dumbbell"></i> JADWAL TETAP
+                </span>
+                <h2 class="text-2xl sm:text-4xl font-black text-[#0B1728] tracking-tight mb-4">
+                    📅 Jadwal Latihan Rutin
+                </h2>
+                <p class="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto">
+                    Tetap komitmen! Berikut adalah jadwal latihan basket rutin KOMET setiap minggunya.
+                </p>
+            </div>
+
+            <!-- Grid Jadwal Latihan (3 Kolom) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                @php
+                    $jadwalLatihan = \App\Models\JadwalLatihan::aktif()->get();
+                    $warnaBorder = [
+                        'selasa' => 'border-blue-500 bg-blue-50',
+                        'jumat' => 'border-purple-500 bg-purple-50',
+                        'sabtu' => 'border-green-500 bg-green-50',
+                    ];
+                    $warnaBadge = [
+                        'selasa' => 'bg-blue-100 text-blue-800',
+                        'jumat' => 'bg-purple-100 text-purple-800',
+                        'sabtu' => 'bg-green-100 text-green-800',
+                    ];
+                    $warnaTipeLokasi = [
+                        'indoor' => 'bg-indigo-100 text-indigo-800',
+                        'outdoor' => 'bg-amber-100 text-amber-800',
+                    ];
+                @endphp
+
+                @forelse($jadwalLatihan as $jadwal)
+                    <div class="border-l-4 {{ $warnaBorder[$jadwal->hari] ?? 'border-slate-300 bg-slate-50' }} rounded-lg p-6 shadow-md hover:shadow-lg transition">
+                        <!-- Hari -->
+                        <h3 class="text-lg font-black text-[#0B1728] capitalize mb-4">
+                            {{ $jadwal->hari }}
+                        </h3>
+
+                        <!-- Jam -->
+                        <div class="mb-4 flex items-start gap-2">
+                            <i class="fas fa-clock text-[#FF6B35] text-lg mt-0.5"></i>
+                            <div>
+                                <p class="text-xs text-slate-500 font-semibold uppercase tracking-wide">Jam Latihan</p>
+                                <p class="text-base font-bold text-[#0B1728]">
+                                    {{ substr($jadwal->jam_mulai, 0, 5) }} - {{ substr($jadwal->jam_selesai, 0, 5) }} WIB
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Lokasi -->
+                        <div class="mb-4 flex items-start gap-2">
+                            <i class="fas fa-map-marker-alt text-[#FF6B35] text-lg mt-0.5"></i>
+                            <div>
+                                <p class="text-xs text-slate-500 font-semibold uppercase tracking-wide">Lokasi</p>
+                                <p class="text-base font-bold text-[#0B1728]">{{ $jadwal->lokasi }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Tipe Lokasi Badge -->
+                        <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold capitalize {{ $warnaTipeLokasi[$jadwal->tipe_lokasi] ?? 'bg-slate-100 text-slate-800' }}">
+                            <i class="fas {{ $jadwal->tipe_lokasi == 'indoor' ? 'fa-building' : 'fa-tree' }} mr-1"></i>
+                            {{ $jadwal->tipe_lokasi }}
+                        </span>
+                    </div>
+                @empty
+                    <div class="col-span-3 text-center py-12">
+                        <p class="text-slate-500 text-sm">Jadwal latihan akan segera diumumkan</p>
+                    </div>
+                @endforelse
+            </div>
+
+            <!-- Info Tambahan -->
+            <div class="mt-12 text-center bg-gradient-to-r from-[#FF6B35]/10 to-[#FF8C5A]/10 rounded-lg p-6 border border-[#FF6B35]/20">
+                <p class="text-xs sm:text-sm text-slate-700">
+                    <i class="fas fa-info-circle text-[#FF6B35] mr-2"></i>
+                    <strong>Jangan sampai ketinggalan!</strong> Latihan rutin adalah kunci kesuksesan kami. Pastikan kamu hadir tepat waktu setiap jadwalnya.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         5. INFO TERKINI & KEGIATAN SECTION (ENHANCED VISUAL WITH IMAGES)
     =========================================== -->
     <section id="kegiatan" class="py-24 bg-slate-50 text-[#0B1728] border-t border-slate-200/80">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

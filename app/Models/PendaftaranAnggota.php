@@ -20,6 +20,7 @@ class PendaftaranAnggota extends Model
         'jenis_kelamin',
         'kontak_siswa',
         'kontak_orang_tua',
+        'alamat',
         'pengalaman_basket',
         'alasan_gabung',
         'setuju_peraturan',

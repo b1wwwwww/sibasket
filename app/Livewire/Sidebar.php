@@ -60,8 +60,7 @@ class Sidebar extends Component
 
         // ========== MEMBER-ONLY MENU (Early Return) ==========
         // BUG FIX: Member tidak boleh lihat menu admin
-        // Cek apakah user HANYA member (tidak punya role admin/super_admin/pembina)
-        if ($user->hasRole('member') && !$user->hasRole('admin') && !$user->hasRole('super_admin') && !$user->hasRole('pembina')) {
+        if ($user->hasRole('member')) {
             $items[] = [
                 'label' => 'Kegiatan Saya',
                 'route' => 'member.kegiatan-saya',
@@ -83,7 +82,10 @@ class Sidebar extends Component
                 'icon' => 'user',
             ];
 
-            return $items; // EARLY RETURN - member tidak lihat menu admin di bawah
+            // Kalau dia HANYA member (bukan admin), kembalikan langsung
+            if (!$user->hasRole('admin') && !$user->hasRole('super_admin') && !$user->hasRole('pembina')) {
+                return $items; 
+            }
         }
 
         // ========== ADMIN/SUPER_ADMIN/PEMBINA MENU ==========

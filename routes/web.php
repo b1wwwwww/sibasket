@@ -151,7 +151,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     // ===== View-only untuk Member =====
-    Route::middleware(['role:member'])->group(function () {
+    Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard/riwayat-absensi', fn() => view('pages.riwayat-absensi'))->name('riwayat-absensi.index');
         Route::get('/dashboard/riwayat-pembayaran', fn() => view('pages.riwayat-pembayaran'))->name('riwayat-pembayaran.index');
     });

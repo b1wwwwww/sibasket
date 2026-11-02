@@ -1,6 +1,6 @@
 # SiBasket Project — Progress Summary
 
-**Status Update:** Oct 30, 2026 | Minggu 6 Complete (100%) | Security Hardened + Export Fixed
+**Status Update:** Nov 2, 2026 | Dashboard Member Complete | Real-time Member Portal (Polling)
 
 ---
 
@@ -16,6 +16,44 @@
 | 6 | Testing, Bug Fix, Deployment | ⏳ In Progress (70%) |
 
 **Deadline:** Nov 14, 2026 (Production Ready)
+
+---
+
+## Minggu 7 Progress (Nov 2, 2026) ✅ (100% COMPLETE)
+
+**✅ Completed Dashboard Member Enhancement:**
+- ✅ **Member Dashboard Component** — Jadwal minggu, quick stats, pending activities
+- ✅ **Kegiatan Saya** — Full Livewire component dengan deklarasi status kehadiran
+  - Dropdown pilihan: Hadir / Sakit / Izin (clean, no emoji)
+  - Alasan wajib diisi untuk status selain Hadir
+  - Tombol Deklarasi (belum deklarasi) / Ubah (sudah deklarasi)
+  - Inline Accordion: Dropdown muncul langsung di bawah card (bukan modal popup)
+  - Filter tabs: Semua / Akan Datang / Sudah Lewat
+  - Emoji dihapus untuk UI yang lebih profesional
+  
+- ✅ **Riwayat Absensi** — Polling real-time (30s), badges, status tracking
+- ✅ **Riwayat Pembayaran** — Polling real-time (30s), kas summary, payment history
+- ✅ **Sidebar Role-Based** — Member HANYA melihat member menu (bug fixed)
+- ✅ **Notification Badge** — Simple A+B approach (badge counter + Livewire polling)
+- ✅ **Logo Update** — Sidebar logo diganti dengan logo-komet.jpeg (mobile & desktop)
+  - Real-time polling support (`wire:poll.30s`)
+  - Jadwal mingguan otomatis (join JadwalLatihan & Kegiatan)
+- ✅ **Kegiatan Saya**
+  - CRUD pendaftaran (Daftar/Batal)
+  - Status badge (Terdaftar, Hadir, Sakit, Izin, Alpha)
+  - Filter: All, Upcoming, Past
+- ✅ **Riwayat Absensi**
+  - Real-time sync dengan input absensi admin
+  - Statistik kehadiran (Hadir/Sakit/Izin/Alpha count)
+  - Responsive table dengan badge status
+- ✅ **Riwayat Pembayaran (Kas)**
+  - Real-time sync dengan pembayaran yang diinput admin
+  - Alert notification untuk tagihan belum lunas
+  - Ringkasan keuangan personal (Total, Lunas, Belum Lunas)
+- ✅ **Security & Bug Fixes**
+  - Fixed Sidebar: Member tidak bisa lihat menu admin (early return logic)
+  - CSRF/XSS protection verified
+  - Build: npm run build ✅ success
 
 ---
 

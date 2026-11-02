@@ -1,7 +1,10 @@
 <div>
     <!-- Mobile Toggle Button -->
     <div class="lg:hidden fixed top-0 left-0 right-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between z-40 transition-colors duration-300">
-        <h1 class="text-lg font-bold text-gray-900 dark:text-white">SI Basket</h1>
+        <div class="flex items-center gap-2">
+            <img src="{{ asset('images/logo-komet.jpeg') }}" alt="KOMET" class="w-8 h-8 rounded-lg object-contain bg-white">
+            <h1 class="text-lg font-bold text-gray-900 dark:text-white">SIBASKET</h1>
+        </div>
         <button 
             wire:click="toggleSidebar"
             class="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -27,9 +30,7 @@
     ">
         <!-- Sidebar Header -->
         <div class="hidden lg:flex items-center gap-3 px-6 h-16 bg-gray-50 dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shrink-0 transition-colors duration-300">
-            <div class="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center text-white font-bold text-sm">
-                🏀
-            </div>
+            <img src="{{ asset('images/logo-komet.jpeg') }}" alt="KOMET" class="w-8 h-8 rounded-lg object-contain bg-white">
             <div>
                 <h1 class="text-base font-bold text-gray-900 dark:text-white">SIBASKET</h1>
                 <span class="text-xs text-orange-600 dark:text-orange-400 font-medium">Pro Plan</span>

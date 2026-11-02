@@ -80,20 +80,8 @@ class DashboardController extends Controller
                 'metrics' => $metrics,
             ]);
         } elseif ($user->hasRole('member')) {
-            // Member dashboard: personal metrics
-            $anggota = $user->anggota;
-            $myKegiatan = $anggota ? $anggota->pendaftaranKegiatan()->with('kegiatan')->get() : [];
-            $myAbsensi = $anggota ? Absensi::whereHas('pendaftaranKegiatan', function ($q) use ($anggota) {
-                $q->where('anggota_id', $anggota->id);
-            })->count() : 0;
-
-            $metrics['my_kegiatan'] = $myKegiatan;
-            $metrics['my_absensi_count'] = $myAbsensi;
-
-            return view('pages.dashboard', [
-                'dashboard_type' => 'member',
-                'metrics' => $metrics,
-            ]);
+            // Member dashboard: using Livewire Component for interactivity
+            return view('pages.member-dashboard-container');
         }
 
         // Default: fallback for any authenticated user without a specific role assignment

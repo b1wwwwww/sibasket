@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Kegiatan extends Model
 {
@@ -23,6 +24,8 @@ class Kegiatan extends Model
         'kategori',
         'foto',
         'status',
+        'jadwal_latihan_id',
+        'is_recurring',
     ];
 
     protected $casts = [
@@ -37,6 +40,15 @@ class Kegiatan extends Model
     public function pendaftaranKegiatan(): HasMany
     {
         return $this->hasMany(PendaftaranKegiatan::class);
+    }
+
+    /**
+     * Relationship: Kegiatan milik 1 JadwalLatihan (jika auto-generated)
+     * Nullable — kegiatan manual tidak punya jadwal_latihan_id
+     */
+    public function jadwalLatihan(): BelongsTo
+    {
+        return $this->belongsTo(JadwalLatihan::class);
     }
 
     /**

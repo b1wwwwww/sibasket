@@ -58,6 +58,36 @@ class Sidebar extends Component
             'icon' => 'home',
         ];
 
+        // ========== MEMBER-ONLY MENU (Early Return) ==========
+        // BUG FIX: Member tidak boleh lihat menu admin
+        // Cek apakah user HANYA member (tidak punya role admin/super_admin/pembina)
+        if ($user->hasRole('member') && !$user->hasRole('admin') && !$user->hasRole('super_admin') && !$user->hasRole('pembina')) {
+            $items[] = [
+                'label' => 'Kegiatan Saya',
+                'route' => 'member.kegiatan-saya',
+                'icon' => 'calendar',
+            ];
+            $items[] = [
+                'label' => 'Riwayat Absensi',
+                'route' => 'riwayat-absensi.index',
+                'icon' => 'history',
+            ];
+            $items[] = [
+                'label' => 'Riwayat Pembayaran',
+                'route' => 'riwayat-pembayaran.index',
+                'icon' => 'file-text',
+            ];
+            $items[] = [
+                'label' => 'Profil Saya',
+                'route' => 'member.profile',
+                'icon' => 'user',
+            ];
+
+            return $items; // EARLY RETURN - member tidak lihat menu admin di bawah
+        }
+
+        // ========== ADMIN/SUPER_ADMIN/PEMBINA MENU ==========
+
         // Anggota (Admin permissions)
         if ($this->canAccess('view anggota')) {
             $items[] = [
@@ -129,20 +159,6 @@ class Sidebar extends Component
                 'label' => 'Role & Permission',
                 'route' => 'role-permission.index',
                 'icon' => 'lock',
-            ];
-        }
-
-        // Member view-only items
-        if ($user->hasRole('member')) {
-            $items[] = [
-                'label' => 'Riwayat Absensi',
-                'route' => 'riwayat-absensi.index',
-                'icon' => 'history',
-            ];
-            $items[] = [
-                'label' => 'Riwayat Pembayaran',
-                'route' => 'riwayat-pembayaran.index',
-                'icon' => 'file-text',
             ];
         }
 

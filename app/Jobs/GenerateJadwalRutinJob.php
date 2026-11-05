@@ -6,6 +6,7 @@ use App\Models\JadwalLatihan;
 use App\Models\Kegiatan;
 use App\Models\Anggota;
 use App\Models\PendaftaranKegiatan;
+use App\Mail\DeklarasiStatusReminder;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,6 +14,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class GenerateJadwalRutinJob implements ShouldQueue
 {
@@ -65,6 +67,12 @@ class GenerateJadwalRutinJob implements ShouldQueue
                             'anggota_id' => $anggota->id,
                             'status' => 'terdaftar',
                         ]);
+
+                        // Send email reminder (queue)
+                        $user = $anggota->user;
+                        if ($user && $user->email) {
+                            Mail::to($user->email)->queue(new DeklarasiStatusReminder($kegiatan, $anggota->nama));
+                        }
                     }
                 });
             }
